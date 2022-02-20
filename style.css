@@ -13,3 +13,10 @@ h1 {
              border: 1px solid black;
              left: 520px;  
 }
+.kecy {
+          background-color: hsl(120, 100%, 50%);
+          width: 500px;
+          padding: 10px;
+          margin: auto;
+          text-align: justify;
+}
