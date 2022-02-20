@@ -5,19 +5,20 @@ body {
 h1 {
     color: yellow;
     font-family: Calibri;
+    margin: auto;
     text-align: justify;
 }
 h2 {
     color: yellow;
     font-family: Calibri;
     text-align: justify;
+    margin: auto;
 }
 .genrerator {
              width:500px; 
              height: 500px; 
              border: 1px solid black;
-             margin-left: auto;
-             margin-right: auto;  
+             margin: auto; 
 }
 .kecy {
           background-color: hsl(120, 100%, 50%);
