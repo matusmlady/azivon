@@ -1,7 +1,6 @@
 //deastinne cisla v pomeroch nefunguju
 
 //grafika elementom
-//features
 //statistiky live kvoli dedinam
 //?shhapes ako vlastnost elementu
 //hrady ako features
@@ -46,18 +45,23 @@ data.instructions["vpravo"] = 1
 data.instructions["hore"] = - columns
 data.instructions["dole"] = columns
 
-data.yellow = new farba("podlazie", "yellow", 25, 1, [{action: 0, colors: ["white"], okruhy: [1, 2, 3]}, {action: 50, colors: ["yellow"], okruhy: [1, 2, 3]}, {action: 0, colors: ["burlywood"], okruhy: [0]}])
-data.white = new farba("podlazie", "white", 50, 1, [{action: 0, colors: ["yellow", "gold"], okruhy: [1, 2, 3]}, {action: 50, colors: ["white"], okruhy: [1, 2, 3]}])
+data.yellow = new farba("podlazie", "yellow", 25, 2, [{action: 0, colors: ["white"], okruhy: [1, 2, 3]}, {action: 50, colors: ["yellow"], okruhy: [1, 2, 3]}, {action: 0, colors: ["burlywood"], okruhy: [0]}])
+data.white = new farba("podlazie", "white", 50, 2, [{action: 0, colors: ["yellow", "gold"], okruhy: [1, 2, 3]}, {action: 50, colors: ["white"], okruhy: [1, 2, 3]}])
 data.green = new farba("podlazie", "green", 250)
-data.blue = new farba("podlazie", "blue", 5, 1, [{action: 80, colors: ["blue"], okruhy: [1, 2, 3]}, {action: 0, colors: ["brown", "aqua", "burlywood"], okruhy: [0]}])
-data.gold = new farba("podlazie", "gold", 25, 1, [{action: 0, colors: ["white"], okruhy: [1, 2, 3]}, {action: 40, colors: ["gold"], okruhy: [1, 2, 3]}, {action: 10, colors: ["blue"], okruhy: [1, 2, 3]}, {action: 0, colors: ["burlywood"], okruhy: [0]}])
+data.blue = new farba("podlazie", "blue", 5, 2, [{action: 80, colors: ["blue"], okruhy: [1, 2, 3]}, {action: 0, colors: ["brown", "aqua", "burlywood", "red", "silver", "goldenrod", "gray"], okruhy: [0]}])
+data.gold = new farba("podlazie", "gold", 25, 2, [{action: 0, colors: ["white"], okruhy: [1, 2, 3]}, {action: 40, colors: ["gold"], okruhy: [1, 2, 3]}, {action: 10, colors: ["blue"], okruhy: [1, 2, 3]}, {action: 0, colors: ["burlywood"], okruhy: [0]}])
+//data.pink = new farba("podlazie", "pink", 1)
 
 data.brown = new farba("element", "brown", 5, 3, [{action: 0, colors: ["blue"], okruhy: [0]}])
-data.burlywood = new farba("element", "burlywood", 5, 2, [{action: 0, colors: ["blue", "yellow", "gold"], okruhy: [0]}])
-data.aqua = new farba("element", "aqua", 5, 2, [{action: 0, colors: ["blue"], okruhy: [0]}])
+data.burlywood = new farba("element", "burlywood", 5, 2, [{action: 0, colors: ["blue", "yellow", "gold", "red", "silver", "goldenrod", "gray"], okruhy: [0]}])
+data.aqua = new farba("element", "aqua", 5, 2, [{action: 0, colors: ["blue", "red", "silver", "goldenrod", "gray"], okruhy: [0]}])
 data.none = new farba("element", "none", 100, 1)
 
-data.ziadne = new farba("feature", "ziadne", 1, 1)
+data.ziadna = new farba("feature", "ziadna", 200, 1)
+data.red = new farba("feature", "red", 1, 1, [{action: 0, colors: ["blue", "burlywood", "aqua"], okruhy: [0]}])
+data.silver = new farba("feature", "silver", 1, 1, [{action: 0, colors: ["blue", "burlywood", "aqua"], okruhy: [0]}])
+data.goldenrod = new farba("feature", "goldenrod", 1, 1, [{action: 0, colors: ["blue", "burlywood", "aqua"], okruhy: [0]}])
+data.gray = new farba("feature", "gray", 1, 1, [{action: 0, colors: ["blue", "aqua", "burlywood"], okruhy: [0]}])
 
 
 
@@ -113,7 +117,7 @@ class pole {
       }
     }
     while (!this.smer(this[arg].chosen))
-     
+    
     for (let x = 0; x < data[this[arg].chosen].properties.length; x++){
       let todo = []
 
@@ -122,13 +126,10 @@ class pole {
         let todoPlus = []
         //todo = this.stvorec(todo, data[this[arg].chosen].properties[x].okruhy[y])
         for (let z = 0; z < this[arg].rozmery.length; z++){
-          //console.log("robim todo plus")
           todoPlus = polia[this[arg].rozmery[z]].stvorec(todoPlus, data[this[arg].chosen].properties[x].okruhy[y])
           
         }
         for (let z = 0; z < this[arg].rozmery.length; z++){
-          //console.log("robim todo minus")
-          //console.log("okruh je velky pred odoslanim: ", data[this[arg].chosen].properties[x].okruhy[y])
           todoMinus = polia[this[arg].rozmery[z]].stvorec(todoMinus, data[this[arg].chosen].properties[x].okruhy[y] - 1)
           
         }
@@ -136,7 +137,6 @@ class pole {
         
         todo = [...todo, ...todoPlus.filter(x => !todoMinus.includes(x))]
         
-        /*console.log(todo, todoMinus)*/
         //this.stvorec(todo, data[this[arg].chosen].properties[x].okruhy[y])
       }
       this.uprav(todo, data[this[arg].chosen].properties[x].action, data[this[arg].chosen].properties[x].colors)
@@ -147,21 +147,16 @@ class pole {
 
   stvorec(todo, okruh){
     if (okruh == 0){
-      //console.log("returning from stvorec pre okruh 0")
-      //console.log("stvorec vracia", [this.index])
       return [...todo, this.index]
     }
     if (okruh == - 1){
-          //console.log("returning from stvorec pre okruh - 1")
       return todo
     }
-    //console.log("todo arg:", todo, "okruh arg:", okruh)
     let todoOkolie = todo
     todoOkolie = this.hrana(todoOkolie, okruh, 1, this.hore, this.index - okruh * columns, "vlavo", okruh, this.vlavo, "vpravo", this.vpravo)
     todoOkolie = this.hrana(todoOkolie, okruh, 1, this.dole, this.index + okruh * columns, "vlavo", okruh, this.vlavo, "vpravo", this.vpravo)
     todoOkolie = this.hrana(todoOkolie, okruh, columns, this.vlavo, this.index - okruh, "hore", okruh * columns - columns, this.hore * columns, "dole", this.dole * columns)
     todoOkolie = this.hrana(todoOkolie, okruh, columns, this.vpravo, this.index + okruh, "hore", okruh * columns - columns, this.hore * columns, "dole", this.dole * columns)
-    //console.log("stvorec vracia:", todoOkolie)
     return todoOkolie
 
   }
@@ -333,7 +328,7 @@ function main(){
         if (polia[r*columns+c].element.chosen != "none"){
           ctx.fillStyle = polia[r*columns+c].element.chosen
           ctx.beginPath()
-          ctx.rect(c*dimension+5, r*dimension+5, dimension-10, dimension-10)
+          ctx.rect(c * dimension + dimension / 5, r * dimension + dimension / 5, dimension / 5 * 3, dimension / 5 * 3)
           ctx.fill()
           ctx.stroke()
           
@@ -346,6 +341,20 @@ function main(){
           ctx.strokeStyle = "black"
         }
 
+      }
+    }
+  }
+  
+  function features(){
+    for (r = 0; r < rows; r++){
+      for (c = 0; c < columns; c++){
+        if (polia[r*columns+c].feature.chosen != "ziadna"){
+          ctx.fillStyle = polia[r*columns+c].feature.chosen
+          ctx.beginPath()
+          ctx.rect(c * dimension + dimension / 3, r * dimension + dimension / 3, dimension / 3, dimension / 3)
+          ctx.fill()
+          ctx.stroke()
+        }
       }
     }
   }
@@ -375,6 +384,7 @@ function main(){
 
   pozadia()
   elementy()
+  features()
 
 }
 
