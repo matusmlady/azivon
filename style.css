@@ -5,13 +5,12 @@ body {
 h1 {
     color: yellow;
     font-family: Calibri;
-    margin: auto;
-    text-align: justify;
+    text-align: center;
 }
 h2 {
     color: yellow;
     font-family: Calibri;
-    text-align: justify;
+    text-align: center;
     margin: auto;
 }
 .generator {
