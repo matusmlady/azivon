@@ -1,15 +1,18 @@
 //deastinne cisla v pomeroch nefunguju
 
 //grafika elementom
-//statistiky live kvoli dedinam
+//dediny
+//(spawn) cleaner
 //?shhapes ako vlastnost elementu
 //hrady ako features
+//?hrady viac ako jedno policko; ?ne/vycnievanie z elementov na ktorych sa vygeneruju
+//?zlato sa spawne obkolesene samymi elementami
 
 //?spolocne vlastnosti (banovanie moze byt jednostranne ak nie je zadefinovane inak)
 
 columns = 15
 rows = 15
-dimension = 20
+dimension = 100
 
 polia = []
 
@@ -22,6 +25,8 @@ class farba {
     this.sirka = sirka
     data[typ].zoznam.push(this.color)
     data.zoznam.push(this.color)
+    data.count[color] = 0
+    
         
   }
 
@@ -39,6 +44,8 @@ data.podlazie.zoznam = []
 data.element.zoznam = []
 data.feature.zoznam = []
 
+data.count = new Object()
+
 data.instructions = new Object()
 data.instructions["vlavo"] = - 1
 data.instructions["vpravo"] = 1
@@ -50,7 +57,6 @@ data.white = new farba("podlazie", "white", 50, 2, [{action: 0, colors: ["yellow
 data.green = new farba("podlazie", "green", 250)
 data.blue = new farba("podlazie", "blue", 5, 2, [{action: 80, colors: ["blue"], okruhy: [1, 2, 3]}, {action: 0, colors: ["brown", "aqua", "burlywood", "red", "silver", "goldenrod", "gray"], okruhy: [0]}])
 data.gold = new farba("podlazie", "gold", 25, 2, [{action: 0, colors: ["white"], okruhy: [1, 2, 3]}, {action: 40, colors: ["gold"], okruhy: [1, 2, 3]}, {action: 10, colors: ["blue"], okruhy: [1, 2, 3]}, {action: 0, colors: ["burlywood"], okruhy: [0]}])
-//data.pink = new farba("podlazie", "pink", 1)
 
 data.brown = new farba("element", "brown", 5, 3, [{action: 0, colors: ["blue"], okruhy: [0]}])
 data.burlywood = new farba("element", "burlywood", 5, 2, [{action: 0, colors: ["blue", "yellow", "gold", "red", "silver", "goldenrod", "gray"], okruhy: [0]}])
@@ -62,8 +68,6 @@ data.red = new farba("feature", "red", 1, 1, [{action: 0, colors: ["blue", "burl
 data.silver = new farba("feature", "silver", 1, 1, [{action: 0, colors: ["blue", "burlywood", "aqua"], okruhy: [0]}])
 data.goldenrod = new farba("feature", "goldenrod", 1, 1, [{action: 0, colors: ["blue", "burlywood", "aqua"], okruhy: [0]}])
 data.gray = new farba("feature", "gray", 1, 1, [{action: 0, colors: ["blue", "aqua", "burlywood"], okruhy: [0]}])
-
-
 
 class pole {
   constructor(arg){
@@ -117,6 +121,7 @@ class pole {
       }
     }
     while (!this.smer(this[arg].chosen))
+    data.count[this[arg].chosen] += 1
     
     for (let x = 0; x < data[this[arg].chosen].properties.length; x++){
       let todo = []
@@ -124,7 +129,6 @@ class pole {
       for (let y = 0; y < data[this[arg].chosen].properties[x].okruhy.length; y++){
         let todoMinus = []
         let todoPlus = []
-        //todo = this.stvorec(todo, data[this[arg].chosen].properties[x].okruhy[y])
         for (let z = 0; z < this[arg].rozmery.length; z++){
           todoPlus = polia[this[arg].rozmery[z]].stvorec(todoPlus, data[this[arg].chosen].properties[x].okruhy[y])
           
@@ -137,7 +141,6 @@ class pole {
         
         todo = [...todo, ...todoPlus.filter(x => !todoMinus.includes(x))]
         
-        //this.stvorec(todo, data[this[arg].chosen].properties[x].okruhy[y])
       }
       this.uprav(todo, data[this[arg].chosen].properties[x].action, data[this[arg].chosen].properties[x].colors)
       
@@ -184,12 +187,6 @@ class pole {
     }
     return todoSuradnice
   }
-  
-  
-  
-  
-  
-  
   
   vyber(arg){
     let random = Math.floor(Math.random() * this.dlzka(arg))
@@ -373,7 +370,7 @@ function main(){
       poliaRaw.splice(cislo, 1)
     }
   }
-  c = document.getElementById("myCanvas")
+  c = document.getElementById("map")
   c.width = columns * dimension
   c.height = rows * dimension
   c.style.width = columns * dimension + 'px'
@@ -388,11 +385,13 @@ function main(){
 
 }
 
-main()
+main(15, 15, 20)
 
 console.log(polia,'polia')
 
 console.log(data)
+
+console.log(data.count)
 
 
 
