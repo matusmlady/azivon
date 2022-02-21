@@ -12,7 +12,7 @@
 
 columns = 15
 rows = 15
-dimension = 100
+dimension = 20
 
 polia = []
 
