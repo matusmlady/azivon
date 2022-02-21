@@ -12,6 +12,11 @@ h2 {
     font-family: Calibri;
     text-align: center;
 }
+h3 {
+       color: black;
+       font-family: Calibri;
+       text-align: center;
+}
 .generator {
              width: 300px; 
              height: 300px; 
@@ -41,22 +46,22 @@ h2 {
                    animation-duration: 500ms;
                    animation-fill-mode: forwards;
            }
-       @keyframes background-color-1 {
+@keyframes background-color-1 {
                                 100% {
                                        background-color: hsl(50, 100%, 50%);
                                      }
                                 }
-    button {
-            background-color: hsl(106, 100%, 99%);
-         }
-    button:hover {
-                  animation-name: background-color-2;
-                  animation-duration: 500ms;
-                  animation-fill-mode: forwards;
+button {
+        background-color: hsl(106, 100%, 99%);
+       }
+button:hover {
+              animation-name: background-color-2;
+              animation-duration: 500ms;
+              animation-fill-mode: forwards;
                  }
-   @keyframes background-color-2 {
-                                100% {
-                                       background-color: #4791d0;
+@keyframes background-color-2 {
+                               100% {
+                                      background-color: #4791d0;
                                      }
                                 }
 
