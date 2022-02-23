@@ -21,9 +21,12 @@ Wood - it takes 5 places in inventory, you can use 2 and 1 actions to build cott
 Gold - gold, if you take it, you can take one unconquered, basic field around it
 Villages - you gain from them number of actions (max 3) in the form of loot, loot is predetermined
 Iron - grey, it takes 5 places in inventory, use it to reinforce buildings with +1 power
-
+Material - shield - +1 defence around that field including that field
+         - archer - +1 range
+         - attacker 
 FLOORS
 water - 
 sand - 0 defence, 1 attack
 snow -  
 grass - 1 defence, 1 attack
+
