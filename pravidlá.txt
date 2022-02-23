@@ -9,11 +9,21 @@ RULES OF CONQUERING
 
 Some fields have different values of defence and attack than others (but all of them have same amout of attack as defence), we can refer to them as power
 
+ELEMENTS
 Mountains - brown, spawn in lines of three, every one of them has power of 3
 Lakes - blue, power of 2
 Sweet woods - beige, power of 2         ---you can cut them and you will get wood, power of the field will be 1
 Castle - grey, only one field, power of 4
 
+FEATURES
 You have 20 places in your inventory
 Wood - it takes 5 places in inventory, you can use 2 and 1 actions to build cottage with power 3, placing cottage must make sense
-Gold 
+Gold - gold, if you take it, you can take one unconquered, basic field around it
+Villages - you gain from them number of actions (max 3) in the form of loot, loot is predetermined
+Iron - grey, it takes 5 places in inventory, use it to reinforce buildings with +1 power
+
+FLOORS
+water - 
+sand - 0 defence, 1 attack
+snow -  
+grass - 1 defence, 1 attack
