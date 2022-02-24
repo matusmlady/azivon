@@ -30,3 +30,28 @@ sand - 0 defence, 1 attack
 snow -  
 grass - 1 defence, 1 attack
 
+material
+        akcia na setup
+            stity (kruh)
+                obrana policka +1 aj okolitych
+            utocnik
+                +1utok ?+1 obrana samotneho policka
+            luky (trojuholnik)
+                dostrel policka = 2 - ?obrana aj utok
+                dosah len 2, na dosah 1 nefunguju
+                neprestreli hory les atd
+            katapulty (stvorec)
+                nicenie opevneni +2 na dosah = 2 policok 
+                stavat len na rovine
+                dosah len 2
+
+
+
+ak ti niekto dobyje spawn, este neviem co presne je spawn ci napr 3x3 v rohu atd, vypadavas z hry
+
+pust ma obranu a utok 0, pohyb ma len 1 (napr)
+
+Hra končí keď jeden z hráčov už nemôže nič robiť (ani odkladať akcie do skladu.
+	Po obsadení spawnu hráč vypadáva, z jeho územia sa stáva NPC – hráč, ktorý však nič nerobí - drzi si vsak pozicie aj obrannu silu
+	Spawny sa vyberaju nahodne, každý bez toho aby videl mapu ňou dole hlavou otočí a na záver sa otočí hore.
+	Ak je iny pocet hracov ako 4, pocet krajnych policok sa podeli poctom hracov. Takto vzdialeny od seba hraci budu. ?Prvy hrac zacina v rohu.
