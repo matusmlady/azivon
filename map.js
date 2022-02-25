@@ -1,7 +1,7 @@
 //deastinne cisla v pomeroch nefunguju
 
 //grafika elementom
-//dediny
+//loot
 //(spawn) cleaner
 //?shhapes ako vlastnost elementu
 //hrady ako features
@@ -10,12 +10,13 @@
 
 //?spolocne vlastnosti (banovanie moze byt jednostranne ak nie je zadefinovane inak)
 
-columns = 15
-rows = 15
+//?pri generovani a pomeroch znasobit vsetky veci 8 pretoze mam osem smerov; nie ze ked vygenerujem snazim sa to rovno aj natrepat ale skor vyberiem z celkoeho zoznamu konkretny smer a dam prec ak sa nezmesti a potom generujem dalej teoreticky aj dalsie typy elementov
+
+columns = 5
+rows = 5
 dimension = 20
 
 polia = []
-
 class farba {
   constructor(typ, color, pomer = 0, sirka = 1, properties = []){
     this.typ = typ
@@ -52,17 +53,17 @@ data.instructions["vpravo"] = 1
 data.instructions["hore"] = - columns
 data.instructions["dole"] = columns
 
-data.yellow = new farba("podlazie", "yellow", 25, 2, [{action: 0, colors: ["white"], okruhy: [1, 2, 3]}, {action: 50, colors: ["yellow"], okruhy: [1, 2, 3]}, {action: 0, colors: ["burlywood"], okruhy: [0]}])
-data.white = new farba("podlazie", "white", 50, 2, [{action: 0, colors: ["yellow", "gold"], okruhy: [1, 2, 3]}, {action: 50, colors: ["white"], okruhy: [1, 2, 3]}])
+data.yellow = new farba("podlazie", "yellow", 25, 1, [{action: 0, colors: ["white"], okruhy: [1, 2, 3]}, {action: 50, colors: ["yellow"], okruhy: [1, 2, 3]}, {action: 0, colors: ["burlywood"], okruhy: [0]}])
+data.white = new farba("podlazie", "white", 50, 1, [{action: 0, colors: ["yellow", "gold"], okruhy: [1, 2, 3]}, {action: 50, colors: ["white"], okruhy: [1, 2, 3]}])
 data.green = new farba("podlazie", "green", 250)
-data.blue = new farba("podlazie", "blue", 5, 2, [{action: 80, colors: ["blue"], okruhy: [1, 2, 3]}, {action: 0, colors: ["brown", "aqua", "burlywood", "red", "silver", "goldenrod", "gray"], okruhy: [0]}])
-data.gold = new farba("podlazie", "gold", 25, 2, [{action: 0, colors: ["white"], okruhy: [1, 2, 3]}, {action: 40, colors: ["gold"], okruhy: [1, 2, 3]}, {action: 10, colors: ["blue"], okruhy: [1, 2, 3]}, {action: 0, colors: ["burlywood"], okruhy: [0]}])
-
+data.blue = new farba("podlazie", "blue", 5, 1, [{action: 80, colors: ["blue"], okruhy: [1, 2, 3]}, {action: 0, colors: ["brown", "aqua", "burlywood", "red", "silver", "goldenrod", "gray"], okruhy: [0]}])
+data.gold = new farba("podlazie", "gold", 25, 1, [{action: 0, colors: ["white"], okruhy: [1, 2, 3]}, {action: 40, colors: ["gold"], okruhy: [1, 2, 3]}, {action: 10, colors: ["blue"], okruhy: [1, 2, 3]}, {action: 0, colors: ["burlywood"], okruhy: [0]}])
+//pridat podlazie nic
 data.brown = new farba("element", "brown", 5, 3, [{action: 0, colors: ["blue"], okruhy: [0]}])
 data.burlywood = new farba("element", "burlywood", 5, 2, [{action: 0, colors: ["blue", "yellow", "gold", "red", "silver", "goldenrod", "gray"], okruhy: [0]}])
 data.aqua = new farba("element", "aqua", 5, 2, [{action: 0, colors: ["blue", "red", "silver", "goldenrod", "gray"], okruhy: [0]}])
 data.none = new farba("element", "none", 100, 1)
-
+//universal none ziadna name pre vsetky tri typy
 data.ziadna = new farba("feature", "ziadna", 200, 1)
 data.red = new farba("feature", "red", 1, 1, [{action: 0, colors: ["blue", "burlywood", "aqua"], okruhy: [0]}])
 data.silver = new farba("feature", "silver", 1, 1, [{action: 0, colors: ["blue", "burlywood", "aqua"], okruhy: [0]}])
