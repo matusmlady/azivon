@@ -15,6 +15,8 @@ Lakes - blue, power of 2
 Sweet woods - beige, power of 2         ---you can cut them and you will get wood, power of the field will be 1
 Castle - grey, only one field, power of 4
 
+--elements influence your ability to conquer tiles; you can not jump through a 3 tile wide mountain unless you own it; you need to go around the element and possibly take a longer route to your destination
+
 FEATURES
 You have 20 places in your inventory
 Wood - it takes 5 places in inventory, you can use 2 and 1 actions to build cottage with power 3, placing cottage must make sense; you can also place it on chopped down/unchopped sweet woods
