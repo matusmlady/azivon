@@ -17,7 +17,7 @@ Castle - grey, only one field, power of 4
 
 FEATURES
 You have 20 places in your inventory
-Wood - it takes 5 places in inventory, you can use 2 and 1 actions to build cottage with power 3, placing cottage must make sense
+Wood - it takes 5 places in inventory, you can use 2 and 1 actions to build cottage with power 3, placing cottage must make sense; you can also place it on chopped down/unchopped sweet woods
 Gold - gold, if you take it, you can take one unconquered, basic field around it
 Villages - you gain from them number of actions (max 3) in the form of loot, loot is predetermined
 Iron - grey, it takes 5 places in inventory, use it to reinforce buildings with +1 power
