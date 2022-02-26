@@ -1,5 +1,5 @@
 body {
-      background-color: hsl(0, 0%, 22%);
+      background-color: black;
       text-align: justify;
 }
 h1 {
@@ -45,6 +45,7 @@ h3 {
            font-size: 13px;
            text-align: justify;
            background-color: hsl(0, 0%, 100%);
+           margin: auto;
 
 button {
         background-color: hsl(0, 0%, 100%);
