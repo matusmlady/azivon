@@ -34,7 +34,7 @@ h3 {
           box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
 }
 .menu {
-           width: 1024px
+           width: 1024px;
            font-size: 13px;
            position: fixed;
            top: 0px;
