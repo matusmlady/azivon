@@ -1,11 +1,42 @@
-1. Players spawn mainly diagonally in corners, but it is all up to you, they should just be evenly placed
-2. Every turn you draw on the paper 2 actions (e. g. in the form of lines), you can save up to 20 actions, but you can use max. 10 actions in one turn
-3. You expand by counquering fields (tiles).
-4. By default, for every action you conquer 1 field, you can jump over one field 
-RULES OF CONQUERING
-1. Counquered field has that much defence, as the number of conquered surrounding fields + that conquered field
-2. Attack force is that big as the number of counquered fields surrounding the field you want to conquer
-3. You can conquer the field only when you have more attack force than defence of the field and you have respective number of actions
+Disclaimer: adjust the rules as you wish! This is mainly for inspiration. Of course feel free to use them.
+
+SETUP
+
+1. The number of players is unlimited.
+2. Players spawn in corners, and/or they should be evenly placed. They start with this first tile as their only teritory.
+3. Every turn you receive 2 actions.
+
+WAREHOUSE
+
+4. Each player has a warehouse the size of 20 actions.
+5. You use the warehouse by taking notes on the paper where you print your map.
+6. You can store there one or both of the actions you receive each turn.
+7. The limit you can save there is actions per turn * 10 = 20
+8. You can save up actions in order to create massive pushes on the map.
+9. The limit of actions you can spend per turn is 10 actions. (That means 2 actions you receive + 8 stored in the warehouse.)
+10. When you use actions from the warehouse you can simply cross them off of the stored actions.
+
+EXPANSION
+
+4. You expand by counquering tiles.
+5. For 1 action you can conquer exactly 1 empty tile.
+6. You can conquer any tile, that is at maximum 2 tiles (vertically, horizontally, diagonally or these ways combined...) away from your current territory.
+7. You don't miove your teritory, you only expand - conquer other tiles.
+8. Later you will be able to fight for the territory with other players.
+
+CONQUERING
+
+1. When fighting, for each tile you can calculate the attackers strength, and the defenders defence.
+2. By default, the defender has a defence of 1, because of the tile itself having this basic defence.
+3. The defending tile has support from every adjacent friendly tile, for each tile it is 1 extra support = defence.
+?support from other players vs combined attack; diplomacy; alances
+4. The attacker on the other hand, has 1 attack strength for each adjacent attacking tile.
+5. This means that only the adjacent tiles are counted when calculating the attacker's strength and the defender's defence. Also the defender has always one extra defence for the tile itself.
+6. When talking about adjacent tiles, we mean the diagonally adjacent tiles as well.
+7. Any field is conquerable only when the attacker's power is greater than the defender's defence.
+8. For conquering a field of another player, you need to use the number of actions the current owner used to conquer this tile. For a tile without elements or features, this is one.
+
+/////////////////////////potialto som zatial prebehol pravidla
 
 Some fields have different values of defence and attack than others (but all of them have same amout of attack as defence), we can refer to them as power
 
