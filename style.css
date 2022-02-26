@@ -3,12 +3,12 @@ body {
       text-align: justify;
 }
 h1 {
-    color: yellow;
+    color: white;
     font-family: Calibri;
     text-align: center;
 }
 h2 {
-    color: yellow;
+    color: white;
     font-family: Calibri;
     text-align: center;
 }
@@ -48,11 +48,11 @@ h3 {
            }
 @keyframes background-color-1 {
                                 100% {
-                                       background-color: hsl(50, 100%, 50%);
+                                       background-color: hsl(0, 0%, 100%);
                                      }
                                 }
 button {
-        background-color: hsl(106, 100%, 99%);
+        background-color: hsl(0, 0%, 100%);
        }
 button:hover {
               animation-name: background-color-2;
