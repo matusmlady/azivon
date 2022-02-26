@@ -12,8 +12,8 @@
 
 //?pri generovani a pomeroch znasobit vsetky veci 8 pretoze mam osem smerov; nie ze ked vygenerujem snazim sa to rovno aj natrepat ale skor vyberiem z celkoeho zoznamu konkretny smer a dam prec ak sa nezmesti a potom generujem dalej teoreticky aj dalsie typy elementov
 
-columns = 5
-rows = 5
+columns = 15
+rows = 15
 dimension = 20
 
 polia = []
