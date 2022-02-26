@@ -41,6 +41,10 @@ h3 {
            text-align: justify;
            background-color: hsl(0, 0%, 100%);
 }
+.menu_pravidla {
+           font-size: 13px;
+           text-align: justify;
+           background-color: hsl(0, 0%, 100%);
 
 button {
         background-color: hsl(0, 0%, 100%);
