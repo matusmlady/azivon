@@ -24,7 +24,7 @@ h3 {
              margin: auto; 
 }
 .kecy {
-          background-color: hsl(120, 100%, 50%);
+          background-color: hsl(10, 0%, 100%);
           font-family: Calibri;
           width: 500px;
           padding: 10px;
@@ -43,7 +43,7 @@ h3 {
 }
 
 button {
-        background-color: hsl(120, 11%, 78%);
+        background-color: hsl(0, 0%, 100%);
        }
 button:hover {
               animation-name: background-color-2;
