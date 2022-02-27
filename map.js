@@ -1,43 +1,39 @@
-//deastinne cisla v pomeroch nefunguju
-
-//grafika elementom
-//loot
+//?deastinne cisla v pomeroch
+//grafika elementom + loot
 //(spawn) cleaner
 //?shhapes ako vlastnost elementu
 //?hrady viac ako jedno policko; ?ne/vycnievanie z elementov na ktorych sa vygeneruju
 //?zlato sa spawne obkolesene samymi elementami
-
 //?spolocne vlastnosti (banovanie moze byt jednostranne ak nie je zadefinovane inak)
-
-//?pri generovani a pomeroch znasobit vsetky veci 8 pretoze mam osem smerov; nie ze ked vygenerujem snazim sa to rovno aj natrepat ale skor vyberiem z celkoeho zoznamu konkretny smer a dam prec ak sa nezmesti a potom generujem dalej teoreticky aj dalsie typy elementov
+//seapre script per vykreslovanie mapy
 
 columns = 15
 rows = 15
 dimension = 20
 
-polia = []
+tiles = []
 
 class farba {
-  constructor(typ, color, pomer = 0, properties = [], sirka = 1){
+  constructor(label, typ, color, pomer = 0, properties = [], sirka = 1, lootability = {loot: false}){
+    this.label = label
     this.typ = typ
     this.color = color
     this.pomer = pomer
     this.properties = properties
     this.sirka = sirka
-    data[typ].zoznam.push(this.color)
-    data.zoznam.push(this.color)
-    data.count[color] = 0
-    
+    data[typ].zoznam.push(this.label)
+    data.zoznam.push(this.label)
+    data.count[label] = 0
+    this.lootability = lootability
+    if (this.lootability.loot == true){
+      data.loot.zoznam.push(this.label)
+    }
         
   }
 
 }
 
 const data = new Object()
-data.podlazie = new Object()
-data.element = new Object()
-data.feature = new Object()
-
 
 data.count = new Object()
 
@@ -49,38 +45,40 @@ data.instructions["dole"] = columns
 
 
 data.loot = new Object()
+data.loot.zoznam = []
 
 //rare spawns work
 
 data.zoznam = []
+data.podlazie = new Object()
+data.element = new Object()
+data.feature = new Object()
 data.podlazie.zoznam = []
 data.element.zoznam = []
 data.feature.zoznam = []
+//use english everywhere in code
 
-
-data.yellow = new farba("podlazie", "yellow", 25, [{action: 0, colors: ["white"], okruhy: [1, 2, 3]}, {action: 50, colors: ["yellow"], okruhy: [1, 2, 3]}, {action: 0, colors: ["burlywood"], okruhy: [0]}], 1)
-data.white = new farba("podlazie", "white", 50, [{action: 0, colors: ["yellow", "gold"], okruhy: [1, 2, 3]}, {action: 50, colors: ["white"], okruhy: [1, 2, 3]}], 1)
-data.green = new farba("podlazie", "green", 250, undefined, 1)
-data.blue = new farba("podlazie", "blue", 5, [{action: 80, colors: ["blue"], okruhy: [1, 2, 3]}, {action: 0, colors: ["pink", "brown", "aqua", "burlywood", "red", "silver", "goldenrod", "gray"], okruhy: [0]}], 1)
-data.gold = new farba("podlazie", "gold", 25, [{action: 0, colors: ["white"], okruhy: [1, 2, 3]}, {action: 40, colors: ["gold"], okruhy: [1, 2, 3]}, {action: 10, colors: ["blue"], okruhy: [1, 2, 3]}, {action: 0, colors: ["burlywood"], okruhy: [0]}], 1)
+data.desert = new farba("desert", "podlazie", "yellow", 25, [{action: 0, colors: ["snow"], okruhy: [1, 2, 3]}, {action: 50, colors: ["desert"], okruhy: [1, 2, 3]}, {action: 0, colors: ["woods"], okruhy: [0]}], undefined, undefined)
+data.snow = new farba("snow", "podlazie", "white", 50, [{action: 0, colors: ["desert", "sahara"], okruhy: [1, 2, 3]}, {action: 50, colors: ["snow"], okruhy: [1, 2, 3]}], undefined, undefined)
+data.grass = new farba("grass", "podlazie", "green", 250, undefined, undefined)
+data.water = new farba("water", "podlazie", "blue", 5, [{action: 80, colors: ["water"], okruhy: [1, 2, 3]}, {action: 0, colors: ["material", "mountains", "lake", "woods", "village", "silver", "gold", "castle"], okruhy: [0]}], undefined, undefined)
+data.sahara = new farba("sahara", "podlazie", "gold", 25, [{action: 0, colors: ["snow"], okruhy: [1, 2, 3]}, {action: 40, colors: ["sahara"], okruhy: [1, 2, 3]}, {action: 10, colors: ["water"], okruhy: [1, 2, 3]}, {action: 0, colors: ["woods"], okruhy: [0]}], undefined, undefined)
 //pridat podlazie nic
-data.brown = new farba("element", "brown", 5, [{action: 0, colors: ["blue"], okruhy: [0]}], 3)
-data.burlywood = new farba("element", "burlywood", 5, [{action: 0, colors: ["blue", "yellow", "gold", "red", "silver", "goldenrod", "gray"], okruhy: [0]}], 2)
-data.aqua = new farba("element", "aqua", 5, [{action: 0, colors: ["blue", "red", "silver", "goldenrod", "gray", "pink"], okruhy: [0]}], 2)
-data.none = new farba("element", "none", 100, undefined, 1)
+data.mountains = new farba("mountains", "element", "brown", 5, [{action: 0, colors: ["water"], okruhy: [0]}], 3, undefined)
+data.woods = new farba("woods", "element", "burlywood", 5, [{action: 0, colors: ["water", "desert", "sahara", "village", "silver", "gold", "castle"], okruhy: [0]}], 2, undefined)
+data.lake = new farba("lake", "element", "aqua", 5, [{action: 0, colors: ["water", "village", "silver", "gold", "castle", "material"], okruhy: [0]}], 2, undefined)
+data.noElement = new farba("noElement", "element", "none", 100, undefined, undefined)
 //universal none ziadna name pre vsetky tri typy
-data.ziadna = new farba("feature", "ziadna", 200, undefined, 1)
-data.red = new farba("feature", "red", 1, [{action: 0, colors: ["blue", "burlywood", "aqua"], okruhy: [0]}], 1)
-data.silver = new farba("feature", "silver", 1, [{action: 0, colors: ["blue", "burlywood", "aqua"], okruhy: [0]}], 1)
-data.goldenrod = new farba("feature", "goldenrod", 1, [{action: 0, colors: ["blue", "burlywood", "aqua"], okruhy: [0]}], 1)
-data.gray = new farba("feature", "gray", 1, [{action: 0, colors: ["blue", "aqua", "burlywood"], okruhy: [0]}], 1)
-data.pink = new farba("feature", "pink", 5, [{action: 0, colors: ["blue", "aqua"], okruhy: [0]}], 1)
-
-
+data.noFeature = new farba("noFeature", "feature", "none", 200, undefined, undefined)
+data.village = new farba("village", "feature", "red", 1, [{action: 0, colors: ["water", "woods", "lake"], okruhy: [0]}], undefined, {loot: true})
+data.metal = new farba("metal", "feature", "silver", 1, [{action: 0, colors: ["water", "woods", "lake"], okruhy: [0]}], undefined, undefined)
+data.gold = new farba("gold", "feature", "goldenrod", 1, [{action: 0, colors: ["water", "woods", "lake"], okruhy: [0]}], undefined, undefined)
+data.castle = new farba("castle", "feature", "#3B3131", 1, [{action: 0, colors: ["water", "woods", "lake"], okruhy: [0]}], undefined, undefined)
+data.material = new farba("material", "feature", "pink", 5, [{action: 0, colors: ["water", "lake"], okruhy: [0]}], undefined, undefined)
+//ways of color representation understand and ability to use them hexa, text
    
 function main(rows, columns){
-
-  class pole {
+  class tile {
     constructor(arg){
       this.index = arg
 
@@ -141,14 +139,13 @@ function main(rows, columns){
           let todoMinus = []
           let todoPlus = []
           for (let z = 0; z < this[arg].rozmery.length; z++){
-            todoPlus = polia[this[arg].rozmery[z]].stvorec(todoPlus, data[this[arg].chosen].properties[x].okruhy[y])
+            todoPlus = tiles[this[arg].rozmery[z]].stvorec(todoPlus, data[this[arg].chosen].properties[x].okruhy[y])
             
           }
           for (let z = 0; z < this[arg].rozmery.length; z++){
-            todoMinus = polia[this[arg].rozmery[z]].stvorec(todoMinus, data[this[arg].chosen].properties[x].okruhy[y] - 1)
+            todoMinus = tiles[this[arg].rozmery[z]].stvorec(todoMinus, data[this[arg].chosen].properties[x].okruhy[y] - 1)
             
           }
-          
           
           todo = [...todo, ...todoPlus.filter(x => !todoMinus.includes(x))]
           
@@ -180,15 +177,15 @@ function main(rows, columns){
       if (miesto >= okruh){
         let x
         if (this[smer1] >= okruh){
-          x = polia[bod].index - udaj0
+          x = tiles[bod].index - udaj0
         } else {
-          x = polia[bod].index - udaj1
+          x = tiles[bod].index - udaj1
         }
         let y
         if (this[smer2] >= okruh){
-          y = polia[bod].index + udaj0
+          y = tiles[bod].index + udaj0
         } else {
-          y = polia[bod].index + udaj2
+          y = tiles[bod].index + udaj2
         }
         for ( ; x <= y; x += increase){
           if (!todoSuradnice.includes(x)){
@@ -205,9 +202,10 @@ function main(rows, columns){
       for (let x = 0; x < data[arg].zoznam.length; x++){
         pocitadlo += this.farby.positive[data[arg].zoznam[x]]
         if (random < pocitadlo){
-          return data[arg].zoznam[x]
+          return data[data[arg].zoznam[x]].label
         }
       }
+      //?poistka nejaka ak dlzka je 0; vpodstate uz mam poistku niekde v kode
     }
     
     dlzka(arg){
@@ -264,9 +262,11 @@ function main(rows, columns){
       let suradnicky = [this.index]
       let pseudo = this.index;
       for (let x = 0; x < data[element].sirka - 1; x++){
+        //krizovanie rozlisnych typov layers? napr podlazie a element diagonalny; 
+        //suvisi to stym z eby hrad bol siroky napr 2 a bol by aj na elemente aj mimo neho vycnieval by
         if (pokyn.length == 2){
-          let prvePoleRozmery = polia[pseudo + data.instructions[pokyn[0]]][data[element].typ].rozmery
-          let druhePoleRozmery = polia[pseudo + data.instructions[pokyn[1]]][data[element].typ].rozmery;
+          let prvePoleRozmery = tiles[pseudo + data.instructions[pokyn[0]]][data[element].typ].rozmery
+          let druhePoleRozmery = tiles[pseudo + data.instructions[pokyn[1]]][data[element].typ].rozmery;
           for (let y = 0; y < prvePoleRozmery.length; y++){
             if (druhePoleRozmery.includes(prvePoleRozmery[y])){
               return 0
@@ -277,20 +277,18 @@ function main(rows, columns){
           pseudo += data.instructions[pokyn[y]]
         }
         suradnicky.push(pseudo)
-        if (polia[pseudo][data[element].typ].chosen != ""){
+        if (tiles[pseudo][data[element].typ].chosen != ""){
           return 0
         }
-        if (polia[pseudo].farby.banned[element] == 1){
+        if (tiles[pseudo].farby.banned[element] == 1){
           return 0
         }
         
       }
+      
       for (let x = 0; x < suradnicky.length; x++){
-        polia[suradnicky[x]][data[element].typ].chosen = element
-        polia[suradnicky[x]][data[element].typ].rozmery = []
-        for (let y = 0; y < suradnicky.length; y++){
-          polia[suradnicky[x]][data[element].typ].rozmery.push(suradnicky[y])
-        }
+        tiles[suradnicky[x]][data[element].typ].chosen = element
+        tiles[suradnicky[x]][data[element].typ].rozmery = suradnicky
 
       }
       return 1
@@ -300,15 +298,15 @@ function main(rows, columns){
       for (let x in arg){
         if (action == 0){
           for (let z = 0; z < colors.length; z++){
-            polia[arg[x]].farby.banned[colors[z]] = 1
+            tiles[arg[x]].farby.banned[colors[z]] = 1
           }
         } else if (action < 0) {
           for (let z = 0; z < colors.length; z++){
-            polia[arg[x]].farby.negative[colors[z]] += action
+            tiles[arg[x]].farby.negative[colors[z]] += action
           }
         } else if (action > 0) {
           for (let z = 0; z < colors.length; z++){
-            polia[arg[x]].farby.positive[colors[z]] += action
+            tiles[arg[x]].farby.positive[colors[z]] += action
           }
         }
       }
@@ -316,24 +314,26 @@ function main(rows, columns){
     
   }
 
-  let poliaRaw = []
+  let tilesRaw = []
   for (let i = 0; i < rows * columns; i++){
-    poliaRaw.push([i, "podlazie", "element", "feature"])
-    polia.push(new pole(i))
+    tilesRaw.push([i, "podlazie", "element", "feature"])
+    tiles.push(new tile(i))
   }
   for (let m = 0; m < rows * columns * 3; m++){
-    let cislo = Math.floor(Math.random() * poliaRaw.length)
-    let cislo2 = Math.floor(Math.random() * (poliaRaw[cislo].length - 1)) + 1
-    polia[poliaRaw[cislo][0]].vyberMain(poliaRaw[cislo][cislo2])
-    poliaRaw[cislo].splice(cislo2, 1)
-    if (poliaRaw[cislo].length == 1){
-      poliaRaw.splice(cislo, 1)
+    let cislo = Math.floor(Math.random() * tilesRaw.length)
+    let cislo2 = Math.floor(Math.random() * (tilesRaw[cislo].length - 1)) + 1
+    tiles[tilesRaw[cislo][0]].vyberMain(tilesRaw[cislo][cislo2])
+    tilesRaw[cislo].splice(cislo2, 1)
+    if (tilesRaw[cislo].length == 1){
+      tilesRaw.splice(cislo, 1)
     }
   }
 
-  data.loot.red = []  
-  for (let x = 0; x < data.count.red; x++){
-    data.loot.red.push(Math.floor(Math.random() * 3 + 1))
+  for (let x = 0; x < data.loot.zoznam.length; x++){
+    data.loot[data.loot.zoznam[x]] = []
+    for (let y = 0; y < data.count[data.loot.zoznam[x]]; y++){
+      data.loot[data.loot.zoznam[x]].push(Math.floor(Math.random() * 3 + 1))
+    }
   }
 
 }
@@ -344,7 +344,7 @@ function draw(rows, columns, dimension){
   function pozadia(){
     for (r = 0; r < rows; r++){
       for (c = 0; c < columns; c++){
-        ctx.fillStyle = polia[r*columns+c].podlazie.chosen
+        ctx.fillStyle = data[tiles[r*columns+c].podlazie.chosen].color
         ctx.beginPath()
         ctx.rect(c*dimension, r*dimension, dimension, dimension)
         ctx.fill()
@@ -352,12 +352,12 @@ function draw(rows, columns, dimension){
       }
     }
   }
-  
-  function elementy(){
+  //?pocitat pocty kolko mam zatial vygenerovanych jednotlivych typov colors
+  function elements(){
     for (r = 0; r < rows; r++){
       for (c = 0; c < columns; c++){
-        if (polia[r*columns+c].element.chosen != "none"){
-          ctx.fillStyle = polia[r*columns+c].element.chosen
+        if (data[tiles[r*columns+c].element.chosen].color != "none"){
+          ctx.fillStyle = data[tiles[r*columns+c].element.chosen].color
           ctx.beginPath()
           ctx.rect(c * dimension + dimension / 5, r * dimension + dimension / 5, dimension / 5 * 3, dimension / 5 * 3)
           ctx.fill()
@@ -365,9 +365,9 @@ function draw(rows, columns, dimension){
           
           ctx.strokeStyle = "lime"
           ctx.beginPath();
-          ctx.moveTo(polia[polia[r*columns+c].element.rozmery[0]].vlavo * dimension + dimension / 2, polia[polia[r*columns+c].element.rozmery[0]].hore * dimension + dimension / 2);
-          let poslednyRozmer = polia[r*columns+c].element.rozmery.length - 1
-          ctx.lineTo(polia[polia[r*columns+c].element.rozmery[poslednyRozmer]].vlavo * dimension + dimension / 2, polia[polia[r*columns+c].element.rozmery[poslednyRozmer]].hore * dimension + dimension / 2);
+          ctx.moveTo(tiles[tiles[r*columns+c].element.rozmery[0]].vlavo * dimension + dimension / 2, tiles[tiles[r*columns+c].element.rozmery[0]].hore * dimension + dimension / 2);
+          let poslednyRozmer = tiles[r*columns+c].element.rozmery.length - 1
+          ctx.lineTo(tiles[tiles[r*columns+c].element.rozmery[poslednyRozmer]].vlavo * dimension + dimension / 2, tiles[tiles[r*columns+c].element.rozmery[poslednyRozmer]].hore * dimension + dimension / 2);
           ctx.stroke();
           ctx.strokeStyle = "black"
         }
@@ -379,8 +379,8 @@ function draw(rows, columns, dimension){
   function features(){
     for (r = 0; r < rows; r++){
       for (c = 0; c < columns; c++){
-        if (polia[r*columns+c].feature.chosen != "ziadna"){
-          ctx.fillStyle = polia[r*columns+c].feature.chosen
+        if (data[tiles[r*columns+c].feature.chosen].color != "none"){
+          ctx.fillStyle = data[tiles[r*columns+c].feature.chosen].color
           ctx.beginPath()
           ctx.rect(c * dimension + dimension / 3, r * dimension + dimension / 3, dimension / 3, dimension / 3)
           ctx.fill()
@@ -396,17 +396,16 @@ function draw(rows, columns, dimension){
   c.style.width = columns * dimension + 'px'
   c.style.height = rows * dimension + 'px'
   ctx = c.getContext("2d")
-
   ctx.strokeStyle = "black"
 
   pozadia()
-  elementy()
+  elements()
   features()
 }
 
 draw(15, 15, 20)
 
-console.log(polia,'polia')
+console.log(tiles)
 
 console.log(data)
 
