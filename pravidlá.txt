@@ -22,11 +22,12 @@ EXPANSION
 5. For 1 action you can conquer exactly 1 empty tile.
 6. You can conquer any tile, that is at maximum 2 tiles (vertically, horizontally, diagonally or these ways combined...) away from your current territory.
 7. You don't miove your teritory, you only expand - conquer other tiles.
-8. Later you will be able to fight for the territory with other players.
+8. Later in the game you will be able to fight for the territory with other players.
 
 CONQUERING
 
-1. When fighting, for each tile you can calculate the attackers strength, and the defenders defence.
+1. When fighting, for each tile you can calculate the attack on this tile and also this tile's defence.
+1. A file without elements has in default the power of 1. That means it's defense - supporting the tile itself and supporting adjacent tiles is 1 and it's attack on adjacent tiles is 1 as well.
 2. By default, the defender has a defence of 1, because of the tile itself having this basic defence.
 3. The defending tile has support from every adjacent friendly tile, for each tile it is 1 extra support = defence.
 ?support from other players vs combined attack; diplomacy; alances
@@ -34,13 +35,21 @@ CONQUERING
 5. This means that only the adjacent tiles are counted when calculating the attacker's strength and the defender's defence. Also the defender has always one extra defence for the tile itself.
 6. When talking about adjacent tiles, we mean the diagonally adjacent tiles as well.
 7. Any field is conquerable only when the attacker's power is greater than the defender's defence.
-8. For conquering a field of another player, you need to use the number of actions the current owner used to conquer this tile. For a tile without elements or features, this is one.
-
-/////////////////////////potialto som zatial prebehol pravidla
-
-Some fields have different values of defence and attack than others (but all of them have same amout of attack as defence), we can refer to them as power
+8. For conquering a field of another player, you need to use the number of actions the first owner used to conquer this tile. For a tile without elements or features, this is one.
 
 ELEMENTS
+
+1. Elements are the second layer of the map. They add extra places where you can fortify your position and fight.
+2. Each of the elements has a number connected to it.
+3. This number influences the size of the element, the actions you spend to conquer one tile of this element. Also the elements power = it's defence and attack.
+4. When conquering a neutral element, you need to spend as much actions as the number connected to it. You need to attack on the field with the power equal to the element's connected number.
+5. If it were a conquered element, you need to spend the same ammount of actions, however your attack must be atleast one higher than the defence of this tile.
+	1. Mountains (3) - spawns in lines of 3, you need 3 actions to conquer it and also 3 attack strength (for a neutral mountain), it attacks and defends with the power of 3, the color is brown
+	2. Lakes (2) - spawns in lines of 2, you need 2 actions to conquer it and also 3 attack strength (for a neutral lake), it attacks and defends with the power of 2, the color is blue
+	3. Castle (4) - you need 4 actions to conquer it and also 4 attack strength (for a neutral castle), it attacks and defends with the power of 2, a specific property of castle is, that it does not spawn in lines of 4 (currently it spawns as a single tile), another specific property is that it spawns in the third layer - as a feature, meaning it can spawn alone but also f.e. on top of a mountain (see FEAtURES), the color is gray
+	
+	//////////////////////////////here
+	
 Mountains - brown, spawn in lines of three, every one of them has power of 3
 Lakes - blue, power of 2
 Sweet woods - beige, power of 2         ---you can cut them and you will get wood, power of the field will be 1
