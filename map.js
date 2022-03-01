@@ -6,7 +6,20 @@
 //?zlato sa spawne obkolesene samymi elementami
 //?spolocne vlastnosti (banovanie moze byt jednostranne ak nie je zadefinovane inak)
 //seapre script per vykreslovanie mapy
-
+// including other files
+function include(file) {
+  
+  var script  = document.createElement('script');
+  script.src  = file;
+  script.type = 'text/javascript';
+  script.defer = true;
+  
+  document.getElementsByTagName('head').item(0).appendChild(script);
+  
+}
+  
+/* Include Many js files */
+include('https://https://matusmlady.github.io/azivon/draw.js');
 
 dimension = 20
 
