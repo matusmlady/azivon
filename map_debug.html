@@ -2,10 +2,16 @@
 <html lang='sk'>
 <head>
 <meta charset='UTF-8' />
-<style>body {background-color: black}</style>
+<style>body {background-color: black; color: white}</style>
 </head>
 <body>
-<div id="canvasMain"><canvas id="map" style="width:500px; height:500px; border:1px solid black"></canvas></div>
+
+<div><form action='javascript:unofficialMain()'><label for="columns">columns:</label><input id='columns' type="number" min="1" max="100" autocomplete="off"></br><label for="rows">rows:</label><input id='rows' type="number" min="1" max="100" autocomplete="off"></br><button type='submit'>generate</button></form></div>
+
+<div id="canvasMain"><canvas id="map" style="width:500px;height:500px;border:1px solid black"></canvas></div>
+
+<script stc='drawing.js'></script>
 <script src='map.js'></script>
+
 </body>
 </html>
