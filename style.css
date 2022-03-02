@@ -1,6 +1,7 @@
 body {
       background-color: rgba(2, 2, 2, 0.91);
       text-align: justify;
+      color: white;
 }
 h1 {
     color: white;
@@ -13,7 +14,7 @@ h2 {
     text-align: center;
 }
 h3 {
-       color: white;
+       color: black;
        font-family: Calibri;
        text-align: center;
 }
