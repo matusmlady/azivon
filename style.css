@@ -13,7 +13,7 @@ h2 {
     text-align: center;
 }
 h3 {
-       color: black;
+       color: white;
        font-family: Calibri;
        text-align: center;
 }
@@ -38,7 +38,7 @@ h3 {
           margin: auto;
           text-align: justify;
           /* offset-x, offset-y, blur-radius, spread-radius, color */
-          box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0, 0, 0, 0.88);
+          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.92), 0 6px 6px rgba(0, 0, 0, 0.88);
 
 }
 .menu {
