@@ -29,7 +29,7 @@ h3 {
            text-align: center;
 }
 .kecy {
-          background-color: hsl(10, 0%, 100%);
+          background-color: rgba(0, 0, 0, 0.92);
           font-family: Calibri;
           width: 500px;
           padding: 10px;
