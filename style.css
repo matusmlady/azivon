@@ -25,7 +25,7 @@ h3 {
 .formular {
            margin: auto;
            font-family: Calibri;
-           color: white
+           background-color: hsl(10, 0%, 100%);
 }
 .kecy {
           background-color: hsl(10, 0%, 100%);
