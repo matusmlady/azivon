@@ -20,7 +20,7 @@ h3 {
 .generator {
              width: 300px; 
              height: 300px; 
-             border: 1px solid black;
+             border: 1px solid rgba(2, 2, 2, 0.91);
              margin: auto; 
 }
 .kecy {
