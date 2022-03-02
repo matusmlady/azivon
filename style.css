@@ -26,12 +26,15 @@ h3 {
            margin: auto;
            font-family: Calibri;
            background-color: hsl(10, 0%, 100%);
+           text-align: center;
 }
 .kecy {
           background-color: hsl(10, 0%, 100%);
           font-family: Calibri;
           width: 500px;
           padding: 10px;
+          padding-left: 20px;
+          padding.right: 20px;
           margin: auto;
           text-align: justify;
           /* offset-x, offset-y, blur-radius, spread-radius, color */
