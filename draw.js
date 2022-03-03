@@ -3,7 +3,7 @@ function draw(columns, rows, dimension){
   function floors(){
     for (r = 0; r < rows; r++){
       for (c = 0; c < columns; c++){
-        ctx.fillStyle = data[tiles[r*columns+c].podlazie.chosen].color
+        ctx.fillStyle = data[tiles[r*columns+c].flooring.chosen].color
         ctx.beginPath()
         ctx.rect(c*dimension, r*dimension, dimension, dimension)
         ctx.fill()
