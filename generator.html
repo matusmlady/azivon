@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang='en'>
+<link rel="stylesheet" href="style.css">
+<head>
+ <meta charset='UTF-8' />
+ <title>Azivon</title>
+</head>
+<body>
+  <div class = "generator" id="canvasMain"><canvas id="map" style="margin-bottom: 20px;"></canvas></div>
+
+  <div><form action='javascript:unofficialMain()'>
+  <label for="columns">columns:</label><input id='columns' type="number" min="2" max="100" autocomplete="off"></br>
+  <label for="rows">rows:</label><input id='rows' type="number" min="2" max="100" autocomplete="off"></br>
+  <label for="name">name:</label><input id='name' type="text" pattern='[A-Za-z][A-Za-z0-9]*' maxlength="25" autocomplete="off" oninvalid="setCustomValidity('Please start with a letter, then you can also use numbers.')"></br>
+  <label for="type">layer: </label><select id="type"><option value="flooring">flooring</option><option value="element">element</option><option value="feature">feature</option></select></br>
+  <button type='submit'>generate</button></form></div>
+
+ <script src='draw.js'></script>
+ <script src='map.js'></script>
+</body>
+</html>
