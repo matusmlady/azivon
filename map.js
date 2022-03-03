@@ -335,8 +335,6 @@ function main(columns, rows){
 
 }
 
-  main(15, 15)
-  draw(15, 15, dimension)
 
 document.getElementById("columns").defaultValue = 15;
 document.getElementById("rows").defaultValue = 15;
