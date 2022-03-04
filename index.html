@@ -33,6 +33,7 @@
    <button type="button"><a href="#setup">Setup</a></button>
    <button type="button"><a href="#warehouse">Warehouse</a></button>
    <button type="button"><a href="#expansion">Expansion</a></button>
+   <button type="button"><a href="#conquering">Conquering</a></button>
  </div></p>
  <div class="kecy">
    <p> &emsp; In this section of our website, we will try to explain rules of this beautiful game. (Disclaimer: adjust the rules as you wish! This is mainly for inspiration. Of course feel free to use them.) </p>
@@ -55,7 +56,7 @@
    <li>When you use actions from the warehouse you can simply cross them off of the stored actions.</li>
   </ol>
   
-  <p><h4 id = "expansion">Expansion</h4>
+  <h4 id = "expansion">Expansion</h4>
   <ol>
    <li>You expand by counquering tiles.</li> 
    <li>For 1 action you can conquer exactly 1 <b>empty</b> tile.</li>
@@ -64,7 +65,19 @@
    <li>Later in the game you will be able to fight for the territory with other players.</li>
   </ol>
   <!--Tu by bolo možno dobré dať nejakú animáciu rozširovania sa. -->
-
+  
+  <h4 id = "conquering">Conquering</h4>
+  <ol>
+   <li>When fighting, for each tile you can calculate the attack on this tile and also this tile's defence.</li>
+   <li>A file without elements has in default the power of 1. That means it's defense - supporting the tile itself and supporting adjacent tiles is 1 and it's attack on adjacent tiles is 1 as well.</li>
+   <li>By default, the defender has a defence of 1, because of the tile itself having this basic defence.</li>
+   <li>The defending tile has support from every adjacent friendly tile, for each tile it is 1 extra support = defence. ?support from other players vs combined attack; diplomacy; alances</li> <!-- tá veta začínajuca otáznikam je už finálna verzia aelbo sa to má ešte upravovať xd? -->
+   <li>The attacker on the other hand, has 1 attack strength for each adjacent attacking tile.</li>
+   <li>This means that only the adjacent tiles are counted when calculating the attacker's strength and the defender's defence. Also the defender has always one extra defence for the tile itself.</li>
+   <li>When talking about adjacent tiles, we mean the diagonally adjacent tiles as well.</li>
+   <li>Any field is conquerable only when the attacker's power is greater than the defender's defence.</li>
+   <li>For conquering a field of another player, you need to use the number of actions the first owner used to conquer this tile. For a tile without elements or features, this is one.</li>
+  </ol> 
   </div>
  <script src='draw.js'></script>
  <script src='map.js'>
