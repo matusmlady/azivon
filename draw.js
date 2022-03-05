@@ -48,12 +48,25 @@ function draw(columns, rows, dimension){
       }
     }
   }
-  
+  function loot(){
+    ctx.font = "14px Arial"     
+    ctx.fillStyle = 'black';
+    for(var i = 0; i < data.loot.list.length; i++){
+      ctx.rotate(90 * Math.PI / 180);
+      ctx.fillText(data.loot.list[i],0,-columns*dimension-5-i*dimension);
+      ctx.rotate(270 * Math.PI / 180);
+      for (var x =0; x < data.loot[data.loot["list"][i]].length; x++){
+        console.log(data.loot[data.loot["list"][i]][x]);
+        ctx.fillText(data.loot[data.loot["list"][i]][x],columns*dimension+i*dimension+5,60+x*20);
+
+      }         
+    }
+  }
   c = document.getElementById("map")//
-  c.width = columns * dimension 
+  c.width = columns * dimension + 50
   c.height = rows * dimension 
   
-  c.style.width = columns * dimension + 'px'
+  c.style.width = columns * dimension + 50 + 'px'
   c.style.height = rows * dimension + 'px'
   
   ctx = document.getElementById("map").getContext("2d")////////////////
@@ -62,6 +75,7 @@ function draw(columns, rows, dimension){
   floors()
   elements()
   features()
+  loot()
 }
 
 
