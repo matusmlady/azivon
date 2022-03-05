@@ -1,4 +1,3 @@
-//
 //single quotes
 //english
 
@@ -60,12 +59,12 @@ data.feature.list = []
 data.desert = new farba("desert", "flooring", "yellow", 25, [{action: 0, colors: ["snow"], radiuses: [1, 2, 3]}, {action: 50, colors: ["desert"], radiuses: [1, 2, 3]}, {action: 0, colors: ["woods"], radiuses: [0]}], undefined, undefined)
 data.snow = new farba("snow", "flooring", "white", 50, [{action: 0, colors: ["desert", "sahara"], radiuses: [1, 2, 3]}, {action: 50, colors: ["snow"], radiuses: [1, 2, 3]}], undefined, undefined)
 data.grass = new farba("grass", "flooring", "green", 250, undefined, undefined, undefined)
-data.water = new farba("water", "flooring", "blue", 5, [{action: 80, colors: ["water"], radiuses: [1, 2, 3]}, {action: 0, colors: ["material", "mountains", "lake", "woods", "village", "silver", "gold", "castle"], radiuses: [0]}], undefined, undefined)
+data.water = new farba("water", "flooring", "blue", 5, [{action: 80, colors: ["water"], radiuses: [1, 2, 3]}, {action: 0, colors: ["material", "mountains", "lake", "woods", "village", "metal", "gold", "castle"], radiuses: [0]}], undefined, undefined)
 data.sahara = new farba("sahara", "flooring", "gold", 25, [{action: 0, colors: ["snow"], radiuses: [1, 2, 3]}, {action: 40, colors: ["sahara"], radiuses: [1, 2, 3]}, {action: 10, colors: ["water"], radiuses: [1, 2, 3]}, {action: 0, colors: ["woods"], radiuses: [0]}], undefined, undefined)
 //pridat flooring nic = none
 data.mountains = new farba("mountains", "element", "brown", 5, [{action: 0, colors: ["water"], radiuses: [0]}], 3, undefined)
-data.woods = new farba("woods", "element", "burlywood", 5, [{action: 0, colors: ["water", "desert", "sahara", "village", "silver", "gold", "castle"], radiuses: [0]}], 2, undefined)
-data.lake = new farba("lake", "element", "aqua", 5, [{action: 0, colors: ["water", "village", "silver", "gold", "castle", "material"], radiuses: [0]}], 2, undefined)
+data.woods = new farba("woods", "element", "burlywood", 5, [{action: 0, colors: ["water", "desert", "sahara", "village", "metal", "gold", "castle"], radiuses: [0]}], 2, undefined)
+data.lake = new farba("lake", "element", "aqua", 5, [{action: 0, colors: ["water", "village", "metal", "gold", "castle", "material"], radiuses: [0]}], 2, undefined)
 data.noElement = new farba("noElement", "element", "none", 100, undefined, undefined, undefined)
 
 data.noFeature = new farba("noFeature", "feature", "none", 200, undefined, undefined, undefined)
@@ -345,15 +344,14 @@ function main(columns, rows){
 function unofficialMain(columnsArg = Number(document.getElementById("columns").value), rowsArg = Number(document.getElementById("rows").value)){
   main(columnsArg, rowsArg)
   draw(columnsArg, rowsArg, dimension)
+  
+  console.log(tiles)
+  console.log(data)
+  console.log(data.count)
+  console.log(data.loot)
 }
 
-console.log(tiles)
 
-console.log(data)
-
-console.log(data.count)
-
-console.log(data.loot)
 
 
 
