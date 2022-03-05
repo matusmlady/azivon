@@ -63,11 +63,11 @@ function draw(columns, rows, dimension){
     }
   }
   c = document.getElementById("map")//
-  c.width = columns * dimension + 50
+  c.width = columns * dimension 
   c.height = rows * dimension 
   
-  c.style.width = columns * dimension + 50 + 'px'
-  c.style.height = rows * dimension + 'px'
+  c.style.width = columns * dimension + data.loot.list.length*dimension + 10 + 'px'
+  c.style.height = rows * dimension +data.loot.list.length*dimension + 10 + 'px'
   
   ctx = document.getElementById("map").getContext("2d")////////////////
   ctx.strokeStyle = "black"
@@ -77,8 +77,3 @@ function draw(columns, rows, dimension){
   features()
   loot()
 }
-
-
-
-
-
