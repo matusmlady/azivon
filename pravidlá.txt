@@ -57,7 +57,7 @@ FEATURES
 2. They are displayed on top of everything.
 3. To obtain them just conquer the tile without any additional cost.
 	1. Gold - after stepping on it, you can take one surrounding tile for free. However it can not contain any element or feature and it has to be neutral. It is gold.
-	2. Village - after stepping on it you receive the loot on top of the treasure, located on the right side of the map. After obtaining the loot you cross it out. The next village someone stepps on, provides the next loot, etc.
+	2. Village - after stepping on it you receive the loot on top of the treasure, located on the right side of the map. After obtaining the loot you cross it out. The next village someone stepps on, provides the next loot, etc. Villages are red.
 
 	...........................potialto
 	
