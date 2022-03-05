@@ -347,8 +347,6 @@ function unofficialMain(columnsArg = Number(document.getElementById("columns").v
   draw(columnsArg, rowsArg, dimension)
 }
 
-unofficialMain(Number(document.getElementById("columns").value), Number(document.getElementById("rows").value))
-
 console.log(tiles)
 
 console.log(data)
