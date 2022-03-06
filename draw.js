@@ -50,7 +50,7 @@ function draw(columns, rows, dimension){
   }
   function loot(){
     ctx.font = "14px Arial"     
-    ctx.fillStyle = 'black';
+    ctx.fillStyle = 'white';
     for(var i = 0; i < data.loot.list.length; i++){
       ctx.rotate(90 * Math.PI / 180);
       ctx.fillText(data.loot.list[i],0,-columns*dimension-5-i*dimension);
@@ -63,11 +63,11 @@ function draw(columns, rows, dimension){
     }
   }
   c = document.getElementById("map")//
-  c.width = columns * dimension 
-  c.height = rows * dimension 
+  c.width = columns * dimension + data.loot.list.length*dimension + 10
+  c.height = rows * dimension + 60*20
   
   c.style.width = columns * dimension + data.loot.list.length*dimension + 10 + 'px'
-  c.style.height = rows * dimension +data.loot.list.length*dimension + 10 + 'px'
+  c.style.height = rows * dimension + 60*20+ 'px'
   
   ctx = document.getElementById("map").getContext("2d")////////////////
   ctx.strokeStyle = "black"
