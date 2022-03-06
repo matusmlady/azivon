@@ -51,11 +51,9 @@ function draw(columns, rows, dimension){
   function loot(){
     ctx.font = "14px Arial"     
     ctx.fillStyle = 'white';
-    for(var i = 0; i < data.loot.list.length; i++){
+    for(var i = 0; i < data.loot.list.length && data.loot[data.loot["list"][i]].length>0; i++){
       ctx.rotate(90 * Math.PI / 180);
-      if(data.loot[data.loot["list"][i]].length>0){
-        ctx.fillText(data.loot.list[i],0,-columns*dimension-5-i*dimension);
-      }
+      ctx.fillText(data.loot.list[i],0,-columns*dimension-5-i*dimension);
       ctx.rotate(270 * Math.PI / 180);
       for (var x =0; x < data.loot[data.loot["list"][i]].length; x++){
         console.log(data.loot[data.loot["list"][i]][x]);
