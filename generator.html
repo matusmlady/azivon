@@ -1,37 +1,67 @@
 <!DOCTYPE html>
-<html lang='en'>
-<link rel="stylesheet" href="style.css">
+<html lang='sk'>
 <head>
- <meta charset='UTF-8' />
- <title>Azivon</title>
+<meta charset='UTF-8' />
+<style>body {background-color: black; color: white}</style>
 </head>
 <body>
-  <div class = "generator" id="canvasMain"><canvas id="map" style="margin-bottom: 20px;"></canvas></div>
-
-  <div><form action='javascript:unofficialMain()'>
-  <label for='columns'>columns:</label><input id='columns' type='number' min='2' max='100' value='15' required>
-  <label for='rows'>rows:</label><input id='rows' type="number" min='2' max='100' value='15' required></br></br>
-  <label for="name">name:</label><input id='name' type="text" pattern='[A-Za-z][A-Za-z0-9]*' maxlength="25" minlength='1' value='label1' required></br>
-  <label for="type">layer: </label><select id='type'><option value="flooring">flooring</option><option value='element'>element</option><option value='feature'>feature</option></select></br>
-  <label for='color'>color:</label><input id='color' type='color' value='#008000' required></br>
-  <label for='ratio'>ratio:</label><input id='ratio' type='number' min='1' max='10000' value='1' required></br></br>
-  properties:
-  <label for='radiuses'>radiuses:</label><input id='radiuses' type='text' pattern='(?:[1-9][0-9]{0,2}|0)(?:, (?:[1-9][0-9]{0,2}|0))*' value='0' required></br>
-
-  <!--
-  oninvalid='setCustomValidity("Please start with a letter, then you can also use numbers.")'
-  oninvalid='setCustomValidity("Enter one ore more numbers separated by a comma and a space.")' 
-  autocomplete='off'
 
 
-  -->
 
-  </br><button type='submit'>generate</button></form></div>
 
- <script src='draw.js'></script>
- <script src='map.js'></script>
- <script>
-   unofficialMain(Number(document.getElementById("columns").value), Number(document.getElementById("rows").value))
- </script>
+
+
+<div><form id='mainForm' action='javascript:unofficialMain()'>
+<label for='columns'>columns:</label><input id='columns' type='number' min='2' max='100' value='15' size='3' required>
+<label for='rows'>rows:</label><input id='rows' type="number" min='2' max='100' value='15' size='3' required></br></br>
+
+
+<input id='addColorButton' type='button' value='add color' onclick='addColor(30)'></br>
+<div id='colorList'></div>
+
+
+
+<!--
+oninvalid='setCustomValidity("Please start with a letter, then you can also use numbers.")'
+oninvalid='setCustomValidity("Enter one ore more numbers separated by a comma and a space.")' 
+autocomplete='off'
+
+-->
+
+</br><button type='submit'>generate</button></form></div>
+
+
+
+
+
+<!--
+<label for='action'>action:</label><input id='action' type='number' min='-10000' max='10000' value='0' size='5' required>
+<label for='colors'>colors:</label><input id='colors' type='text' pattern='[A-Za-z][A-Za-z0-9]{0,29}(?:, (?:[A-Za-z][A-Za-z0-9]{0,29}))*' value='label1' required> //check ci nie su dvojmo a ci vobec existuju take farby; zdoraznit ze aby sa dalo s nimi pracovat treba ich zadefinovat s pomerom 0/upravit aby sa sami vygenerovali taketo farby
+<label for='radiuses'>radiuses:</label><input id='radiuses' type='text' pattern='(?:[1-9][0-9]{0,2}|0)(?:, (?:[1-9][0-9]{0,2}|0))*' value='0' required></br></br> //check ci  niesu dvojmo okruhy
+<input id='deleteProperty' type='button' value='remove' onclick='console.log(${x})'>
+-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="canvasMain"><canvas id="map" style="width:500px;height:500px;border:1px solid black"></canvas></div>
+
+<script src='draw.js'></script>
+<script src='map.js'></script>
+<script src='creator.js'></script>
+<script>
+  unofficialMain(Number(document.getElementById("columns").value), Number(document.getElementById("rows").value))
+</script>
+
+
 </body>
 </html>
