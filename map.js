@@ -42,6 +42,18 @@ data.instructions["vpravo"] = 1
 
 data.loot = new Object()
 data.loot.list = []
+data.loot.maxLoot = function(){
+  let tempMax = 0;
+  for(let x = 0; x < data.loot.list.length; x++){
+    if(tempMax<data.loot[data.loot.list[x]].length){
+      tempMax = data.loot[data.loot.list[x]].length
+    }
+  }
+  return tempMax;
+}
+
+data.loot = new Object()
+data.loot.list = []
 
 //rare spawns work
 /////////////////////////////loot sa neresetuje; hory ako by generovali loot?
