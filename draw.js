@@ -48,13 +48,15 @@ function draw(columns, rows, dimension){
     }
   }
   function loot(){
-    ctx.font = "14px Arial"     
-    ctx.fillStyle = 'white';
+    ctx.font = "16px Arial"     
+    ctx.fillStyle = 'cyan';
     for(var i = 0; i < data.loot.list.length && data.loot[data.loot["list"][i]].length>0; i++){
       ctx.rotate(90 * Math.PI / 180);
+      ctx.font = "16px Arial"
       ctx.fillText(data.loot.list[i],0,-columns*dimension-5-i*dimension);
       ctx.rotate(270 * Math.PI / 180);
       for (var x =0; x < data.loot[data.loot["list"][i]].length; x++){
+        ctx.font = "14px Arial"
         console.log(data.loot[data.loot["list"][i]][x]);
         ctx.fillText(data.loot[data.loot["list"][i]][x],columns*dimension+i*dimension+5,60+x*20);
 
