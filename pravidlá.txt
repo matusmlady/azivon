@@ -57,37 +57,25 @@ FEATURES
 2. They are displayed on top of everything.
 3. To obtain them just conquer the tile without any additional cost.
 	1. Gold - after stepping on it, you can take one surrounding tile for free. However it can not contain any element or feature and it has to be neutral. It is gold.
-	2. Village - after stepping on it you receive the loot on top of the treasure, located on the right side of the map. After obtaining the loot you cross it out. The next village someone stepps on, provides the next loot, etc. Villages are red.
+	2. Village (red) - after stepping on it you receive the loot on top of the treasure, located on the right side of the map. After obtaining the loot you cross it out. The next village someone stepps on, provides the next loot, etc.
+	3. Metal (gray) - resource you can use to reinforce builgings. One building (cottage, castle) can receive one iron, which provides +1 power to the tile. You mark a tile as reinforced by highlighting the edges of the tile with a pencil. You can mine the iron and store it. It takes up 5 places in your warehouse.
+	4. Material (pink) - allows you to build soldiers. One per one material. Soldiers are an upgrade to your tile, one tile can only have one.
+		1. Defender (circle) - By drawing a circle around your number on a given tile, it becomes a defender. This means the tile itself and adjacent tiles have +1 defence.
+		2. Attacker (triangle) - Similiar to defender, however this one provides +1 attack to surrounding tiles.
+		3. Bowman (D) - It's symbol is a D - as a bow. They change the way this tile intracts with others. The tile itself loses the +1 defense for itself. Attack and support for other tiles is moved from distance 1 to distance 2. They can't shoot through terrain that is higher/would block them. This means if sweet woods is in their way, or they are on bare surface and a mountain is in front of them.
+		4. Catapult (square) - +2 attack against structures only in the range of 2 tiles. No support. Can be built only on open terrain.
+
 
 	...........................potialto
 	
 	
-Iron - grey, it takes 5 places in inventory, use it to reinforce buildings with +1 power
-Material - shield - +1 defence around that field including that field
-         - archer - +1 range
-         - attacker 
 FLOORS
 water - 
 sand - 0 defence, 1 attack
 snow -  
 grass - 1 defence, 1 attack
 
-material
-        akcia na setup
-            stity (kruh)
-                obrana policka +1 aj okolitych
-            utocnik
-                +1utok ?+1 obrana samotneho policka
-            luky (trojuholnik)
-                dostrel policka = 2 - ?obrana aj utok
-                dosah len 2, na dosah 1 nefunguju
-                neprestreli hory les atd
-            katapulty (stvorec)
-                nicenie opevneni +2 na dosah = 2 policok 
-                stavat len na rovine
-                dosah len 2
-
-
+OTHER
 
 ak ti niekto dobyje spawn, este neviem co presne je spawn ci napr 3x3 v rohu atd, vypadavas z hry
 
