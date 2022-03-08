@@ -52,9 +52,6 @@ data.loot.maxLoot = function(){
   return tempMax;
 }
 
-data.loot = new Object()
-data.loot.list = []
-
 //rare spawns work
 /////////////////////////////loot sa neresetuje; hory ako by generovali loot?
 data.list = []////////////////////////////////////////////////////////
@@ -77,9 +74,9 @@ data.sahara = new farba("sahara", "flooring", "gold", 25, [{action: 0, colors: [
 data.mountains = new farba("mountains", "element", "brown", 5, [{action: 0, colors: ["water"], radiuses: [0]}], 3, undefined)
 data.woods = new farba("woods", "element", "burlywood", 5, [{action: 0, colors: ["water", "desert", "sahara", "village", "metal", "gold", "castle"], radiuses: [0]}], 2, undefined)
 data.lake = new farba("lake", "element", "aqua", 5, [{action: 0, colors: ["water", "village", "metal", "gold", "castle", "material"], radiuses: [0]}], 2, undefined)
-data.noElement = new farba("noElement", "element", "none", 100, undefined, undefined, undefined)
+data.noElement = new farba("noElement", "element", "none", 100, undefined, 0, undefined)
 
-data.noFeature = new farba("noFeature", "feature", "none", 200, undefined, undefined, undefined)
+data.noFeature = new farba("noFeature", "feature", "none", 200, undefined, 0, undefined)
 data.village = new farba("village", "feature", "red", 1, [{action: 0, colors: ["water", "woods", "lake"], radiuses: [0]}], undefined, {loot: true})
 data.metal = new farba("metal", "feature", "silver", 1, [{action: 0, colors: ["water", "woods", "lake"], radiuses: [0]}], undefined, undefined)
 data.gold = new farba("gold", "feature", "goldenrod", 1, [{action: 0, colors: ["water", "woods", "lake"], radiuses: [0]}], undefined, undefined)
@@ -350,9 +347,6 @@ function main(columns, rows){
 }
 
 
-
-
-
 function unofficialMain(columnsArg = Number(document.getElementById("columns").value), rowsArg = Number(document.getElementById("rows").value)){
   main(columnsArg, rowsArg)
   draw(columnsArg, rowsArg, dimension)
@@ -362,6 +356,9 @@ function unofficialMain(columnsArg = Number(document.getElementById("columns").v
   console.log(data.count)
   console.log(data.loot)
 }
+
+
+
 
 
 
