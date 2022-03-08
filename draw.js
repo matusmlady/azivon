@@ -1,4 +1,3 @@
-//new js na kreslenie veci
 function draw(columns, rows, dimension){
   function floors(){
     for (r = 0; r < rows; r++){
@@ -76,4 +75,22 @@ function draw(columns, rows, dimension){
   elements()
   features()
   loot()
+}
+/////print
+function printMap(){  
+  var dataUrl = document.getElementById('map').toDataURL();  
+  var windowContent = '<!DOCTYPE html>';
+  windowContent += '<html>'
+  windowContent += '<head><title>Azivon-THE MAP</title></head>';
+  windowContent += '<body>'
+  windowContent += '<img src="'+dataUrl+'">';
+  windowContent += '</body>';
+  windowContent += '</html>';
+  var printWin = window.open('','','width=500,height=300');
+  printWin.document.open();
+  printWin.document.write(windowContent);
+  printWin.document.close();
+  printWin.focus();
+  printWin.print();
+  printWin.close();
 }
