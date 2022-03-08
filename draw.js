@@ -48,8 +48,7 @@ function draw(columns, rows, dimension){
     }
   }
   function loot(){
-    ctx.font = "16px Arial"     
-    ctx.fillStyle = 'cyan';
+    ctx.fillStyle = 'black';
     for(var i = 0; i < data.loot.list.length && data.loot[data.loot["list"][i]].length>0; i++){
       ctx.rotate(90 * Math.PI / 180);
       ctx.font = "16px Arial"
