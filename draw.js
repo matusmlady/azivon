@@ -50,26 +50,29 @@ function draw(columns, rows, dimension){
   function loot(){
     ctx.fillStyle = 'black';
     for(var i = 0; i < data.loot.list.length && data.loot[data.loot["list"][i]].length>0; i++){
+      ctx.font = "14px Arial"
       ctx.rotate(90 * Math.PI / 180);
-      ctx.font = "16px Arial"
       ctx.fillText(data.loot.list[i],0,-columns*dimension-5-i*dimension);
       ctx.rotate(270 * Math.PI / 180);
+      ctx.font = "14px Arial"
+    
       for (var x =0; x < data.loot[data.loot["list"][i]].length; x++){
-        ctx.font = "14px Arial"
-        console.log(data.loot[data.loot["list"][i]][x]);
-        ctx.fillText(data.loot[data.loot["list"][i]][x],columns*dimension+i*dimension+5,60+x*20);
-
-      }         
+        ctx.fillText(data.loot[data.loot["list"][i]][x],columns*dimension+i*dimension+5, Math.ceil(ctx.measureText(data.loot["list"][i]).width)+23+x*20);
+      }
     }
   }
   c = document.getElementById("map")//
+  if(rows*dimension>225+dimension*data.loot.maxLoot()){
+    c.height = rows * dimension
+    c.style.height = rows * dimension + 'px'
+  }else{
+    c.height = 225+dimension*data.loot.maxLoot()
+    c.style.height = 225+dimension*data.loot.maxLoot() + 'px'
+  }
   c.width = columns * dimension + data.loot.list.length*dimension + 10
-  c.height = rows * dimension + 60*20
-  
   c.style.width = columns * dimension + data.loot.list.length*dimension + 10 + 'px'
-  c.style.height = rows * dimension + 60*20+ 'px'
   
-  ctx = document.getElementById("map").getContext("2d")
+  ctx = c.getContext("2d")
   ctx.strokeStyle = "black"
 
   floors()
@@ -77,17 +80,17 @@ function draw(columns, rows, dimension){
   features()
   loot()
 }
-/////print
+/////
 function printMap(){  
-  var dataUrl = document.getElementById('map').toDataURL();  
-  var windowContent = '<!DOCTYPE html>';
+  let dataUrl = document.getElementById('map').toDataURL();  
+  let windowContent = '<!DOCTYPE html>';
   windowContent += '<html>'
   windowContent += '<head><title>Azivon-THE MAP</title></head>';
   windowContent += '<body>'
   windowContent += '<img src="'+dataUrl+'">';
   windowContent += '</body>';
   windowContent += '</html>';
-  var printWin = window.open('','','width=500,height=300');
+  let printWin = window.open('','','width=500,height=300');
   printWin.document.open();
   printWin.document.write(windowContent);
   printWin.document.close();
