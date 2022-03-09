@@ -45,11 +45,12 @@ data.loot.list = []
 data.loot.maxLoot = function(){
   let tempMax = 0;
   for(let x = 0; x < data.loot.list.length; x++){
-    if(tempMax<data.loot[data.loot.list[x]].length){
-      tempMax = data.loot[data.loot.list[x]].length
+
+    if(tempMax<data.loot[data.loot.list[x]].length * dimension + Math.ceil(ctx.measureText(data.loot["list"][x]).width)){
+      tempMax = data.loot[data.loot.list[x]].length * dimension + Math.ceil(ctx.measureText(data.loot["list"][x]).width)
     }
   }
-  return tempMax;
+  return tempMax + 23;
 }
 
 //rare spawns work
