@@ -55,24 +55,26 @@ function draw(columns, rows, dimension){
       ctx.fillText(data.loot.list[i],0,-columns*dimension-5-i*dimension);
       ctx.rotate(270 * Math.PI / 180);
       ctx.font = "14px Arial"
-    
+
       for (var x =0; x < data.loot[data.loot["list"][i]].length; x++){
         ctx.fillText(data.loot[data.loot["list"][i]][x],columns*dimension+i*dimension+5, Math.ceil(ctx.measureText(data.loot["list"][i]).width)+23+x*20);
       }
     }
   }
-  c = document.getElementById("map")//
-  if(rows*dimension>225+dimension*data.loot.maxLoot()){
+
+  c = document.getElementById("map")
+  ctx = c.getContext("2d")
+
+  if(rows*dimension > data.loot.maxLoot()){
     c.height = rows * dimension
     c.style.height = rows * dimension + 'px'
   }else{
-    c.height = 225+dimension*data.loot.maxLoot()
-    c.style.height = 225+dimension*data.loot.maxLoot() + 'px'
+    c.height =  data.loot.maxLoot()
+    c.style.height = data.loot.maxLoot() + 'px'
   }
   c.width = columns * dimension + data.loot.list.length*dimension + 10
   c.style.width = columns * dimension + data.loot.list.length*dimension + 10 + 'px'
   
-  ctx = c.getContext("2d")
   ctx.strokeStyle = "black"
 
   floors()
@@ -80,7 +82,7 @@ function draw(columns, rows, dimension){
   features()
   loot()
 }
-/////
+
 function printMap(){  
   let dataUrl = document.getElementById('map').toDataURL();  
   let windowContent = '<!DOCTYPE html>';
