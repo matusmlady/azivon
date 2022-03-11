@@ -1,19 +1,14 @@
 function draw(columns, rows, dimension){
-  function floors(){
+  function floorsElementsFeature(){
     for (r = 0; r < rows; r++){
       for (c = 0; c < columns; c++){
+        //floors
         ctx.fillStyle = data[tiles[r*columns+c].flooring.chosen].color
         ctx.beginPath()
         ctx.rect(c*dimension, r*dimension, dimension, dimension)
         ctx.fill()
         ctx.stroke()
-      }
-    }
-  }
-  //?pocitat pocty kolko mam zatial vygenerovanych jednotlivych typov colors
-  function elements(){
-    for (r = 0; r < rows; r++){
-      for (c = 0; c < columns; c++){
+        //elements
         if (data[tiles[r*columns+c].element.chosen].color != "none"){
           ctx.fillStyle = data[tiles[r*columns+c].element.chosen].color
           ctx.beginPath()
@@ -29,14 +24,7 @@ function draw(columns, rows, dimension){
           ctx.stroke();
           ctx.strokeStyle = "black"
         }
-
-      }
-    }
-  }
-  
-  function features(){
-    for (r = 0; r < rows; r++){
-      for (c = 0; c < columns; c++){
+        //features
         if (data[tiles[r*columns+c].feature.chosen].color != "none"){
           ctx.fillStyle = data[tiles[r*columns+c].feature.chosen].color
           ctx.beginPath()
@@ -77,9 +65,9 @@ function draw(columns, rows, dimension){
   
   ctx.strokeStyle = "black"
 
-  floors()
-  elements()
-  features()
+  floorsElementsFeature()
+  //elements()
+  //features()
   loot()
 }
 
