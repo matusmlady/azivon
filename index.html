@@ -160,35 +160,7 @@
     }
 
   }
-  data = {
-    count: {},
-    instructions: {
-      vlavo: - 1,
-      vpravo: 1
-    },
-    list: [],
-    flooring: {
-      list: []
-    },
-    element: {
-      list: []
-    },
-    feature: {
-      list: []
-    }
-  }
-
-  data.loot = new Object()//////////////////////novy sposob zapisu tvorby objektov
-  data.loot.list = []
-  data.loot.maxLoot = function(){
-    let tempMax = 0;
-    for(const x of data.loot.list){
-      if(tempMax < data.loot[x].length * dimension + Math.ceil(ctx.measureText(data.loot[x]).width)){
-        tempMax = data.loot[x].length * dimension + Math.ceil(ctx.measureText(data.loot[x]).width)
-      }
-    }
-    return tempMax + 23;
-  }
+  
    
   data.desert = new farba("desert", "flooring", "yellow", 50, [{action: 0, colors: "snow", radiuses: "1, 2, 3"}, {action: 50, colors: "desert", radiuses: "1, 2, 3"}, {action: 0, colors: "woods", radiuses: "0"}], undefined, undefined)
   data.snow = new farba("snow", "flooring", "white", 50, [{action: 0, colors: "desert, sahara", radiuses: "1, 2, 3"}, {action: 50, colors: "snow", radiuses: "1, 2, 3"}], undefined, undefined)
@@ -207,6 +179,9 @@
   data.castle = new farba("castle", "feature", "#3B3131", 1, [{action: 0, colors: "water, woods, lake", radiuses: "0"}], undefined, undefined)
   data.material = new farba("material", "feature", "pink", 5, [{action: 0, colors: "water, lake", radiuses: "0"}], undefined, undefined)
 
+     console.log(data);
+
+   
   main(15, 15);
   draw(15, 15, dimension);
   console.log(tiles);
