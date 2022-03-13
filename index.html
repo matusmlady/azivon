@@ -136,6 +136,23 @@
  <script src='draw.js'></script>
 <script src='map.js'></script>
  <script>
+  data.desert = new farba("desert", "flooring", "yellow", 50, [{action: 0, colors: "snow", radiuses: "1, 2, 3"}, {action: 50, colors: "desert", radiuses: "1, 2, 3"}, {action: 0, colors: "woods", radiuses: "0"}], undefined, undefined)
+  data.snow = new farba("snow", "flooring", "white", 50, [{action: 0, colors: "desert, sahara", radiuses: "1, 2, 3"}, {action: 50, colors: "snow", radiuses: "1, 2, 3"}], undefined, undefined)
+  data.grass = new farba("grass", "flooring", "green", 250, undefined, undefined, undefined)
+  data.water = new farba("water", "flooring", "blue", 5, [{action: 80, colors: "water", radiuses: "1, 2, 3"}, {action: 0, colors: "material, mountains, lake, woods, village, metal, gold, castle", radiuses: "0"}], undefined, undefined)
+
+  data.mountains = new farba("mountains", "element", "brown", 5, [{action: 0, colors: "water", radiuses: "0"}], 3, undefined)
+  data.woods = new farba("woods", "element", "burlywood", 5, [{action: 0, colors: "water, desert, village, metal, gold, castle", radiuses: "0"}], 2, undefined)
+  data.lake = new farba("lake", "element", "aqua", 5, [{action: 0, colors: "water, village, metal, gold, castle, material", radiuses: "0"}], 2, undefined)
+  data.noElement = new farba("noElement", "element", "none", 100, undefined, 0, undefined)
+
+  data.noFeature = new farba("noFeature", "feature", "none", 200, undefined, 0, undefined)
+  data.village = new farba("village", "feature", "red", 1, [{action: 0, colors: "water, woods, lake", radiuses: "0"}], undefined, {loot: true})
+  data.metal = new farba("metal", "feature", "silver", 1, [{action: 0, colors: "water, woods, lake", radiuses: "0"}], undefined, undefined)
+  data.gold = new farba("gold", "feature", "goldenrod", 1, [{action: 0, colors: "water, woods, lake", radiuses: "0"}], undefined, undefined)
+  data.castle = new farba("castle", "feature", "#3B3131", 1, [{action: 0, colors: "water, woods, lake", radiuses: "0"}], undefined, undefined)
+  data.material = new farba("material", "feature", "pink", 5, [{action: 0, colors: "water, lake", radiuses: "0"}], undefined, undefined)
+
   main(15, 15);
   draw(15, 15, dimension);
   console.log(tiles);
