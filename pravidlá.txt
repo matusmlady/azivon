@@ -30,7 +30,6 @@ CONQUERING
 1. A file without elements has in default the power of 1. That means it's defense - supporting the tile itself and supporting adjacent tiles is 1 and it's attack on adjacent tiles is 1 as well.
 2. By default, the defender has a defence of 1, because of the tile itself having this basic defence.
 3. The defending tile has support from every adjacent friendly tile, for each tile it is 1 extra support = defence.
-?support from other players vs combined attack; diplomacy; alances
 4. The attacker on the other hand, has 1 attack strength for each adjacent attacking tile.
 5. This means that only the adjacent tiles are counted when calculating the attacker's strength and the defender's defence. Also the defender has always one extra defence for the tile itself.
 6. When talking about adjacent tiles, we mean the diagonally adjacent tiles as well.
@@ -69,19 +68,19 @@ FEATURES
 	...........................potialto
 	
 	
-FLOORS
-water - 
-sand - 0 defence, 1 attack
-snow -  
-grass - 1 defence, 1 attack
+FLOORINGS
+1. Fllorings are the first layer, spawned below everything.
+	1. Grass - behaves normally. It was used in all previous examples.
+	2. Desert - here you loose the 1 defence you gain from the tile itself.
+	3. Snow - when using snow in your movement, you can only move 1 tile away.
+	4. Water - Pirates are dangerous, don't get near water!
 
 OTHER
 
-ak ti niekto dobyje spawn, este neviem co presne je spawn ci napr 3x3 v rohu atd, vypadavas z hry
+1. After someone conquers your spawn, you loose!
+2. Your terittory becomes an NPC - it remains on the map and can be conquered.
+3. The game ends, when one of the players can't do anything anymore.
+4. Spawns are chosen randomly, without seeing the map first. (turn the page upside down)
+5. If there is more players than corners, choose tiles that are equally distant from each other.
 
-pust ma obranu a utok 0, pohyb ma len 1 (napr)
-
-Hra končí keď jeden z hráčov už nemôže nič robiť (ani odkladať akcie do skladu.
-	Po obsadení spawnu hráč vypadáva, z jeho územia sa stáva NPC – hráč, ktorý však nič nerobí - drzi si vsak pozicie aj obrannu silu
-	Spawny sa vyberaju nahodne, každý bez toho aby videl mapu ňou dole hlavou otočí a na záver sa otočí hore.
-	Ak je iny pocet hracov ako 4, pocet krajnych policok sa podeli poctom hracov. Takto vzdialeny od seba hraci budu. ?Prvy hrac zacina v rohu.
+KONECNE HOTOVO xd
