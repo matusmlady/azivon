@@ -1,4 +1,4 @@
-const dimension = 40
+const dimension = 20
 
 function main(columns, rows){
   tiles = []//?move to data
