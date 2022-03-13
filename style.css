@@ -18,6 +18,14 @@ h3 {
        font-family: Calibri;
        text-align: center;
 }
+.menu {
+           font-size: 13px;
+           position: fixed;
+           top: 0px;
+           text-align: center;
+           background-color: hsl(0, 0%, 100%);
+
+}
 .generator {
              width: 300px; 
              height: 300px;
@@ -43,16 +51,7 @@ h3 {
           box-shadow: 0 10px 20px rgba(0, 0, 0, 0.92), 0 6px 6px rgba(0, 0, 0, 0.88);
 
 }
-.menu {
-           width: 520px;
-           font-size: 13px;
-           position: fixed;
-           top: 0px;
-           right: 0px;
-           text-align: center;
-           background-color: hsl(0, 0%, 100%);
 
-}
 .menu_pravidla {
            font-size: 13px;
            width: 500px;
