@@ -135,7 +135,61 @@
   </div>
  <script src='draw.js'></script>
 <script src='map.js'></script>
+  <script src='creator.js'></script>
+
  <script>
+  reset()
+  class farba {////////////////////////////
+  ///?shouldn't sirka = 0 mean display color = none
+  //?different size of loot, probabilities, even return strings etc
+    constructor(label, type, color, ratio = 0, properties = [], sirka = 1, lootability = {loot: false}){
+      this.label = label
+      this.type = type
+      this.color = color
+      this.ratio = ratio
+      this.properties = properties
+      this.sirka = sirka
+      data[type].list.push(this.label)
+      data.list.push(this.label)
+      data.count[label] = 0
+      this.lootability = lootability
+      if (this.lootability.loot == true){
+        data.loot.list.push(this.label)
+      }
+          
+    }
+
+  }
+  data = {
+    count: {},
+    instructions: {
+      vlavo: - 1,
+      vpravo: 1
+    },
+    list: [],
+    flooring: {
+      list: []
+    },
+    element: {
+      list: []
+    },
+    feature: {
+      list: []
+    }
+  }
+
+  data.loot = new Object()//////////////////////novy sposob zapisu tvorby objektov
+  data.loot.list = []
+  data.loot.maxLoot = function(){
+    let tempMax = 0;
+    for(const x of data.loot.list){
+      if(tempMax < data.loot[x].length * dimension + Math.ceil(ctx.measureText(data.loot[x]).width)){
+        tempMax = data.loot[x].length * dimension + Math.ceil(ctx.measureText(data.loot[x]).width)
+      }
+    }
+    return tempMax + 23;
+  }
+   
   data.desert = new farba("desert", "flooring", "yellow", 50, [{action: 0, colors: "snow", radiuses: "1, 2, 3"}, {action: 50, colors: "desert", radiuses: "1, 2, 3"}, {action: 0, colors: "woods", radiuses: "0"}], undefined, undefined)
   data.snow = new farba("snow", "flooring", "white", 50, [{action: 0, colors: "desert, sahara", radiuses: "1, 2, 3"}, {action: 50, colors: "snow", radiuses: "1, 2, 3"}], undefined, undefined)
   data.grass = new farba("grass", "flooring", "green", 250, undefined, undefined, undefined)
