@@ -8,61 +8,31 @@
 <body>
 
 
-
-
-
-
 <div><form id='mainForm' action='javascript:unofficialMain()'>
 <label for='columns'>columns:</label><input id='columns' type='number' min='2' max='100' value='15' size='3' required>
 <label for='rows'>rows:</label><input id='rows' type="number" min='2' max='100' value='15' size='3' required></br></br>
 
 
-<input id='addColorButton' type='button' value='add color' onclick='addColor(30)'></br>
+<input id='addColorButton' type='button' value='add color' onclick='addColor()'></br>
 <div id='colorList'></div>
+<input id='addColorButton' type='button' value='add color' onclick='addColor()'></br>
+
+</br><button type='submit'>generate</button><input type="button" value="Print this map" onclick="printMap()">
 
 
 
-<!--
-oninvalid='setCustomValidity("Please start with a letter, then you can also use numbers.")'
-oninvalid='setCustomValidity("Enter one ore more numbers separated by a comma and a space.")' 
-autocomplete='off'
+<div id="canvasMain"><canvas id="map"></canvas></div>
 
--->
-
-</br><button type='submit'>generate</button></form></div>
+<input type="button" value="Print this map" onclick="printMap()"><button type='submit'>generate</button></form></div>
 
 
-
-
-
-<!--
-<label for='action'>action:</label><input id='action' type='number' min='-10000' max='10000' value='0' size='5' required>
-<label for='colors'>colors:</label><input id='colors' type='text' pattern='[A-Za-z][A-Za-z0-9]{0,29}(?:, (?:[A-Za-z][A-Za-z0-9]{0,29}))*' value='label1' required> //check ci nie su dvojmo a ci vobec existuju take farby; zdoraznit ze aby sa dalo s nimi pracovat treba ich zadefinovat s pomerom 0/upravit aby sa sami vygenerovali taketo farby
-<label for='radiuses'>radiuses:</label><input id='radiuses' type='text' pattern='(?:[1-9][0-9]{0,2}|0)(?:, (?:[1-9][0-9]{0,2}|0))*' value='0' required></br></br> //check ci  niesu dvojmo okruhy
-<input id='deleteProperty' type='button' value='remove' onclick='console.log(${x})'>
--->
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div id="canvasMain"><canvas id="map" style="width:500px;height:500px;border:1px solid black"></canvas></div>
 
 <script src='draw.js'></script>
 <script src='map.js'></script>
 <script src='creator.js'></script>
 <script>
-  unofficialMain(Number(document.getElementById("columns").value), Number(document.getElementById("rows").value))
+  initial(Number(document.getElementById("columns").value), Number(document.getElementById("rows").value))
 </script>
-
 
 </body>
 </html>
