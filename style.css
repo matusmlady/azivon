@@ -23,19 +23,6 @@ h3 {
            position: fixed;
            top: 0px;
            background-color: hsl(0, 0%, 100%);
-
-}
-.generator {
-             width: 300px; 
-             height: 300px;
-             margin: auto;
-             margin-bottom: 20px;    
-}
-.formular {
-           margin: auto;
-           font-family: Calibri;
-           background-color: hsl(10, 0%, 100%);
-           text-align: center;
 }
 .kecy {
           background-color: rgba(0, 0, 0, 0.92);
@@ -48,25 +35,41 @@ h3 {
           text-align: justify;
           /* offset-x, offset-y, blur-radius, spread-radius, color */
           box-shadow: 0 10px 20px rgba(0, 0, 0, 0.92), 0 6px 6px rgba(0, 0, 0, 0.88);
-
 }
-
+.generator {
+             width: 300px; 
+             height: 300px;
+             margin: auto;
+             margin-bottom: 20px;    
+}
+.tlacitka_generator {
+           font-size: 13px;
+           width: 500px;
+           text-align: center;
+           background-color: hsl(0, 0%, 100%);
+           margin: auto;
+}
+.formular {
+           margin: auto;
+           font-family: Calibri;
+           background-color: hsl(10, 0%, 100%);
+           text-align: center;
+}
 .menu_pravidla {
            font-size: 13px;
            width: 500px;
            text-align: center;
            background-color: hsl(0, 0%, 100%);
            margin: auto;
-           
-
+}
 button {
         background-color: hsl(0, 0%, 100%);
-       }
+}
 button:hover {
               animation-name: background-color-2;
               animation-duration: 500ms;
               animation-fill-mode: forwards;
-                 }
+}
 @keyframes background-color-2 {
                                100% {
                                       background-color: blue;
