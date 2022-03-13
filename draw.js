@@ -18,9 +18,9 @@ function draw(columns, rows, dimension){
           
           ctx.strokeStyle = "lime"
           ctx.beginPath();
-          ctx.moveTo(tiles[tiles[r*columns+c].element.rozmery[0]].vlavo * dimension + dimension / 2, tiles[tiles[r*columns+c].element.rozmery[0]].hore * dimension + dimension / 2);
-          let poslednyRozmer = tiles[r*columns+c].element.rozmery.length - 1
-          ctx.lineTo(tiles[tiles[r*columns+c].element.rozmery[poslednyRozmer]].vlavo * dimension + dimension / 2, tiles[tiles[r*columns+c].element.rozmery[poslednyRozmer]].hore * dimension + dimension / 2);
+          ctx.moveTo(tiles[tiles[r*columns+c].element.dimensions[0]].vlavo * dimension + dimension / 2, tiles[tiles[r*columns+c].element.dimensions[0]].hore * dimension + dimension / 2);
+          let poslednyRozmer = tiles[r*columns+c].element.dimensions.length - 1
+          ctx.lineTo(tiles[tiles[r*columns+c].element.dimensions[poslednyRozmer]].vlavo * dimension + dimension / 2, tiles[tiles[r*columns+c].element.dimensions[poslednyRozmer]].hore * dimension + dimension / 2);
           ctx.stroke();
           ctx.strokeStyle = "black"
         }
