@@ -1,6 +1,6 @@
 function animácia1() {
-    var c = document.getElementById("animacia1"); // First of all, you must find the <canvas> element. This is done by using the HTML DOM method getElementById().
-    var ctx = c.getContext("2d"); //Secondly, you need a drawing object for the canvas. The getContext() is a built-in HTML object, with properties and methods for drawing.
+    let c = document.getElementById("animacia1"); // First of all, you must find the <canvas> element. This is done by using the HTML DOM method getElementById().
+    let ctx = c.getContext("2d"); //Secondly, you need a drawing object for the canvas. The getContext() is a built-in HTML object, with properties and methods for drawing.
     c.height = 500;
     
     savedData = new Image();
@@ -66,8 +66,8 @@ function animácia1() {
     ctx.strokeStyle = "red";
     ctx.fillStyle = "red";
     setTimeout(function() {ctx.font = "70px Arial"}, 500);
-    var x = 30;
-    var y = 70;
+    let x = 30;
+    let y = 70;
 
     
 
@@ -120,15 +120,6 @@ function animácia1() {
         ctx.fillStyle = "red";
         cislo(x, y)
         }, 4500);
-    /* setTimeout(function() {
-        ctx.strokeStyle = "green";
-        stvorec(0, 0, 300, 300);
-        ctx.strokeStyle = "black";
-        ctx.lineWidth = 1;
-        stvorec(0, 0, 300, 300);
-        ctx.lineWidth = 5;
-        ctx.strokeStyle = "red";
-        }, 4500); */
 
     //animácia stvorca ohraničujuceho možnosti na pohyb
     setTimeout(function() {stvorec(3, 3, 495, 495)}, 5000);
