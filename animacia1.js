@@ -1,5 +1,5 @@
 function animácia1() {
-    var c = document.getElementById("animacia"); // First of all, you must find the <canvas> element. This is done by using the HTML DOM method getElementById().
+    var c = document.getElementById("animacia1"); // First of all, you must find the <canvas> element. This is done by using the HTML DOM method getElementById().
     var ctx = c.getContext("2d"); //Secondly, you need a drawing object for the canvas. The getContext() is a built-in HTML object, with properties and methods for drawing.
     c.height = 500;
     
