@@ -150,5 +150,6 @@ function animácia1() {
     
     // animácia kruhu vpravo dole
     setTimeout(function() {cislo(x += 200, y += 200)}, 8000);
+    setTimeout(animácia1, 9000);
     }
     animácia1();
