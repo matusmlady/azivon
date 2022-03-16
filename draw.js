@@ -1,40 +1,32 @@
+dimension = 40
+
 function draw(columns, rows, dimension){
-  function floorsElementsFeature(){
+  function floorsFeatures(arg1, arg2, arg3){
     for (r = 0; r < rows; r++){
       for (c = 0; c < columns; c++){
-        //floors
-        ctx.fillStyle = data[tiles[r*columns+c].flooring.chosen].color
-        ctx.beginPath()
-        ctx.rect(c*dimension, r*dimension, dimension, dimension)
-        ctx.fill()
-        ctx.stroke()
-        //elements
-        if (data[tiles[r*columns+c].element.chosen].color != "none"){
-          ctx.fillStyle = data[tiles[r*columns+c].element.chosen].color
+        if (data[tiles[r*columns+c][arg3].chosen].color != "none"){
+          ctx.fillStyle = data[tiles[r*columns+c][arg3].chosen].color
           ctx.beginPath()
-          ctx.rect(c * dimension + dimension / 5, r * dimension + dimension / 5, dimension / 5 * 3, dimension / 5 * 3)
+          ctx.rect(c*dimension + arg1, r*dimension + arg1 , dimension / arg2, dimension / arg2)
           ctx.fill()
           ctx.stroke()
-          
+
           ctx.strokeStyle = "lime"
           ctx.beginPath();
-          ctx.moveTo(tiles[tiles[r*columns+c].element.dimensions[0]].vlavo * dimension + dimension / 2, tiles[tiles[r*columns+c].element.dimensions[0]].hore * dimension + dimension / 2);
-          let poslednyRozmer = tiles[r*columns+c].element.dimensions.length - 1
-          ctx.lineTo(tiles[tiles[r*columns+c].element.dimensions[poslednyRozmer]].vlavo * dimension + dimension / 2, tiles[tiles[r*columns+c].element.dimensions[poslednyRozmer]].hore * dimension + dimension / 2);
+          ctx.moveTo(tiles[tiles[r*columns+c][arg3].dimensions[0]].vlavo * dimension + dimension / 2, tiles[tiles[r*columns+c][arg3].dimensions[0]].hore * dimension + dimension / 2);
+          let poslednyRozmer = tiles[r*columns+c][arg3].dimensions.length - 1
+          ctx.lineTo(tiles[tiles[r*columns+c][arg3].dimensions[poslednyRozmer]].vlavo * dimension + dimension / 2, tiles[tiles[r*columns+c][arg3].dimensions[poslednyRozmer]].hore * dimension + dimension / 2);
           ctx.stroke();
           ctx.strokeStyle = "black"
-        }
-        //features
-        if (data[tiles[r*columns+c].feature.chosen].color != "none"){
-          ctx.fillStyle = data[tiles[r*columns+c].feature.chosen].color
-          ctx.beginPath()
-          ctx.rect(c * dimension + dimension / 3, r * dimension + dimension / 3, dimension / 3, dimension / 3)
-          ctx.fill()
-          ctx.stroke()
+
+
         }
       }
     }
   }
+
+  //?pocitat pocty kolko mam zatial vygenerovanych jednotlivych typov colors
+  
   function loot(){
     ctx.fillStyle = 'black';
     for(var i = 0; i < data.loot.list.length && data.loot[data.loot["list"][i]].length>0; i++){
@@ -43,13 +35,13 @@ function draw(columns, rows, dimension){
       ctx.fillText(data.loot.list[i],0,-columns*dimension-5-i*dimension);
       ctx.rotate(270 * Math.PI / 180);
       ctx.font = "14px Arial"
-
+    
       for (var x =0; x < data.loot[data.loot["list"][i]].length; x++){
         ctx.fillText(data.loot[data.loot["list"][i]][x],columns*dimension+i*dimension+5, Math.ceil(ctx.measureText(data.loot["list"][i]).width)+23+x*20);
       }
     }
   }
-
+  
   c = document.getElementById("map")
   ctx = c.getContext("2d")
 
@@ -65,11 +57,26 @@ function draw(columns, rows, dimension){
   
   ctx.strokeStyle = "black"
 
-  floorsElementsFeature()
-  //elements()
-  //features()
+  floorsFeatures(0, 1, "flooring")
+  floorsFeatures(dimension/5, 5/3, "element")
+  floorsFeatures(dimension/3, 3, "feature")
   loot()
-}
+  console.log(data)
+  /*
+  ctx.beginPath()
+  ctx.moveTo(c * dimension + tiles[r*columns+c].element.vpravo[0] * dimension, r * dimension + tiles[r*columns+c].element.vpravo[1] * dimension)
+  ctx.lineTo(c * dimension + tiles[r*columns+c].element["vpravo,dole"][0] * dimension, r * dimension + tiles[r*columns+c].element["vpravo,dole"][1] * dimension)
+  ctx.lineTo(c * dimension + tiles[r*columns+c].element.dole[0] * dimension, r * dimension + tiles[r*columns+c].element.dole[1] * dimension)
+  ctx.lineTo(c * dimension + tiles[r*columns+c].element["vlavo,dole"][0] * dimension, r * dimension + tiles[r*columns+c].element["vlavo,dole"][1] * dimension)
+  ctx.lineTo(c * dimension + tiles[r*columns+c].element.vlavo[0] * dimension, r * dimension + tiles[r*columns+c].element.vlavo[1] * dimension)
+  ctx.lineTo(c * dimension + tiles[r*columns+c].element["vlavo,hore"][0] * dimension, r * dimension + tiles[r*columns+c].element["vlavo,hore"][1] * dimension)
+  ctx.lineTo(c * dimension + tiles[r*columns+c].element.hore[0] * dimension, r * dimension + tiles[r*columns+c].element.hore[1] * dimension)
+  ctx.lineTo(c * dimension + tiles[r*columns+c].element["vpravo,hore"][0] * dimension, r * dimension + tiles[r*columns+c].element["vpravo,hore"][1] * dimension)
+
+  ctx.closePath()
+  ctx.fill()
+  ctx.stroke()
+  */
 
 function printMap(){  
   let dataUrl = document.getElementById('map').toDataURL();  
