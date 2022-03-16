@@ -65,7 +65,7 @@ function animácia1() {
     }
     ctx.strokeStyle = "red";
     ctx.fillStyle = "red";
-    setTimeout(function() {ctx.font = "70px Arial"}, 500);
+    setTimeout(function() {ctx.font = "70px Calibri"}, 500);
     let x = 30;
     let y = 70;
 
