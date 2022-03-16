@@ -77,7 +77,7 @@ function draw(columns, rows, dimension){
   ctx.fill()
   ctx.stroke()
   */
-
+}
 function printMap(){  
   let dataUrl = document.getElementById('map').toDataURL();  
   let windowContent = '<!DOCTYPE html>';
