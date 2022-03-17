@@ -51,7 +51,7 @@ function animácia1() {
          ctx.fillText(" - conquerable tiles", 531, 146);
 
         // Nakreslenie pozadia
-        ctx.fillStyle = "green";
+        ctx.fillStyle = "#8BC766";
         ctx.strokeStyle = "black";
         for (let x = 0; x < 500; x = x + 100) {
             for (let y = 0; y < 500; y = y + 100) {
