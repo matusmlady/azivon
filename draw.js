@@ -41,7 +41,12 @@ function draw(columns, rows, dimension){
       }
     }
   }
-  
+  function noLoot(){
+    for(var i = 0; i < data.loot.list.length && data.loot[data.loot["list"][i]].length>0; i++){
+        return data.loot.list.length*dimension + 10;
+    }
+      return 0;
+  }
   c = document.getElementById("map")
   ctx = c.getContext("2d")
 
@@ -52,8 +57,9 @@ function draw(columns, rows, dimension){
     c.height =  data.loot.maxLoot()
     c.style.height = data.loot.maxLoot() + 'px'
   }
-  c.width = columns * dimension + data.loot.list.length*dimension + 10
-  c.style.width = columns * dimension + data.loot.list.length*dimension + 10 + 'px'
+
+  c.width = columns * dimension + noLoot()
+  c.style.width = columns * dimension + noLoot() + 'px'
   
   ctx.strokeStyle = "black"
 
