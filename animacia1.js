@@ -51,7 +51,7 @@ function animácia1() {
          ctx.fillStyle = "red";
          kruh(xl, yl += 25 , 7);
          ctx.fillStyle = "white";
-         ctx.fillText(" - conquerable tiles", xl+= 8, yl += 10);
+         ctx.fillText(" - conquerable tiles", xl+= 8, yl += 5);
          ctx.strokeStyle = "red";
          xl = 413;
          yl = 135;
