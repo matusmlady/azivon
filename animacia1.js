@@ -62,16 +62,17 @@ function animácia1() {
 
         ctx.strokeStyle = "red";
         ctx.fillStyle = "red";
-        setTimeout(function() {ctx.font = "70px Arial"}, 500);
+        let cas = 500;
+        setTimeout(function() {ctx.font = "70px Arial"}, cas);
         let x = 30;
         let y = 70;
-        let cas = 1000;
+        
         
         // animácia cisla vľavo hore a uloženie obrázka
         setTimeout(function() {
             cislo(x, y);
             savedData.src = c.toDataURL("image/png");
-        }, cas);
+        }, cas += 500);
 
         
         
