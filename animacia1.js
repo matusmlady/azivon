@@ -96,7 +96,7 @@ function animácia1() {
             }
         }
         cas = 3900;
-        setTimeout(function() {ctx.fillStyle = "green"; kruh(250, 250, 10); ctx.fillStyle = "red"}, cas);
+        setTimeout(function() {ctx.fillStyle = "#8BC766"; kruh(250, 250, 10); ctx.fillStyle = "red"}, cas);
         
 
         // animácia cisla v strede
@@ -136,7 +136,7 @@ function animácia1() {
             }
         }
         cas = 7900;
-        setTimeout(function() {ctx.fillStyle = "green"; kruh(450, 450, 10); ctx.fillStyle = "red"}, cas);
+        setTimeout(function() {ctx.fillStyle = "#8BC766"; kruh(450, 450, 10); ctx.fillStyle = "red"}, cas);
         
         // animácia kruhu vpravo dole
         setTimeout(function() {cislo(x += 200, y += 200)}, cas += 100);
