@@ -34,7 +34,7 @@ function animácia1() {
          ctx.font = " bold 18px Calibri";
          ctx.fillStyle = "white";
          ctx.fillText("Legend", xl,yl);
-         ctx.fillStyle = "green";
+         ctx.fillStyle = "#8BC766";
          ctx.strokeStyle = "black";
          xl = 413;
          yl = 45;
