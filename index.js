@@ -14,8 +14,8 @@
     feature: {
       list: []
     },
-    columns: columnsArg,
-    rows: rowsArg
+    columns: 15,
+    rows: 15
   }
   data.loot = {
     list: [],
@@ -68,5 +68,5 @@
   data.castle = new farba("castle", "feature", "#444647", 1, [{action: 0, colors: "water, woods, lake", radiuses: 0}], undefined, undefined)
   data.material = new farba("material", "feature", "#D494D0", 5, [{action: 0, colors: "water, lake", radiuses: 0}], undefined, undefined)
     
-  main(15, 15);
-  draw(15, 15, dimension);
+  main(data.columns, data.rows);
+  draw(data.columns, data.rows, dimension);
