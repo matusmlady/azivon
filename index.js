@@ -32,14 +32,14 @@
   class farba {////////////////////////////
   ///?shouldn't colorWidth = 0 mean display color = none
   //?different size of loot, probabilities, even return strings etc
-    constructor(label, type, color, ratio = 0, properties = [], colorWidth = 1, lootability = {loot: false}){
+    constructor(label, layer, color, ratio = 0, properties = [], colorWidth = 1, lootability = {loot: false}){
       this.label = label
-      this.type = type
+      this.layer = layer
       this.color = color
       this.ratio = ratio
       this.properties = properties
       this.colorWidth = colorWidth
-      data[type].list.push(this.label)
+      data[layer].list.push(this.label)
       data.list.push(this.label)
       data.count[label] = 0
       this.lootability = lootability
