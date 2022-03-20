@@ -420,6 +420,7 @@ function initial(columnsArg, rowsArg){
   draw(columnsArg, rowsArg, dimension)
 }
 
+initial(10, 10)
 
 //?automatically add a filler when length of possible outcomes is 0 instead of errors
 
