@@ -13,17 +13,12 @@
 <label for='columns'>columns:</label><input id='columns' type='number' min='2' max='100' value='15' size='3' required>
 <label for='rows'>rows:</label><input id='rows' type="number" min='2' max='100' value='15' size='3' required></br></br>
 
-
 <input id='addColorButton' type='button' value='add color' onclick='addColor()'></br>
 <div id='colorList'></div>
 <input id='addColorButton' type='button' value='add color' onclick='addColor()'></br>
 
 </br><button type='submit'>generate</button><input type="button" value="Print this map" onclick="printMap()">
-
-
-
 <div id="canvasMain"><canvas id="map"></canvas></div>
-
 <input type="button" value="Print this map" onclick="printMap()"><button type='submit'>generate</button></form></div>
 
 
@@ -31,9 +26,6 @@
 <script src='draw.js'></script>
 <script src='map.js'></script>
 <script src='creator.js'></script>
-<script>
-  initial(Number(document.getElementById("columns").value), Number(document.getElementById("rows").value))
-</script>
 
 </body>
 </html>
