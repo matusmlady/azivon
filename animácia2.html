@@ -143,6 +143,7 @@
     }, cas += 1000);
 
     // zvýraznenie sily hraca 1
+    let x1 = 28;
     setTimeout(function() {
         ctx.strokeStyle = "black";
         ctx.fillStyle = "#949437";
@@ -153,14 +154,14 @@
     }, cas += 1000);
         for (let x = dimension; x <= 2 * dimension; x += dimension) {
         let y = 2 * dimension;
-        let x1 = 28;
         let y1 = 2 * dimension + 55;
         setTimeout(function(){
             ctx.fillStyle = "#949437";
             ctx.fillRect(x, y, dimension, dimension);
             stvorec(x, y, dimension, dimension);
+            x1 += dimension;
             ctx.fillStyle = "red";
-            ctx.fillText("1", x1 += dimension, y1);
+            ctx.fillText("1", x1, y1);
             }, cas += 1000);    
         }
     
