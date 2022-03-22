@@ -14,12 +14,13 @@
 <label for='rows'>rows:</label><input id='rows' type="number" min='2' max='100' value='15' size='3' required></br></br>
 
 <input id='addColorButton' type='button' value='add color' onclick='addColor()'></br>
-<div id='colorList'></div>
+<div id='colorList'></div></br></br>
 <input id='addColorButton' type='button' value='add color' onclick='addColor()'></br>
 
-</br><button type='submit'>generate</button><input type="button" value="Print this map" onclick="printMap()">
+</br><button type='submit'>generate</button><input type="button" value="Print this map" onclick="printMap()"><a id='fileExport' href='' download='azivon.json'><input type="button" value="Export setup" onclick='exportSetup()'></a><input id='fileInput' type='file' accept='.json' style='display:none' onchange='importSetup()'><input type='button' value='Import setup' onclick='document.getElementById("fileInput").click()'>
 <div id="canvasMain"><canvas id="map"></canvas></div>
-<input type="button" value="Print this map" onclick="printMap()"><button type='submit'>generate</button></form></div>
+
+<input type="button" value="Print this map" onclick="printMap()"><button type='submit'>generate</button><a id='fileExport' href='' download='azivon.json'><input type="button" value="Export setup" onclick='exportSetup()'></a><input id='fileInput' type='file' accept='.json' style='display:none' onchange='importSetup()'><input type='button' value='Import setup' onclick='document.getElementById("fileInput").click()'></form></div>
 
 <a id='fileExport' href='' download='azivon.json'><input type="button" value="Export setup" onclick='exportSetup()'></a>
 <input id='fileInput' type='file' accept='.json' style='display:none' onchange='importSetup()'>
