@@ -8,21 +8,26 @@ function addColor(name = "label"+count, layer = "flooring", color = "#8BC766", r
   elmnt.setAttributeNode(att)
   document.getElementById('colorList').appendChild(elmnt)
 
-  document.getElementById('label'+count).innerHTML += "<label for='name"+count+"'>name:</label><input id='name"+count+"' type='text' pattern='(?:[A-Za-z][A-Za-z0-9]*)(?<!noFeature|grass|noElement)' maxlength='20' minlength='1' value='"+name+"' size='15' required>"
-  document.getElementById('label'+count).innerHTML += "<label for='layer"+count+"'>layer:</label><select id='layer"+count+"'><option value='"+layer+"' selected hidden>"+layer+"</option><option value='flooring'>flooring</option><option value='element'>element</option><option value='feature'>feature</option></select>"
-  document.getElementById('label'+count).innerHTML += "<label for='color"+count+"'>color:</label><input id='color"+count+"' type='color' value='"+color+"' required>"
-  document.getElementById('label'+count).innerHTML += "<label for='ratio"+count+"'>ratio:</label><input id='ratio"+count+"' type='number' min='0' max='10000' value='"+ratio+"' size='3' required>"
-  document.getElementById('label'+count).innerHTML += "<label for='colorWidth"+count+"'>width:</label><input id='colorWidth"+count+"' type='number' min='0' max='100' value='"+colorWidth+"'  size='1' required>"
-  document.getElementById('label'+count).innerHTML += "<label for='loot"+count+"'>loot:</label><select id='loot"+count+"'><option value='"+loot+"' selected hidden>"+loot+"</option><option value='false'>false</option><option value='true'>true</option></select></br>"
+  document.getElementById('label'+count).innerHTML += "</br></br><label for='ratio"+count+"'></label><input id='ratio"+count+"' type='number' min='0' max='10000' value='"+ratio+"' size='3' required>"
   
-  document.getElementById('label'+count).innerHTML += "<input id='addPropertyButton"+count+"' type='button' value='add property' onclick='addProperty("+count+")'></br>"
+  document.getElementById('label'+count).innerHTML += "<label for='color"+count+"'></label><input id='color"+count+"' type='color' value='"+color+"' required>"
+  document.getElementById('label'+count).innerHTML += "<label for='name"+count+"'></label><input id='name"+count+"' type='text' pattern='(?:[A-Za-z][A-Za-z0-9]*)(?<!noFeature|grass|noElement)' maxlength='20' minlength='1' value='"+name+"' size='15' required>"
+  document.getElementById('label'+count).innerHTML += "<label for='layer"+count+"'></label><select id='layer"+count+"'><option value='"+layer+"' selected hidden>"+layer+"</option><option value='flooring'>flooring</option><option value='element'>element</option><option value='feature'>feature</option></select>"
+  
+
+  document.getElementById('label'+count).innerHTML += "<label for='colorWidth"+count+"'>width:</label><input id='colorWidth"+count+"' type='number' min='0' max='100' value='"+colorWidth+"'  size='2' required>"
+  document.getElementById('label'+count).innerHTML += "<label for='loot"+count+"'></label><select id='loot"+count+"'><option value='"+loot+"' selected hidden>"+(loot==true?'loot':'nothing')+"</option><option value='false'>nothing</option><option value='true'>loot</option></select></br>"
+  
+    document.getElementById('label'+count).innerHTML += "<input id='addPropertyButton"+count+"' type='button' value='add property' onclick='addProperty("+count+")'>"
+  document.getElementById('label'+count).innerHTML += "<input id='deleteColorButton"+count+"' type='button' value='delete color' onclick='document.getElementById(`label"+count+"`).remove();colorList.splice(colorList.indexOf(`label"+count+"`),1);propertyList["+count+"] = []'></br>"
+  
   document.getElementById('label'+count).innerHTML += "<div id='properties"+count+"'></div>"
 
   for (let x of properties){
     addProperty(count, x.action, x.colors, x.radius)
   }
 
-  document.getElementById('label'+count).innerHTML += "<input id='deleteColorButton"+count+"' type='button' value='delete color' onclick='document.getElementById(`label"+count+"`).remove();colorList.splice(colorList.indexOf(`label"+count+"`),1);propertyList["+count+"] = []'></br></br>"
+//input {background-color: black; color: white; border:none}
   
   count++;
 }
@@ -41,9 +46,9 @@ function addProperty(arg, action = 0, colors = document.getElementById("name"+ar
   elmnt.setAttributeNode(att)
   document.getElementById('properties'+arg).appendChild(elmnt)
 
-  document.getElementById("C"+arg+"P"+propertyCount[arg]).innerHTML += "<label for='actionC"+arg+"P"+propertyCount[arg]+"'>action:</label><input id='actionC"+arg+"P"+propertyCount[arg]+"' type='number' min='-10000' max='10000' value='"+action+"' size='3' required>"
-  document.getElementById("C"+arg+"P"+propertyCount[arg]).innerHTML += "<label for='colorsC"+arg+"P"+propertyCount[arg]+"'>colors:</label><input id='colorsC"+arg+"P"+propertyCount[arg]+"' type='text' pattern='[A-Za-z][A-Za-z0-9]{0,29}(?<!noFeature|grass|noElement)(?:, (?:[A-Za-z][A-Za-z0-9]{0,29}(?<!noFeature|grass|noElement)))*' value='"+colors+"' required>"
-  document.getElementById("C"+arg+"P"+propertyCount[arg]).innerHTML += "<label for='radiusC"+arg+"P"+propertyCount[arg]+"'>radius:</label><input id='radiusC"+arg+"P"+propertyCount[arg]+"' type='number' min='0' max='100' size='3' value='"+radius+"' required>"
+  document.getElementById("C"+arg+"P"+propertyCount[arg]).innerHTML += "<label for='actionC"+arg+"P"+propertyCount[arg]+"'>do</label><input id='actionC"+arg+"P"+propertyCount[arg]+"' type='number' min='-10000' max='10000' value='"+action+"' size='3' required>"
+  document.getElementById("C"+arg+"P"+propertyCount[arg]).innerHTML += "<label for='colorsC"+arg+"P"+propertyCount[arg]+"'>for</label><input id='colorsC"+arg+"P"+propertyCount[arg]+"' type='text' pattern='[A-Za-z][A-Za-z0-9]{0,29}(?<!noFeature|grass|noElement)(?:, (?:[A-Za-z][A-Za-z0-9]{0,29}(?<!noFeature|grass|noElement)))*' value='"+colors+"' size='15' required>"
+  document.getElementById("C"+arg+"P"+propertyCount[arg]).innerHTML += "<label for='radiusC"+arg+"P"+propertyCount[arg]+"'>in</label><input id='radiusC"+arg+"P"+propertyCount[arg]+"' type='number' min='0' max='100' size='3' value='"+radius+"' required>"
   document.getElementById("C"+arg+"P"+propertyCount[arg]).innerHTML += "<input id='deletePropertyC"+arg+"P"+propertyCount[arg]+"' type='button' value='remove' onclick='document.getElementById(`C"+arg+"P"+propertyCount[arg]+"`).remove();propertyList["+arg+"].splice(propertyList["+arg+"].indexOf(`C"+arg+"P"+propertyCount[arg]+"`),1)'></br>"
 }
 
