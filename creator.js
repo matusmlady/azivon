@@ -175,15 +175,39 @@ function unofficialMain(){
 
 
 function exportSetup(){
+  reset()
+  readData()
+  data.fillerElementIndex = colorList.indexOf("label4")
+    data.fillerFeatureIndex = colorList.indexOf("label8")
+      data.fillerFlooringIndex = colorList.indexOf("label0")
+  if (typeof url !== 'undefined'){
+    window.URL.revokeObjectURL(url);
+  }
+  let json = JSON.stringify(data)
+  let exportJson = new Blob([json], {type: 'text/json'});
 
+  url = window.URL.createObjectURL(exportJson);
+
+  document.getElementById('fileExport').href = url;
+  console.log(url)
+  
+  //document.getElementById('fileExport2').setAttribute('href', 'data:text/plain;charset=utf-8, '+ encodeURIComponent(json))
+  //<a id='fileExport2' href='' download='azivon2.json'><input type="button" value="Export setup2" onclick='exportSetup()'></a>
+  
+  let tdy = new Date()
+  let nameString = 'azivon-'+tdy.getFullYear()+'-'+(tdy.getMonth()+1)+'-'+tdy.getDate()+'-'+tdy.getHours()+'-'+tdy.getMinutes()+'-'+tdy.getSeconds()+'.json'
+  document.getElementById('fileExport').download = nameString;
 }
 
+
 function importSetup(){
-    //let tempData;
+//    let tempData;
 
     document.getElementById("fileInput").files[0].text().then(function(value){
       try{
-        data = JSON.parse(JSON.parse(value));
+        data = JSON.parse(value);
+        //data = tempData
+        //document.getElementById('colorList').innerHTML = ''
       }catch (e){
           console.log("double parse error", e)
       } finally {
@@ -193,8 +217,9 @@ function importSetup(){
         unofficialMain()
       }
     }
-  ); ////////////make algorithm accept the same format of JSON as I export
+  ) ////////////make algorithm accept the same format of JSON as I export
 }
+
 
 function fileUploaded(){
   //?try catch error handling when importing invalid file
@@ -229,6 +254,7 @@ function fileUploaded(){
   propertyList = []
   
   document.getElementById('colorList').innerHTML = ''
+  console.log("deletion success")
   for (const x of data.list){
     const temp = data[x]
     addColor(temp.label, temp.layer, temp.color, temp.ratio, temp.properties, temp.colorWidth, temp.lootability.loot)
@@ -421,7 +447,6 @@ function initial(columnsArg, rowsArg){
 }
 
 initial(10, 10)
-
 //?automatically add a filler when length of possible outcomes is 0 instead of errors
 
 //heck ci nie su dvojmo a ci vobec existuju take farby ktore tu napisem vo vlastnostiach; zdoraznit ze aby sa dalo s nimi pracovat treba ich najprv zadefinovat aspon s pomerom 0/?upravit aby sa sami vygenerovali taketo farby-->
@@ -451,7 +476,7 @@ autocomplete='off'
 
 
 
-console.log("creator done")
+
 
 
 
