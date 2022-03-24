@@ -1,13 +1,22 @@
-function addColor(name = "label"+count, layer = "flooring", color = "#8BC766", ratio = 1, properties = [], colorWidth = 1, loot = false){
-  colorList.push("label"+count)
-  propertyList[count] = []
-  
+function append(){
   const att = document.createAttribute("id")
   att.value = "label" + count
   const elmnt = document.createElement("div")
   elmnt.setAttributeNode(att)
   document.getElementById('colorList').appendChild(elmnt)
+}
+function insert(){
+  const att = document.createAttribute("id")
+  att.value = "label" + count
+  const elmnt = document.createElement("div")
+  elmnt.setAttributeNode(att)
+  document.getElementById('colorList').insertBefore(elmnt, document.getElementById('colorList').children[0])
+}
 
+function addColor(name = "label"+count, layer = "flooring", color = "#8BC766", ratio = 1, properties = [], colorWidth = 1, loot = false){
+  colorList.push("label"+count)
+  propertyList[count] = []
+  
   document.getElementById('label'+count).innerHTML += "</br></br><label for='ratio"+count+"'></label><input id='ratio"+count+"' type='number' min='0' max='10000' value='"+ratio+"' size='3' required>"
   
   document.getElementById('label'+count).innerHTML += "<label for='color"+count+"'></label><input id='color"+count+"' type='color' value='"+color+"' required>"
@@ -18,8 +27,8 @@ function addColor(name = "label"+count, layer = "flooring", color = "#8BC766", r
   document.getElementById('label'+count).innerHTML += "<label for='colorWidth"+count+"'>width:</label><input id='colorWidth"+count+"' type='number' min='0' max='100' value='"+colorWidth+"'  size='2' required>"
   document.getElementById('label'+count).innerHTML += "<label for='loot"+count+"'></label><select id='loot"+count+"'><option value='"+loot+"' selected hidden>"+(loot==true?'loot':'nothing')+"</option><option value='false'>nothing</option><option value='true'>loot</option></select></br>"
   
-    document.getElementById('label'+count).innerHTML += "<input id='addPropertyButton"+count+"' type='button' value='add property' onclick='addProperty("+count+")'>"
-  document.getElementById('label'+count).innerHTML += "<input id='deleteColorButton"+count+"' type='button' value='delete color' onclick='document.getElementById(`label"+count+"`).remove();colorList.splice(colorList.indexOf(`label"+count+"`),1);propertyList["+count+"] = []'></br>"
+    document.getElementById('label'+count).innerHTML += "<input id='addPropertyButton"+count+"' type='button' value='add property' onclick='addProperty("+count+")' onfocus='this.blur()'>"
+  document.getElementById('label'+count).innerHTML += "<input id='deleteColorButton"+count+"' type='button' value='delete color' onclick='document.getElementById(`label"+count+"`).remove();colorList.splice(colorList.indexOf(`label"+count+"`),1);propertyList["+count+"] = []'>"
   
   document.getElementById('label'+count).innerHTML += "<div id='properties"+count+"'></div>"
 
@@ -57,7 +66,6 @@ function addProperty(arg, action = 0, colors = document.getElementById("name"+ar
 
 
 function reset(){
-  //?totalny reset data objektu napriec generaciami mapy; xbytocne vzdy nanovo cely objekt
   data.count = {}
   data.list = []
   data.flooring = {
@@ -69,28 +77,6 @@ function reset(){
   data.feature = {
     list: []
   }
-  
-
-/*  data = {
-    count: {},
-    instructions: {
-      vlavo: - 1,
-      vpravo: 1
-    },
-    list: [],
-    flooring: {
-      list: []
-    },
-    element: {
-      list: []
-    },
-    feature: {
-      list: []
-    },
-    columns: colArg,
-    rows: rowArg
-  }*/
-
   data.loot = {
     list: [],
     maxLoot: function(){
@@ -150,18 +136,11 @@ function readData(){
 
 
 
-function unofficialMain(){
+function creatorMain(){
   reset()
   readData()
-  main(data.columns, data.rows)//////////prec argumenty proste pouzivat priamo tam nejake udaje v kode
+  mapMain(data.columns, data.rows)
   draw(data.columns, data.rows, dimension)
-/*  
-  //JSON is purely a string with a specified data format — it contains only properties, no methods.
-  const json = JSON.stringify(data)
-  console.log(json)
-  data = JSON.parse(json)
-  console.log(data)
-*/
 
   /*
   console.log(tiles)
@@ -189,29 +168,24 @@ function exportSetup(){
     window.URL.revokeObjectURL(url);
   }
   let json = JSON.stringify(data)
+  
   let exportJson = new Blob([json], {type: 'text/json'});
-
   url = window.URL.createObjectURL(exportJson);
-
-  document.getElementById('fileExport').href = url;
-  console.log(url)
-  
+  document.getElementById('fileExport1').href = url;
+    document.getElementById('fileExport2').href = url;
   //document.getElementById('fileExport2').setAttribute('href', 'data:text/plain;charset=utf-8, '+ encodeURIComponent(json))
-  //<a id='fileExport2' href='' download='azivon2.json'><input type="button" value="Export setup2" onclick='exportSetup()'></a>
-  
+
   let tdy = new Date()
   let nameString = 'azivon-'+tdy.getFullYear()+'-'+(tdy.getMonth()+1)+'-'+tdy.getDate()+'-'+tdy.getHours()+'-'+tdy.getMinutes()+'-'+tdy.getSeconds()+'.json'
-  document.getElementById('fileExport').download = nameString;
+  document.getElementById('fileExport1').download = nameString;
+    document.getElementById('fileExport2').download = nameString;
 }
 
 
 function importSetup(){
-//    let tempData;
-
     document.getElementById("fileInput").files[0].text().then(function(value){
       try{
         data = JSON.parse(value);
-        //data = tempData
         //document.getElementById('colorList').innerHTML = ''
       }catch (e){
           console.log("double parse error", e)
@@ -219,27 +193,15 @@ function importSetup(){
         fileUploaded()
         document.getElementById("columns").value = data.columns;
         document.getElementById("rows").value = data.rows;
-        unofficialMain()
+        creatorMain()
       }
     }
-  ) ////////////make algorithm accept the same format of JSON as I export
+  )
 }
 
 
 function fileUploaded(){
   //?try catch error handling when importing invalid file
-  //reset()
-  //data.count = {}
-  /*data.list = []
-  data.flooring = {
-    list: []
-  }
-  data.element = {
-    list: []
-  }
-  data.feature = {
-    list: []
-  }*/
   data.loot = {
     list: [],
     maxLoot: function(){
@@ -252,7 +214,6 @@ function fileUploaded(){
       return tempMax + 23;
     }
   }
-  //?3 variables to save the count of fillers so accessible later
   count = 0
   propertyCount = []
   colorList = []
@@ -261,19 +222,18 @@ function fileUploaded(){
   document.getElementById('colorList').innerHTML = ''
   console.log("deletion success")
   for (const x of data.list){
+    append()
     const temp = data[x]
     addColor(temp.label, temp.layer, temp.color, temp.ratio, temp.properties, temp.colorWidth, temp.lootability.loot)
   }
   
-  //console.log(data.fillerFlooringIndex)
-  document.getElementById("color"+(data.fillerFlooringIndex)).disabled = "true"
-  document.getElementById("color"+(data.fillerFlooringIndex)).size = "1"
+  //////////document.getElementById("color"+(data.fillerFlooringIndex)).disabled = "true"//////////////////////////////
   document.getElementById("colorWidth"+(data.fillerFlooringIndex)).disabled = "true"
   document.getElementById("ratio"+(data.fillerFlooringIndex)).min = "1"
   document.getElementById("layer"+(data.fillerFlooringIndex)).disabled = "true"
   document.getElementById("name"+(data.fillerFlooringIndex)).disabled = "true"
-  document.getElementById("addPropertyButton"+(data.fillerFlooringIndex)).disabled = "true"
-  document.getElementById("deleteColorButton"+(data.fillerFlooringIndex)).disabled = "true"
+  document.getElementById("addPropertyButton"+(data.fillerFlooringIndex)).remove()
+  document.getElementById("deleteColorButton"+(data.fillerFlooringIndex)).remove()
   
   document.getElementById("color"+(data.fillerElementIndex)).type = "text"
   document.getElementById("color"+(data.fillerElementIndex)).value = "none"
@@ -283,8 +243,8 @@ function fileUploaded(){
   document.getElementById("ratio"+(data.fillerElementIndex)).min = "1"
   document.getElementById("layer"+(data.fillerElementIndex)).disabled = "true"
   document.getElementById("name"+(data.fillerElementIndex)).disabled = "true"
-  document.getElementById("addPropertyButton"+(data.fillerElementIndex)).disabled = "true"
-  document.getElementById("deleteColorButton"+(data.fillerElementIndex)).disabled = "true"
+  document.getElementById("addPropertyButton"+(data.fillerElementIndex)).remove()
+  document.getElementById("deleteColorButton"+(data.fillerElementIndex)).remove()
   
   document.getElementById("color"+(data.fillerFeatureIndex)).type = "text"
   document.getElementById("color"+(data.fillerFeatureIndex)).value = "none"
@@ -294,24 +254,10 @@ function fileUploaded(){
   document.getElementById("ratio"+(data.fillerFeatureIndex)).min = "1"
   document.getElementById("layer"+(data.fillerFeatureIndex)).disabled = "true"
   document.getElementById("name"+(data.fillerFeatureIndex)).disabled = "true"
-  document.getElementById("addPropertyButton"+(data.fillerFeatureIndex)).disabled = "true"
-  document.getElementById("deleteColorButton"+(data.fillerFeatureIndex)).disabled = "true"
+  document.getElementById("addPropertyButton"+(data.fillerFeatureIndex)).remove()
+  document.getElementById("deleteColorButton"+(data.fillerFeatureIndex)).remove()
   
-  /*let promiseTest = new Promise(function(resolveTest, rejectTest){
-  })
-  promiseTest.then(
-    function(){console.log(promiseTest.result)},
-    function(){}
-  )
-  let pomocna = new Promise(document.getElementById("fileInput").files[0].text());*/
 }
-
-
-
-
-
-
-
 
 
 
@@ -360,49 +306,41 @@ function initial(columnsArg, rowsArg){
       list: []
     },
     columns: columnsArg,
-    rows: rowsArg
-  }
-  data.loot = {
-    list: [],
-    maxLoot: function(){
-      let tempMax = 0;
-      for(const x of data.loot.list){
-        if(tempMax < data.loot[x].length * dimension + Math.ceil(ctx.measureText(data.loot[x]).width)){
-          tempMax = data.loot[x].length * dimension + Math.ceil(ctx.measureText(data.loot[x]).width)
+    rows: rowsArg,
+    loot: {
+      list: [],
+      maxLoot: function(){
+        let tempMax = 0;
+        for(const x of data.loot.list){
+          if(tempMax < data.loot[x].length * dimension + Math.ceil(ctx.measureText(data.loot[x]).width)){
+            tempMax = data.loot[x].length * dimension + Math.ceil(ctx.measureText(data.loot[x]).width)
+          }
         }
+        return tempMax + 23;
       }
-      return tempMax + 23;
     }
   }
   
   //?colors : self miesto cele meno
-  //pridat flooring nic = none
-  //?use new format of adding colors (see below ) also in map.js
-  //?new way of handling radius only the highest number; => different input type, todoMinus obsolete
+  //?????pridat flooring nic = none
   //?vlastnosti napr ze nieco v hre davam hracovi = nespawnu sa automaticky dve na rovnakom policku
   
-  //?poriesit to nejak ze 3 fillers budu uplne hore a tj labels0-2 nebude mozne banovat etc
-  //?zakazat v patternoch pouzitie grass, noFeature, noElement aj v name aj v properties
-  
-  addColor("grass", "flooring", "#8BC766", 250, [], 1, false)
-  document.getElementById("color"+(count-1)).disabled = "true"
-  document.getElementById("color"+(count-1)).size = "1"
+  addColor("grass", "flooring", "#8BC766", 250, [], 1, false, append())
+  ////////////////////////document.getElementById("color"+(count-1)).disabled = "true"
   document.getElementById("colorWidth"+(count-1)).disabled = "true"
   document.getElementById("ratio"+(count-1)).min = "1"
   document.getElementById("layer"+(count-1)).disabled = "true"
   document.getElementById("name"+(count-1)).disabled = "true"
-  document.getElementById("addPropertyButton"+(count-1)).disabled = "true"////////////////////hide
-  document.getElementById("deleteColorButton"+(count-1)).disabled = "true"//////////////////////hide
-  /////////////////////////////////////////////////
-  data.fillerFlooring = 'label'+(count-1)////////////////////////////////////////
-  data.fillerFlooringIndex = colorList.indexOf(data.fillerFlooring)////////////////
-    ///////////////////////////////////////////////////////////////////////////////
+  document.getElementById("addPropertyButton"+(count-1)).remove()
+  document.getElementById("deleteColorButton"+(count-1)).remove()
+  data.fillerFlooring = 'label'+(count-1)
+  data.fillerFlooringIndex = colorList.indexOf(data.fillerFlooring)
     
-  addColor("desert", "flooring", "#FFFFA5", 50, [{action: 0, colors: "snow", radius: 3}, {action: 0, colors: "woods", radius: 0}, {action: 50, colors: "desert", radius: 3}], 1, false)
-  addColor("snow", "flooring", "#FFFFFF", 50, [{action: 0, colors: "desert", radius: 3}, {action: 50, colors: "snow", radius: 3}], 1, false)
-  addColor("water", "flooring", "#66BBDD", 5, [{action: 80, colors: "water", radius: 3}, {action: 0, colors: "material, mountains, lake, woods, village, metal, gold, castle", radius: 0}], 2, false)//#5696C0
+  addColor("desert", "flooring", "#FFFFA5", 50, [{action: 0, colors: "snow", radius: 3}, {action: 0, colors: "woods", radius: 0}, {action: 50, colors: "desert", radius: 3}], 1, false, append())
+  addColor("snow", "flooring", "#FFFFFF", 50, [{action: 0, colors: "desert", radius: 3}, {action: 50, colors: "snow", radius: 3}], 1, false, append())
+  addColor("water", "flooring", "#66BBDD", 5, [{action: 80, colors: "water", radius: 3}, {action: 0, colors: "material, mountains, lake, woods, village, metal, gold, castle", radius: 0}], 2, false, append())//#5696C0
   
-  addColor("noElement", "element", "#000000", 100, [], 0, false)
+  addColor("noElement", "element", "#000000", 100, [], 0, false, append())
   document.getElementById("color"+(count-1)).type = "text"
   document.getElementById("color"+(count-1)).value = "none"
   document.getElementById("color"+(count-1)).disabled = "true"
@@ -411,19 +349,16 @@ function initial(columnsArg, rowsArg){
   document.getElementById("ratio"+(count-1)).min = "1"
   document.getElementById("layer"+(count-1)).disabled = "true"
   document.getElementById("name"+(count-1)).disabled = "true"
-  document.getElementById("addPropertyButton"+(count-1)).disabled = "true"
-  document.getElementById("deleteColorButton"+(count-1)).disabled = "true"
+  document.getElementById("addPropertyButton"+(count-1)).remove()
+  document.getElementById("deleteColorButton"+(count-1)).remove()
   data.fillerElement = 'label'+(count-1)
   data.fillerElementIndex = colorList.indexOf(data.fillerElement)
   
-  addColor("mountains", "element", "#A75F49", 5, [{action: 0, colors: "water", radius: 0}, {action: 1, colors: "metal, gold, castle", radius: 0}], 6, false)
-  addColor("woods", "element", "#BCA26F", 5, [{action: 0, colors: "water, desert, village, metal, gold, castle", radius: 0}], 1, false)
-  addColor("lake", "element", "#64E1E2", 5, [{action: 0, colors: "water, village, metal, gold, castle, material", radius: 0}], 3, false)
+  addColor("mountains", "element", "#A75F49", 5, [{action: 0, colors: "water", radius: 0}, {action: 1, colors: "metal, gold, castle", radius: 0}], 6, false, append())
+  addColor("woods", "element", "#BCA26F", 5, [{action: 0, colors: "water, desert, village, metal, gold, castle", radius: 0}], 1, false, append())
+  addColor("lake", "element", "#64E1E2", 5, [{action: 0, colors: "water, village, metal, gold, castle, material", radius: 0}], 3, false, append())
   
-  //vypisovat uzivatelovi ked je v js error => aby dal spat zmenu ktoru vykonal
-  //desatinne cislo 0.0000000001 aby bolo mozne nemat error a zaroven plnu mapu ak to chce uzivatel -> ked chce mapu full features
-  
-  addColor("noFeature", "feature", "#000000", 200, [], 0, false)
+  addColor("noFeature", "feature", "#000000", 200, [], 0, false, append())
   document.getElementById("color"+(count-1)).type = "text"
   document.getElementById("color"+(count-1)).value = "none"
   document.getElementById("color"+(count-1)).disabled = "true"
@@ -432,47 +367,42 @@ function initial(columnsArg, rowsArg){
   document.getElementById("ratio"+(count-1)).min = "1"
   document.getElementById("layer"+(count-1)).disabled = "true"
   document.getElementById("name"+(count-1)).disabled = "true"
-  document.getElementById("addPropertyButton"+(count-1)).disabled = "true"
-  document.getElementById("deleteColorButton"+(count-1)).disabled = "true"
+  document.getElementById("addPropertyButton"+(count-1)).remove()
+  document.getElementById("deleteColorButton"+(count-1)).remove()
   data.fillerFeature = 'label'+(count-1)
   data.fillerFeatureIndex = colorList.indexOf(data.fillerFeature)
   
-  addColor("village", "feature", "#FD7C7C", 6, [{action: 0, colors: "water, woods, lake", radius: 0}], 2, true)
-  addColor("metal", "feature", "#8E9ED1", 1, [{action: 0, colors: "water, lake", radius: 0}], 1, false)
-  addColor("gold", "feature", "#C2AB35", 1, [{action: 0, colors: "water, woods, lake", radius: 0}], 1, false)
-  addColor("castle", "feature", "#AAAAAA", 1, [{action: 0, colors: "water, woods, lake", radius: 0}], 1, false)
-  addColor("material", "feature", "#D494D0", 1, [{action: 0, colors: "water, lake", radius: 0}], 1, false)
+  addColor("village", "feature", "#FD7C7C", 6, [{action: 0, colors: "water, woods, lake", radius: 0}], 2, true, append())
+  addColor("metal", "feature", "#8E9ED1", 1, [{action: 0, colors: "water, lake", radius: 0}], 1, false, append())
+  addColor("gold", "feature", "#C2AB35", 1, [{action: 0, colors: "water, woods, lake", radius: 0}], 1, false, append())
+  addColor("castle", "feature", "#AAAAAA", 1, [{action: 0, colors: "water, woods, lake", radius: 0}], 1, false, append())
+  addColor("material", "feature", "#D494D0", 1, [{action: 0, colors: "water, lake", radius: 0}], 1, false, append())
 
   document.getElementById("columns").value = data.columns
   document.getElementById("rows").value = data.rows
   
   readData()
-  main(columnsArg, rowsArg)
+  mapMain(columnsArg, rowsArg)
   draw(columnsArg, rowsArg, dimension)
 }
 
-initial(10, 10)
-//?automatically add a filler when length of possible outcomes is 0 instead of errors
+initial(15, 15)
 
+  //vypisovat uzivatelovi ked je v js error => aby dal spat zmenu ktoru vykonal
+  //desatinne cislo 0.0000000001 aby bolo mozne nemat error a zaroven plnu mapu ak to chce uzivatel -> ked chce mapu full features
+  
 //heck ci nie su dvojmo a ci vobec existuju take farby ktore tu napisem vo vlastnostiach; zdoraznit ze aby sa dalo s nimi pracovat treba ich najprv zadefinovat aspon s pomerom 0/?upravit aby sa sami vygenerovali taketo farby-->
 
-//<!-- check ci  niesu dvojmo okruhy vo vlastnostiach
-
-//check rovnake nazvy farieb
-
-//function to read a provide the stuff on screen to map.js
+//check ci  niesu dvojmo okruhy vo vlastnostiach;check rovnake nazvy farieb
 
 //miesto pisania vlastnosti do dvch farieb dvojmo aby sa blokovali alebo nieco pridat spolocne vlastnosti/upravit priamo v js povodny sposob dvojmo moze byt obsolete/len spravit nadstavbu v html ze sa proste vlastnost berie ako spolocna a prida sa automaticky vsetkym
 
-
   //ways of color representation understand and ability to use them hexa, text
-/*
-<!--
-oninvalid='setCustomValidity("Please start with a letter, then you can also use numbers.")'
-oninvalid='setCustomValidity("Enter one ore more numbers separated by a comma and a space.")' 
-autocomplete='off'
+  
+//oninvalid='setCustomValidity("Please start with a letter, then you can also use numbers.")'
+//oninvalid='setCustomValidity("Enter one ore more numbers separated by a comma and a space.")' 
+//autocomplete='off'
 
--->*/
 
 
 //ostranit problem ze treba furt scrollovat etc userfriendliness
