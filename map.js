@@ -1,4 +1,4 @@
-function main(columns, rows){
+function mapMain(columns, rows){
   tiles = []//?move to data
   data.instructions["hore"] = - columns
   data.instructions["dole"] = columns
