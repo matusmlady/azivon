@@ -239,7 +239,13 @@
             
             }, cas += 1000);    
         }
-
+    
+     // hrac 1 dobyje policko
+    setTimeout(function() {
+        ctx.fillStyle = "#8BC766";
+        ctx.strokeStyle = "black";
+        ctx.fillText("1", x += dimension, y -= dimension);
+    }, cas += 1000);
 
     /*savedData.src = c.toDataURL("image/png");
     ctx.drawImage(savedData,0,0);*/
