@@ -1,4 +1,5 @@
-  data = {
+dimension = 30 
+data = {
     count: {},
     instructions: {
       vlavo: - 1,
