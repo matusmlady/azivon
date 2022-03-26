@@ -114,28 +114,28 @@
     ctx.fillStyle = "yellow";
     ctx.fillText("2", x += 4 * dimension, y += 4 * dimension);
 
-    // 1. tah hraca 1
+    // 1. tah hraca 1 - 1. akcia
     setTimeout(function() {
         ctx.fillStyle = "red";
         ctx.fillText("1", x -= 2 * dimension, y -= 2 * dimension);
     }, cas += 1000);
 
-    // 1. tah hraca 2
-    setTimeout(function() {
-        ctx.fillStyle = "yellow";
-        ctx.fillText("2", x += dimension, y);
-    }, cas += 1000);
-
-    // 2. tah hraca 1
+    // 1. tah hraca 1 - 2. akcia
     setTimeout(function() {
         ctx.fillStyle = "red";
-        ctx.fillText("1", x, y += dimension);
+        ctx.fillText("1", x + dimension, y += dimension);
+    }, cas += 1000);
+
+    // 1. tah hraca 2 - 1. akcia
+    setTimeout(function() {
+        ctx.fillStyle = "yellow";
+        ctx.fillText("2", x += dimension, y -= dimension);
     }, cas += 1000);
 
     // 2. tah hraca 2
     setTimeout(function() {
         ctx.fillStyle = "yellow";
-        ctx.fillText("2", x -= 2 * dimension, y -= 2 * dimension);
+        ctx.fillText("2", x -= 2 * dimension, y -= dimension);
     }, cas += 1000);
 
     // 3. tah hraca 1
@@ -239,12 +239,15 @@
             
             }, cas += 1000);    
         }
-    
-     // hrac 1 dobyje policko
-    setTimeout(function() {
+
+    // obsadenie policka
+    setTimeout(function(){
         ctx.fillStyle = "#8BC766";
+        ctx.fillRect(dimension, dimension, dimension, dimension);
         ctx.strokeStyle = "black";
-        ctx.fillText("1", x += dimension, y -= dimension);
+        ctx.strokeRect(dimension, dimension, dimension, dimension);
+        ctx.fillStyle = "red";
+        ctx.fillText("1", x += dimension, y += dimension)
     }, cas += 1000);
 
     /*savedData.src = c.toDataURL("image/png");
