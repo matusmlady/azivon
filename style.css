@@ -38,13 +38,7 @@ h3 {
           text-align: justify;
           /* offset-x, offset-y, blur-radius, spread-radius, color */
           box-shadow: 0 10px 20px rgba(0, 0, 0, 0.92), 0 6px 6px rgba(0, 0, 0, 0.88);
-}
-.generator {
-             /* width: 600px; 
-             height: 600px; */
-             margin: auto;
-             margin-bottom: 20px;    
-}
+}  
 .tlacitka_generator {
            font-size: 13px;
            width: 500px;
