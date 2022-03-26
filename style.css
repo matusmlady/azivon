@@ -34,6 +34,7 @@ h3 {
           padding-left: 30px;
           padding-right: 30px;
           margin: auto;
+          margin-bottom: 20px;
           text-align: justify;
           /* offset-x, offset-y, blur-radius, spread-radius, color */
           box-shadow: 0 10px 20px rgba(0, 0, 0, 0.92), 0 6px 6px rgba(0, 0, 0, 0.88);
