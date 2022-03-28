@@ -24,7 +24,10 @@ h3 {
 .menu {
            font-size: 13px;
            position: fixed;
-           top: 0px;
+           top: 0px;    
+}
+.generator {
+             margin: auto;
 }
 .kecy {
           background-color: rgba(0, 0, 0, 0.92);
