@@ -1,4 +1,4 @@
-function animácia1() {
+        function animácia1() {
         let c = document.getElementById("animacia1"); // First of all, you must find the <canvas> element. This is done by using the HTML DOM method getElementById().
         let ctx = c.getContext("2d"); //Secondly, you need a drawing object for the canvas. The getContext() is a built-in HTML object, with properties and methods for drawing.
         c.height = 400;
@@ -151,7 +151,8 @@ function animácia1() {
         setTimeout(function() {cislo(x += 2 * dimension, y += 2 * dimension)}, cas += 100);
         setTimeout(animácia1, cas += 1000);
         }
-function animácia2() {
+        
+    function animácia2() {
         let c = document.getElementById("animacia2"); // First of all, you must find the <canvas> element. This is done by using the HTML DOM method getElementById().
         let ctx = c.getContext("2d"); //Secondly, you need a drawing object for the canvas. The getContext() is a built-in HTML object, with properties and methods for drawing.
         c.height = 400;
@@ -393,5 +394,106 @@ function animácia2() {
 
     setTimeout(animácia2, cas += 1000);
     }
+
+        function animacia3() {
+            let c = document.getElementById("animacia3"); // First of all, you must find the <canvas> element. This is done by using the HTML DOM method getElementById().
+            let ctx = c.getContext("2d"); //Secondly, you need a drawing object for the canvas. The getContext() is a built-in HTML object, with properties and methods for drawing.
+            c.height = 400;
+            c.width = 620;
+            c.style.height = "400px";
+            c.style.width = "620px";
+        
+            savedData = new Image();
+            const dimension = 80;
+
+            function stvorec(xArg = 0, yArg = 0, x = 0, y = 0) {
+            //Draw a rectangle
+            ctx.beginPath();
+            ctx.strokeRect(xArg, yArg, x, y);
+            }
+
+            // Legenda
+            let xl = 480;
+            let yl = 20;
+            ctx.fillRect(400, 0, 220, 400);
+            ctx.font = " bold 18px Calibri";
+            ctx.fillStyle = "white";
+            ctx.fillText("Legend", xl,yl);
+            ctx.fillStyle = "#8BC766";
+            ctx.strokeStyle = "black";
+     
+             xl = 413;
+             yl = 45;
+             let b = 14;
+
+            ctx.fillRect(xl, yl, b, b);
+            stvorec(xl, yl, b, b)
+            ctx.fillStyle = "white";
+            ctx.font = "14px Calibri";
+            ctx.fillText(" - tile", xl += 16, yl += 11);
+
+            ctx.fillStyle = "red";
+            ctx.fillText("1", xl -= 14, yl += 26);
+            ctx.fillStyle = "white";
+            ctx.fillText(" - conquered tiles by player 1", xl += 5, yl);
+
+            ctx.fillStyle = "yellow";
+            ctx.fillText("2", xl -= 5, yl += 25);
+            ctx.fillStyle = "white";
+            ctx.fillText(" - conquered tiles by player 2", xl+= 8, yl);
+
+            ctx.strokeStyle = "red";
+            stvorec(xl -= 10, yl += 15, b, b);
+            ctx.fillText(" - supporting  tiles", xl += 18, yl += 11);
+
+            ctx.strokeStyle = "black";
+            ctx.fillStyle = "#5b5e3f";
+            ctx.fillRect(xl -= 18, yl += 15, b, b);
+            stvorec(xl, yl, b, b);
+            ctx.fillStyle = "white";
+            ctx.fillText(" - occupied tile", xl+= 16, yl += 11);
+
+            ctx.fillStyle = "#949437";
+            ctx.fillRect(xl -= 16, yl += 15, b, b);
+            stvorec(xl, yl, b, b);
+            ctx.fillStyle = "white";
+            ctx.fillText(" - player 1 power ", xl+= 16, yl += 11);
+
+            ctx.fillStyle = "#3d0d2c";
+            ctx.fillRect(xl -= 16, yl += 15, b, b);
+            stvorec(xl, yl, b, b);
+            ctx.fillStyle = "white";
+            ctx.fillText(" - player 2 power ", xl+= 16, yl += 11);
+     
+    // Nakreslenie pozadia
+    ctx.fillStyle = "#8BC766";
+    ctx.strokeStyle = "black";
+    for (let x = 0; x < 400; x = x + dimension) {
+        for (let y = 0; y < 400; y = y + dimension) {
+            ctx.fillRect(x, y, dimension, dimension);
+            ctx.strokeRect(x,y,dimension,dimension);
+        }
+    }
+
+    // setup
+    let cas = 0;
+    ctx.font = "50px Calibri";
+    let x = 28;
+    let y = 55;
+    ctx.fillText("1", x, y);
+    ctx.fillStyle = "yellow";
+    ctx.fillText("2", x += 4 * dimension, y += 4 * dimension);
+    ctx.fillStyle = "brown";
+    // hora
+    ctx.fillRect(2 * dimension + 10, 2 * dimension + 10, dimension - 20, dimension - 20);
+    ctx.fillRect(3 * dimension + 10, 2 * dimension + 10, dimension - 20, dimension - 20);
+    ctx.fillRect(4 * dimension + 10, 2 * dimension + 10, dimension - 20, dimension - 20);
+    ctx.strokeStyle = "yellow";
+    ctx.beginPath();
+    ctx.moveTo(2 * dimension + dimension / 2, 2 * dimension + dimension / 2);
+    ctx.lineTo(4 * dimension + dimension / 2, 2 * dimension + dimension / 2);
+    ctx.stroke();
+        }
     animácia1();
     animácia2();
+    animacia3();
