@@ -72,18 +72,14 @@
         ctx.fillStyle = "red";
         let cas = 500;
         setTimeout(function() {ctx.font = "50px Calibri"}, cas);
-        let x = 28;
-        let y = 55;
-        
+        let x = 7 * dimension / 20; 
+        let y = 11 * dimension / 16; 
         
         // animácia cisla vľavo hore a uloženie obrázka
         setTimeout(function() {
             cislo(x, y);
             savedData.src = c.toDataURL("image/png");
         }, cas += 500);
-
-        
-        
 
         //animácia stvorca ohraničujuceho možnosti na pohyb
         let a = 3 * dimension
@@ -92,8 +88,6 @@
             ctx.strokeStyle = "red";
             stvorec(0, 0, a, a)}, cas += 1000);
         
-
-             
         //animácia možných pohybov 
         for (let x = 120; x <= 200; x = x + dimension) {
             let y = 40;
@@ -150,8 +144,8 @@
         // animácia kruhu vpravo dole
         setTimeout(function() {cislo(x += 2 * dimension, y += 2 * dimension)}, cas += 100);
         setTimeout(animácia1, cas += 1000);
-        }
-        
+                
+        } 
     function animácia2() {
         let c = document.getElementById("animacia2"); // First of all, you must find the <canvas> element. This is done by using the HTML DOM method getElementById().
         let ctx = c.getContext("2d"); //Secondly, you need a drawing object for the canvas. The getContext() is a built-in HTML object, with properties and methods for drawing.
@@ -176,7 +170,6 @@
         ctx.strokeRect(xArg, yArg, x, y);
         }
     
-
      // Legenda
      let xl = 480;
      let yl = 20;
@@ -246,8 +239,8 @@
     ctx.fillStyle = "red";
     let cas = 0;
     ctx.font = "50px Calibri";
-    let x = 28;
-    let y = 55;
+    let x = 7 * dimension / 20; 
+    let y = 11 * dimension / 16;
     ctx.fillText("1", x, y);
     ctx.fillStyle = "yellow";
     ctx.fillText("2", x += 4 * dimension, y += 4 * dimension);
@@ -270,22 +263,34 @@
         ctx.fillText("2", x += dimension, y -= dimension);
     }, cas += 1000);
 
-    // 2. tah hraca 2
+    // 1. tah hraca 2 - 2. akcia
     setTimeout(function() {
         ctx.fillStyle = "yellow";
         ctx.fillText("2", x -= 2 * dimension, y -= dimension);
     }, cas += 1000);
 
-    // 3. tah hraca 1
+    // 2. tah hraca 1 - 1. akcia
     setTimeout(function() {
         ctx.fillStyle = "red";
         ctx.fillText("1", x, y += dimension);
     }, cas += 1000);
 
-    // 3. tah hraca 2
+    // 2. tah hraca 1 - 2. akcia
+    setTimeout(function() {
+        ctx.fillStyle = "red";
+        ctx.fillText("1", x += dimension, y += dimension);
+    }, cas += 1000);
+
+    // 2. tah hraca 2 - 1. akcia
     setTimeout(function() {
         ctx.fillStyle = "yellow";
-        ctx.fillText("2", x += dimension, y -= dimension);
+        ctx.fillText("2", x, y -= 2 * dimension);
+    }, cas += 1000);
+
+    // 2. tah hraca 2 - 2. akcia
+    setTimeout(function() {
+        ctx.fillStyle = "yellow";
+        ctx.fillText("2", x -= dimension, y += 2 * dimension);
     }, cas += 1000);
 
     // tabulka score
@@ -306,7 +311,7 @@
         ctx.fillRect(dimension, dimension, dimension, dimension);
         stvorec(dimension, dimension, dimension, dimension);
         ctx.fillStyle = "yellow";
-        ctx.fillText("2", x -= dimension, y);
+        ctx.fillText("2", x, y -= 2 * dimension);
         // priratanie sily hraca 2
         ctx.font = "20px Calibri";
         ctx.fillText("1", xl += 45, yl);
@@ -394,7 +399,6 @@
 
     setTimeout(animácia2, cas += 1000);
     }
-
         function animacia3() {
             let c = document.getElementById("animacia3"); // First of all, you must find the <canvas> element. This is done by using the HTML DOM method getElementById().
             let ctx = c.getContext("2d"); //Secondly, you need a drawing object for the canvas. The getContext() is a built-in HTML object, with properties and methods for drawing.
@@ -411,6 +415,25 @@
             ctx.beginPath();
             ctx.strokeRect(xArg, yArg, x, y);
             }
+            function hora() {
+            // hora v potencialne novej grafike
+                for (let a = 2; a < 5; a += 1) {
+                    let b = 3;
+                    ctx.fillStyle = "gray";
+                    ctx.beginPath();
+                    ctx.moveTo(a * dimension + dimension / 8, b * dimension + 7 * dimension / 8);
+                    ctx.lineTo(a * dimension +  7 * dimension / 8, b * dimension + 7 * dimension / 8);
+                    ctx.lineTo(a * dimension +  11 * dimension / 16, b * dimension + 3 * dimension / 8);
+                    ctx.lineTo(a * dimension + 5 * dimension / 16, b * dimension + 3 * dimension / 8);
+                    ctx.fill();
+                    ctx.fillStyle = "white";
+                    ctx.beginPath();
+                    ctx.moveTo(a * dimension + 5 * dimension / 16, b * dimension + 3 * dimension / 8);
+                    ctx.lineTo(a * dimension + 11 * dimension / 16, b * dimension + 3 * dimension / 8);
+                    ctx.lineTo(a * dimension + dimension / 2, b * dimension + dimension / 8);
+                    ctx.fill();
+                    }
+                }
 
             // Legenda
             let xl = 480;
@@ -478,8 +501,9 @@
     // setup
     let cas = 0;
     ctx.font = "50px Calibri";
-    let x = 28;
-    let y = 55;
+    let x = 7 * dimension / 20;
+    let y = 11 * dimension / 16;
+    ctx.fillStyle = "red";
     ctx.fillText("1", x, y);
     ctx.fillStyle = "yellow";
     ctx.fillText("2", x += 4 * dimension, y += 4 * dimension);
@@ -493,7 +517,33 @@
     ctx.moveTo(2 * dimension + dimension / 2, 2 * dimension + dimension / 2);
     ctx.lineTo(4 * dimension + dimension / 2, 2 * dimension + dimension / 2);
     ctx.stroke();
-        }
-    animácia1();
-    animácia2();
-    animacia3();
+
+    // 1. tah hraca 1 - 1. akcia
+    setTimeout(function() {
+        ctx.fillStyle = "red";
+        ctx.fillText("1", x -= 3 * dimension, y -= 2 * dimension);
+    }, cas += 1000);
+
+    // 1. tah hraca 1 - 2. akcia
+    setTimeout(function() {
+        ctx.fillStyle = "red";
+        ctx.fillText("1", x + dimension, y -= dimension);
+    }, cas += 1000);
+
+    // 2. tah hraca 2 - 1. akcia
+    setTimeout(function() {
+        ctx.fillStyle = "yellow";
+        ctx.fillText("2", x += dimension, y += 2 * dimension);
+    }, cas += 1000);
+
+    // 2. tah hraca 2 - 2. akcia
+    setTimeout(function() {
+        ctx.fillStyle = "yellow";
+        ctx.fillText("2", x += dimension, y);
+    }, cas += 1000);
+
+    setTimeout(animacia3, cas += 1000);
+}
+animácia1(); 
+animácia2();
+animacia3();
