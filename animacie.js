@@ -196,7 +196,7 @@
      ctx.fillText(" - conquered tiles by player 1", xl += 5, yl);
 
      ctx.fillStyle = "red";
-     ctx.fillText("2 - conquerable tiles", xl -= 5, yl += 25);
+     ctx.fillText("2", xl -= 5, yl += 25);
      ctx.fillStyle = "white";
      ctx.fillText(" - conquered tiles by player 2", xl+= 8, yl);
 
