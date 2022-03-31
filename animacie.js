@@ -144,7 +144,6 @@
         // animácia kruhu vpravo dole
         setTimeout(function() {cislo(x += 2 * dimension, y += 2 * dimension)}, cas += 100);
         setTimeout(animácia1, cas += 1000);
-                
         } 
     function animácia2() {
         let c = document.getElementById("animacia2"); // First of all, you must find the <canvas> element. This is done by using the HTML DOM method getElementById().
@@ -170,6 +169,7 @@
         ctx.strokeRect(xArg, yArg, x, y);
         }
     
+
      // Legenda
      let xl = 480;
      let yl = 20;
@@ -195,7 +195,7 @@
      ctx.fillStyle = "white";
      ctx.fillText(" - conquered tiles by player 1", xl += 5, yl);
 
-     ctx.fillStyle = "red";
+     ctx.fillStyle = "yellow";
      ctx.fillText("2", xl -= 5, yl += 25);
      ctx.fillStyle = "white";
      ctx.fillText(" - conquered tiles by player 2", xl+= 8, yl);
@@ -455,23 +455,18 @@
             ctx.font = "14px Calibri";
             ctx.fillText(" - tile", xl += 16, yl += 11);
 
-            ctx.fillStyle = "red";
+            ctx.fillStyle = "white";
             ctx.fillText("1", xl -= 14, yl += 26);
             ctx.fillStyle = "white";
-            ctx.fillText(" - conquered tiles by player 1", xl += 5, yl);
-
-            ctx.fillStyle = "yellow";
-            ctx.fillText("2", xl -= 5, yl += 25);
-            ctx.fillStyle = "white";
-            ctx.fillText(" - conquered tiles by player 2", xl+= 8, yl);
+            ctx.fillText(" - conquered tiles", xl += 5, yl);
 
             ctx.strokeStyle = "red";
-            stvorec(xl -= 10, yl += 15, b, b);
-            ctx.fillText(" - supporting  tiles", xl += 18, yl += 11);
+            stvorec(xl -= 8, yl += 15, b, b);
+            ctx.fillText(" - supporting  tiles", xl += 16, yl += 11);
 
             ctx.strokeStyle = "black";
             ctx.fillStyle = "#5b5e3f";
-            ctx.fillRect(xl -= 18, yl += 15, b, b);
+            ctx.fillRect(xl -= 16, yl += 15, b, b);
             stvorec(xl, yl, b, b);
             ctx.fillStyle = "white";
             ctx.fillText(" - occupied tile", xl+= 16, yl += 11);
@@ -481,12 +476,6 @@
             stvorec(xl, yl, b, b);
             ctx.fillStyle = "white";
             ctx.fillText(" - player 1 power ", xl+= 16, yl += 11);
-
-            ctx.fillStyle = "#3d0d2c";
-            ctx.fillRect(xl -= 16, yl += 15, b, b);
-            stvorec(xl, yl, b, b);
-            ctx.fillStyle = "white";
-            ctx.fillText(" - player 2 power ", xl+= 16, yl += 11);
      
     // Nakreslenie pozadia
     ctx.fillStyle = "#8BC766";
@@ -503,47 +492,57 @@
     ctx.font = "50px Calibri";
     let x = 7 * dimension / 20;
     let y = 11 * dimension / 16;
-    ctx.fillStyle = "red";
+    ctx.fillStyle = "white";
     ctx.fillText("1", x, y);
-    ctx.fillStyle = "yellow";
-    ctx.fillText("2", x += 4 * dimension, y += 4 * dimension);
-    ctx.fillStyle = "brown";
+
     // hora
-    ctx.fillRect(2 * dimension + 10, 2 * dimension + 10, dimension - 20, dimension - 20);
-    ctx.fillRect(3 * dimension + 10, 2 * dimension + 10, dimension - 20, dimension - 20);
-    ctx.fillRect(4 * dimension + 10, 2 * dimension + 10, dimension - 20, dimension - 20);
+    for (a = 1; a <= 3; a += 1) {
+    ctx.fillStyle = "brown";
+    ctx.fillRect( a * dimension + 10, 2 * dimension + 10, dimension - 20, dimension - 20);
+    }
     ctx.strokeStyle = "yellow";
     ctx.beginPath();
-    ctx.moveTo(2 * dimension + dimension / 2, 2 * dimension + dimension / 2);
-    ctx.lineTo(4 * dimension + dimension / 2, 2 * dimension + dimension / 2);
+    ctx.moveTo(dimension + dimension / 2, 2 * dimension + dimension / 2);
+    ctx.lineTo(3 * dimension + dimension / 2, 2 * dimension + dimension / 2);
     ctx.stroke();
 
     // 1. tah hraca 1 - 1. akcia
     setTimeout(function() {
-        ctx.fillStyle = "red";
-        ctx.fillText("1", x -= 3 * dimension, y -= 2 * dimension);
+        ctx.fillStyle = "white";
+        ctx.fillText("1", x, y += 2 * dimension);
     }, cas += 1000);
 
     // 1. tah hraca 1 - 2. akcia
     setTimeout(function() {
-        ctx.fillStyle = "red";
-        ctx.fillText("1", x + dimension, y -= dimension);
+        ctx.fillStyle = "white";
+        ctx.fillText("1", x += dimension, y -= dimension);
     }, cas += 1000);
 
-    // 2. tah hraca 2 - 1. akcia
+    // 2. tah hraca 1 - 1. akcia
     setTimeout(function() {
-        ctx.fillStyle = "yellow";
-        ctx.fillText("2", x += dimension, y += 2 * dimension);
+        ctx.fillStyle = "white";
+        ctx.fillText("1", x += dimension, y);
     }, cas += 1000);
 
-    // 2. tah hraca 2 - 2. akcia
+    // zvýraznenie okupového políčka
     setTimeout(function() {
-        ctx.fillStyle = "yellow";
-        ctx.fillText("2", x += dimension, y);
+        ctx.strokeStyle = "black";
+        ctx.fillStyle = "#5b5e3f";
+        ctx.fillRect(dimension, 2 * dimension, dimension, dimension);
+        stvorec(dimension, 2 * dimension, dimension, dimension);
+        ctx.fillStyle = "brown";
+        ctx.fillRect(dimension + 10, 2 * dimension + 10, dimension - 20, dimension - 20);
+        ctx.strokeStyle = "yellow";
+        ctx.beginPath();
+        ctx.moveTo(dimension + dimension / 2, 2 * dimension + dimension / 2);
+        ctx.lineTo(2 * dimension, 2 * dimension + dimension / 2);
+        ctx.stroke();
     }, cas += 1000);
+
 
     setTimeout(animacia3, cas += 1000);
 }
-animácia1(); 
-animácia2();
+animácia1();
+animácia2(); 
 animacia3();
+    
