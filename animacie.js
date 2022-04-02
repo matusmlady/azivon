@@ -28,15 +28,15 @@
         
 
          // Legenda
-         let xl = 480;
+         let xl = 5 * dimension + 80;
          let yl = 20;
-         ctx.fillRect(400, 0, 220, 400);
+         ctx.fillRect(5 * dimension, 0, 220, 5 * dimension);
          ctx.font = " bold 18px Calibri";
          ctx.fillStyle = "white";
          ctx.fillText("Legend", xl,yl);
          ctx.fillStyle = "#8BC766";
          ctx.strokeStyle = "black";
-         xl = 413;
+         xl = 5 * dimension + 13;
          yl = 45;
          let b = 14;
          ctx.fillRect(xl, yl, b, b);
@@ -61,8 +61,8 @@
         // Nakreslenie pozadia
         ctx.fillStyle = "#8BC766";
         ctx.strokeStyle = "black";
-        for (let x = 0; x < 400; x = x + dimension) {
-            for (let y = 0; y < 400; y = y + dimension) {
+        for (let x = 0; x < 5 * dimension; x = x + dimension) {
+            for (let y = 0; y < 5 * dimension; y = y + dimension) {
                 ctx.fillRect(x, y, dimension, dimension);
                 ctx.strokeRect(x,y,dimension,dimension);
             }
@@ -144,7 +144,7 @@
         // animácia kruhu vpravo dole
         setTimeout(function() {cislo(x += 2 * dimension, y += 2 * dimension)}, cas += 100);
         setTimeout(animácia1, cas += 1000);
-        } 
+        }  
     function animácia2() {
         let c = document.getElementById("animacia2"); // First of all, you must find the <canvas> element. This is done by using the HTML DOM method getElementById().
         let ctx = c.getContext("2d"); //Secondly, you need a drawing object for the canvas. The getContext() is a built-in HTML object, with properties and methods for drawing.
@@ -171,19 +171,21 @@
     
 
      // Legenda
-     let xl = 480;
+     let xl = 5 * dimension + 80;
      let yl = 20;
-     ctx.fillRect(400, 0, 220, 400);
+     ctx.fillRect(5 * dimension, 0, 220, 5 * dimension);
      ctx.font = " bold 18px Calibri";
      ctx.fillStyle = "white";
      ctx.fillText("Legend", xl,yl);
-     ctx.fillStyle = "#8BC766";
-     ctx.strokeStyle = "black";
+     ctx.font = "18px Calibri";
+     ctx.fillText("Turn:", xl += 70, yl += 360);
      
-     xl = 413;
+     xl = 5 * dimension + 13;
      yl = 45;
      let b = 14;
 
+     ctx.fillStyle = "#8BC766";
+     ctx.strokeStyle = "black";
      ctx.fillRect(xl, yl, b, b);
      stvorec(xl, yl, b, b)
      ctx.fillStyle = "white";
@@ -227,8 +229,8 @@
     // Nakreslenie pozadia
     ctx.fillStyle = "#8BC766";
     ctx.strokeStyle = "black";
-    for (let x = 0; x < 400; x = x + dimension) {
-        for (let y = 0; y < 400; y = y + dimension) {
+    for (let x = 0; x < 5 * dimension; x = x + dimension) {
+        for (let y = 0; y < 5 * dimension; y = y + dimension) {
             ctx.fillRect(x, y, dimension, dimension);
             ctx.strokeRect(x,y,dimension,dimension);
         }
@@ -249,10 +251,14 @@
     setTimeout(function() {
         ctx.fillStyle = "red";
         ctx.fillText("1", x -= 2 * dimension, y -= 2 * dimension);
+        ctx.fillStyle = "white";
+        ctx.font = "18px Calibri";
+        ctx.fillText("1", xl += 170, yl += 169);
     }, cas += 1000);
 
     // 1. tah hraca 1 - 2. akcia
     setTimeout(function() {
+        ctx.font = "50px Calibri";
         ctx.fillStyle = "red";
         ctx.fillText("1", x + dimension, y += dimension);
     }, cas += 1000);
@@ -273,10 +279,16 @@
     setTimeout(function() {
         ctx.fillStyle = "red";
         ctx.fillText("1", x, y += dimension);
+        ctx.fillStyle = "black";
+        ctx.fillRect(xl, yl -= 20, 20, 20);
+        ctx.fillStyle = "white";
+        ctx.font = "18px Calibri";
+        ctx.fillText("2", xl, yl += 20);
     }, cas += 1000);
 
     // 2. tah hraca 1 - 2. akcia
     setTimeout(function() {
+        ctx.font = "50px Calibri";
         ctx.fillStyle = "red";
         ctx.fillText("1", x += dimension, y += dimension);
     }, cas += 1000);
@@ -296,7 +308,7 @@
     // tabulka score
     setTimeout(function() { ctx.font = "20px Calibri";
     ctx.fillStyle = "red";
-    ctx.fillText("Player 1", xl, yl += 50);
+    ctx.fillText("Player 1", xl -= 170, yl -= 120);
     ctx.fillStyle = "yellow";
     ctx.fillText("Player 2", xl += 100, yl);
     ctx.fillStyle = "white";
@@ -436,19 +448,22 @@
                 }
 
             // Legenda
-            let xl = 480;
+            let xl = 5 * dimension + 80;
             let yl = 20;
-            ctx.fillRect(400, 0, 220, 400);
+            ctx.fillRect(5 * dimension, 0, 220, 5 * dimension);
             ctx.font = " bold 18px Calibri";
             ctx.fillStyle = "white";
             ctx.fillText("Legend", xl,yl);
+            ctx.font = "18px Calibri";
+            ctx.fillText("Turn:", xl += 70, yl += 360);
+
+     
+            xl = 5 * dimension + 13;;
+            yl = 45;
+            let b = 14;
+            
             ctx.fillStyle = "#8BC766";
             ctx.strokeStyle = "black";
-     
-             xl = 413;
-             yl = 45;
-             let b = 14;
-
             ctx.fillRect(xl, yl, b, b);
             stvorec(xl, yl, b, b)
             ctx.fillStyle = "white";
@@ -476,12 +491,15 @@
             stvorec(xl, yl, b, b);
             ctx.fillStyle = "white";
             ctx.fillText(" - player 1 power ", xl+= 16, yl += 11);
+            ctx.font = " bold 20px Calibri";
+            ctx.fillText("Warehouse", xl+= 30, yl += 50);
+
      
     // Nakreslenie pozadia
     ctx.fillStyle = "#8BC766";
     ctx.strokeStyle = "black";
-    for (let x = 0; x < 400; x = x + dimension) {
-        for (let y = 0; y < 400; y = y + dimension) {
+    for (let x = 0; x < 5 * dimension; x = x + dimension) {
+        for (let y = 0; y < 5 * dimension; y = y + dimension) {
             ctx.fillRect(x, y, dimension, dimension);
             ctx.strokeRect(x,y,dimension,dimension);
         }
@@ -497,8 +515,8 @@
 
     // hora
     for (a = 1; a <= 3; a += 1) {
-    ctx.fillStyle = "brown";
-    ctx.fillRect( a * dimension + 10, 2 * dimension + 10, dimension - 20, dimension - 20);
+        ctx.fillStyle = "brown";
+        ctx.fillRect( a * dimension + 10, 2 * dimension + 10, dimension - 20, dimension - 20);
     }
     ctx.strokeStyle = "yellow";
     ctx.beginPath();
@@ -510,19 +528,54 @@
     setTimeout(function() {
         ctx.fillStyle = "white";
         ctx.fillText("1", x, y += 2 * dimension);
+        ctx.font = "18px Calibri";
+        ctx.fillText("1", xl += 140, yl += 170);
     }, cas += 1000);
 
     // 1. tah hraca 1 - 2. akcia
     setTimeout(function() {
+        ctx.font = "50px Calibri";
         ctx.fillStyle = "white";
         ctx.fillText("1", x += dimension, y -= dimension);
     }, cas += 1000);
 
     // 2. tah hraca 1 - 1. akcia
     setTimeout(function() {
+        ctx.font = "50px Calibri";
         ctx.fillStyle = "white";
         ctx.fillText("1", x += dimension, y);
+        ctx.fillStyle = "black";
+        ctx.fillRect(xl, yl -= 20, 20, 20);
+        ctx.fillStyle = "white";
+        ctx.font = "18px Calibri";
+        ctx.fillText("2", xl, yl += 20);
+        u = yl - 160;
+        yl -= 20;
     }, cas += 1000);
+
+    // 2. a 3. tah hraca 1 - uloženie akcii do warehouse
+    let counter = 0;
+    for (w = 5 * dimension + 50; w < 5 * dimension + 80; w += 10) {
+        setTimeout(function(){
+            w += 10;
+            counter += 1;
+            ctx.strokeStyle = "white";
+            ctx.lineWidth = "3";
+            ctx.beginPath();
+            ctx.moveTo(w, u);
+            ctx.lineTo(w, u += 20);
+            ctx.stroke();
+            u -= 20
+            if (counter == 2) {
+                ctx.lineWidth = "1";
+                ctx.fillStyle = "black";
+                ctx.fillRect(xl, yl, 20, 20);
+                ctx.fillStyle = "white";
+                ctx.font = "18px Calibri";
+                ctx.fillText("3", xl, yl += 20);
+            }
+        }, cas += 1000);
+    }
 
     // zvýraznenie okupového políčka
     setTimeout(function() {
@@ -543,6 +596,5 @@
     setTimeout(animacia3, cas += 1000);
 }
 animácia1();
-animácia2(); 
+animácia2();
 animacia3();
-    
