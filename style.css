@@ -4,14 +4,14 @@ input {
 body {
       background: rgba(2, 2, 2, 0.91);
       color: white;
-      font-family: Calibri;
+      font-family: Calibri, sans-serif;
       font-size: 1.15em;
       text-align:center;
       
 }
 
 .menu {
-           position: fixed;
+           margin: auto;
            top: 0px;    
 }
 .generator {
