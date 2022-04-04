@@ -42,6 +42,12 @@ body {
            width: 500px;
            margin: auto;
 }
+.button_mainpage{
+           width: 500px;
+           text-align: right;
+           background: hsl(0, 0%, 100%);
+}
+
 input[type='button']{
         background: hsl(0, 0%, 100%);
 }
@@ -55,10 +61,12 @@ input[type='button']:hover {
                                       background-color: gold;
                                      }
                                 }
-
-.button_mainpage{
-           width: 500px;
-           text-align: right;
-           background: hsl(0, 0%, 100%);
+button[type='submit']{
+        background: hsl(0, 0%, 100%);
 }
+button[type='submit']:hover {
+              animation-name: background-color-2;
+              animation-duration: 500ms;
+              animation-fill-mode: forwards;
+
       
