@@ -5,7 +5,7 @@ body {
       background: rgba(2, 2, 2, 0.91);
       color: white;
       font-family: Calibri;
-      font-size: 13px;
+      font-size: 1.15em;
       text-align:center;
       
 }
@@ -29,13 +29,13 @@ body {
           /* offset-x, offset-y, blur-radius, spread-radius, color */
           box-shadow: 0 10px 20px rgba(0, 0, 0, 0.92), 0 6px 6px rgba(0, 0, 0, 0.88);
           margin: auto;
+          text-align: justify;
 }  
 .tlacitka_generator {
            width: 500px;
            margin: auto;
 }
 .formular {
-           font-family: Calibri;
            background: hsl(10, 0%, 100%);
 }
 .menu_pravidla {
