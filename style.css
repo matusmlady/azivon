@@ -3,14 +3,12 @@ input {
 }
 body {
       background: rgba(2, 2, 2, 0.91);
-      text-align: justify;
       color: white;
       font-family: Calibri;
-      text-align: center;
       font-size: 13px;
-      text-align: justify;
       
 }
+
 .menu {
            position: fixed;
            top: 0px;    
@@ -33,6 +31,7 @@ body {
 }  
 .tlacitka_generator {
            width: 500px;
+           margin: auto;
 }
 .formular {
            font-family: Calibri;
