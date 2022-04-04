@@ -2,7 +2,7 @@ input {
       margin: 3px;
 }
 body {
-      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.91), rgba(0, 0, 0, 0.89));
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.91), rgba(0, 0, 0, 0.85));
       color: white;
       font-family: Calibri, sans-serif;
       font-size: 1.15em;
