@@ -2,24 +2,11 @@ input {
       margin: 3px
 }
 body {
-      background-color: rgba(2, 2, 2, 0.91);
+      background: rgba(2, 2, 2, 0.91);
       text-align: justify;
       color: white;
-}
-h1 {
-    color: white;
-    font-family: Calibri;
-    text-align: center;
-}
-h2 {
-    color: white;
-    font-family: Calibri;
-    text-align: center;
-}
-h3 {
-       color: black;
-       font-family: Calibri;
-       text-align: center;
+      font-family: Calibri;
+      text-align: center;
 }
 .menu {
            font-size: 13px;
