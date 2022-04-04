@@ -39,17 +39,17 @@ body {
 .menu_pravidla {
            width: 500px;
 }
-button {
+input[type='button']{
         background: hsl(0, 0%, 100%);
 }
-button:hover {
+input[type='button']:hover {
               animation-name: background-color-2;
               animation-duration: 500ms;
               animation-fill-mode: forwards;
 }
 @keyframes background-color-2 {
                                100% {
-                                      background-color: blue;
+                                      background-color: gold;
                                      }
                                 }
 
