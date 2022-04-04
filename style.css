@@ -19,8 +19,7 @@ body {
              height: 29,1869%;
 }
 .kecy {
-          background-color: rgba(0, 0, 0, 0.92);
-          font-family: Calibri;
+          background: rgba(0, 0, 0, 0.92);
           width: 620px;
           padding: 10px;
           padding-left: 30px;
@@ -40,18 +39,18 @@ body {
 .formular {
            margin: auto;
            font-family: Calibri;
-           background-color: hsl(10, 0%, 100%);
+           background: hsl(10, 0%, 100%);
            text-align: center;
 }
 .menu_pravidla {
            font-size: 13px;
            width: 500px;
            text-align: center;
-           background-color: hsl(0, 0%, 100%);
+           background: hsl(0, 0%, 100%);
            margin: auto;
 }
 button {
-        background-color: hsl(0, 0%, 100%);
+        background: hsl(0, 0%, 100%);
 }
 button:hover {
               animation-name: background-color-2;
@@ -68,7 +67,7 @@ button:hover {
            font-size: 13px;
            width: 500px;
            text-align: right;
-           background-color: hsl(0, 0%, 100%);
+           background: hsl(0, 0%, 100%);
            margin: auto;
 }
       
