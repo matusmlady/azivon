@@ -851,5 +851,223 @@
     animacia3();
     </script>
   </div>
+  <div class="platno"><canvas id="animacia4"></canvas>
+    <script>
+        function animacia4() {
+            let c = document.getElementById("animacia4"); // First of all, you must find the <canvas> element. This is done by using the HTML DOM method getElementById().
+            let ctx = c.getContext("2d"); //Secondly, you need a drawing object for the canvas. The getContext() is a built-in HTML object, with properties and methods for drawing.
+            c.height = 400;
+            c.width = 620;
+            c.style.height = "400px";
+            c.style.width = "620px";
+        
+            obrazok2 = new Image();
+            const dimension = 80;
+            
+
+            function stvorec(xArg = 0, yArg = 0, x = 0, y = 0) {
+            //Draw a rectangle
+            ctx.beginPath();
+            ctx.strokeRect(xArg, yArg, x, y);
+            }
+
+            // Legenda
+            let xl = 5 * dimension + 80;
+            let yl = 20;
+            ctx.fillRect(5 * dimension, 0, 220, 5 * dimension);
+            ctx.font = " bold 18px Calibri";
+            ctx.fillStyle = "white";
+            ctx.fillText("Legend", xl,yl);
+            ctx.font = "18px Calibri";
+            ctx.fillText("Turn:", xl += 70, yl += 360);
+
+     
+            xl = 5 * dimension + 13;;
+            yl = 45;
+            let b = 14;
+            
+            ctx.fillStyle = "#8BC766";
+            ctx.strokeStyle = "black";
+            ctx.fillRect(xl, yl, b, b);
+            stvorec(xl, yl, b, b)
+            ctx.fillStyle = "white";
+            ctx.font = "14px Calibri";
+            ctx.fillText(" - tile", xl += 16, yl += 11);
+
+            ctx.fillStyle = "white";
+            ctx.fillText("1", xl -= 14, yl += 26);
+            ctx.fillStyle = "white";
+            ctx.fillText(" - conquered tiles", xl += 5, yl);
+
+            ctx.strokeStyle = "red";
+            stvorec(xl -= 8, yl += 15, b, b);
+            ctx.fillText(" - supporting  tiles", xl += 16, yl += 11);
+
+            ctx.strokeStyle = "black";
+            ctx.fillStyle = "#5b5e3f";
+            ctx.fillRect(xl -= 16, yl += 15, b, b);
+            stvorec(xl, yl, b, b);
+            ctx.fillStyle = "white";
+            ctx.fillText(" - occupied tile", xl+= 16, yl += 11);
+
+            ctx.fillStyle = "#949437";
+            ctx.fillRect(xl -= 16, yl += 15, b, b);
+            stvorec(xl, yl, b, b);
+            ctx.fillStyle = "white";
+            ctx.fillText(" - player 1 power ", xl+= 16, yl += 11);
+            ctx.font = " bold 20px Calibri";
+            ctx.fillText("Warehouse", xl+= 30, yl += 50);
+
+     
+            // Nakreslenie pozadia
+            ctx.fillStyle = "#8BC766";
+            ctx.strokeStyle = "black";
+            for (let x = 0; x < 5 * dimension; x = x + dimension) {
+                for (let y = 0; y < 5 * dimension; y = y + dimension) {
+                    ctx.fillRect(x, y, dimension, dimension);
+                    ctx.strokeRect(x,y,dimension,dimension);
+                }
+            }
+
+            // setup
+            let cas = 0;
+            ctx.font = "50px Calibri";
+            let x = 7 * dimension / 20;
+            let y = 11 * dimension / 16;
+            ctx.fillStyle = "white";
+            ctx.fillText("1", x, y);
+            // sweet woods
+            for (a = 1; a <= 2; a += 1) {
+                ctx.fillStyle = "#BCA26F";
+                ctx.fillRect(a * dimension + 10, dimension + 10, dimension - 20, dimension - 20);
+            }
+            ctx.strokeStyle = "yellow";
+            ctx.beginPath();
+            ctx.moveTo(dimension + dimension / 2, dimension + dimension / 2);
+            ctx.lineTo(2 * dimension + dimension / 2, dimension + dimension / 2);
+            ctx.stroke();
+
+            // 1. tah hraca 1 - 1. akcia
+            setTimeout(function() {
+                ctx.fillStyle = "white";
+                ctx.fillText("1", x += dimension, y += 2 * dimension);
+                ctx.font = "18px Calibri";
+                ctx.fillText("1", xl += 140, yl += 170);
+            }, cas += 1000);
+
+            setTimeout(function() {
+                obrazok2.src = c.toDataURL("image/png");
+            }, cas += 1000);
+
+            // 1. a 2. tah hraca 1 - uloženie akcii do warehouse
+            let counter = 0;
+            for (let w = 5 * dimension + 100; w < 5 * dimension + 120; w += 10) {
+                setTimeout(function(){
+                    counter += 1;
+                    ctx.strokeStyle = "white";
+                    ctx.lineWidth = "3";
+                    ctx.beginPath();
+                    ctx.moveTo(w, u);
+                    ctx.lineTo(w, u += 20);
+                    ctx.stroke();
+                    u -= 20
+                    if (counter == 2) {
+                        ctx.fillStyle = "black";
+                        ctx.fillRect(xl, yl -= 20, 20, 20);
+                        ctx.fillStyle = "white";
+                        ctx.font = "18px Calibri";
+                        ctx.fillText("2", xl, yl += 20);
+                    }
+                }, cas += 1000);
+            }
+
+            // zvýraznenie okupového políčka
+            setTimeout(function() {
+                ctx.strokeStyle = "black";
+                ctx.fillStyle = "#5b5e3f";
+                ctx.fillRect(dimension, dimension, dimension, dimension);
+                ctx.lineWidth = "1";
+                stvorec(dimension, dimension, dimension, dimension);
+                ctx.fillStyle = "#BCA26F";
+                ctx.fillRect(dimension + 10, dimension + 10, dimension - 20, dimension - 20);
+                ctx.strokeStyle = "yellow";
+                ctx.beginPath();
+                ctx.moveTo(dimension, dimension + dimension / 2);
+                ctx.lineTo(2 * dimension, dimension + dimension / 2);
+                ctx.stroke();
+            }, cas += 1000);
+
+            //animácia stvorca ohraničujuceho podporurujúce políčka
+            setTimeout(function() {
+                ctx.lineWidth = "5";
+                ctx.strokeStyle = "red";
+                stvorec(0, 0, 3 * dimension, 3 * dimension);
+                ctx.lineWidth = "1";
+                }, cas += 1000);
+    
+            // tabulka score
+            setTimeout(function() { 
+                ctx.font = "20px Calibri";
+                ctx.fillStyle = "white";
+                ctx.fillText("Player 1:", xl -= 130, yl -= 100);
+                ctx.font = "50px Calibri";
+                xl += 75;
+            }, cas += 1000);
+
+            // zvýraznenie sily hraca 1
+            let x1 = 7 * dimension / 20;
+            let score1 = 0;
+            let y1 = 11 * dimension / 16;
+            let Y = 0;
+
+            for (let x = 0; x <= dimension; x += dimension) {
+                setTimeout(function(){
+                    ctx.fillStyle = "#949437";
+                    score1 += 1;
+                    ctx.fillRect(x, Y, dimension, dimension);
+                    stvorec(x, Y, dimension, dimension);
+                    Y += 2 * dimension;
+                    ctx.fillStyle = "white";
+                    ctx.fillText("1", x1, y1);
+                    x1 += dimension;
+                    y1 += 2 * dimension;
+                    // priratanie sily hraca 1
+                    ctx.fillStyle = "black";
+                     ctx.fillRect(xl, yl -= 20, 20, 20);
+                    yl += 20;
+                    ctx.font = "20px Calibri";
+                    ctx.fillStyle = "white";
+                    ctx.fillText(score1, xl, yl);
+                    ctx.font = "50px Calibri";
+                }, cas += 1000);    
+            }
+            
+            // 3. tah hraca 1 - 1. akcia
+            setTimeout(function() {
+                ctx.fillText("1", x, y -= dimension);
+                ctx.fillStyle = "black";
+                ctx.fillRect(xl += 55, yl += 80, 20, 20);
+                ctx.fillStyle = "white";
+                ctx.font = "18px Calibri";
+                ctx.fillText("3", xl, yl += 20);
+            }, cas += 1000);
+
+            // 3. tah hraca 1 - 2. akcia
+            setTimeout(function() {
+                ctx.drawImage(obrazok2,0,0);
+                ctx.font = "50px Calibri";
+                ctx.fillText("1", x, y);
+                ctx.fillStyle = "black";
+                ctx.fillRect(xl, yl -= 20, 20, 20);
+                ctx.fillStyle = "white";
+                ctx.font = "18px Calibri";
+                ctx.fillText("3", xl, yl += 20);
+            }, cas += 1000);
+            
+            setTimeout(animacia4, cas += 1000);
+        }
+        animacia4();
+    </script>
+  </div>
  </body>
 </html>
