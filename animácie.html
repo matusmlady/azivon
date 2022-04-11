@@ -508,7 +508,7 @@
             ctx.fillText("Turn:", xl += 70, yl += 360);
 
      
-            xl = 5 * dimension + 13;;
+            xl = 5 * dimension + 13;
             yl = 45;
             let b = 14;
             
@@ -541,8 +541,25 @@
             stvorec(xl, yl, b, b);
             ctx.fillStyle = "white";
             ctx.fillText(" - player 1 power ", xl+= 16, yl += 11);
+
+            // hora v legende
+            yl += 13;
+            for ( xl = 5 * dimension + 13; xl <= 5 * dimension + 4 * b + 5; xl += b + 5) {
+                ctx.fillStyle = "brown";
+                ctx.fillRect(xl, yl, b , b);
+                }
+            xl = 5 * dimension + 13;
+            ctx.strokeStyle = "yellow";
+            ctx.beginPath();
+            ctx.moveTo(xl + b / 2, yl + b / 2);
+            ctx.lineTo(xl + 3 * b + 5, yl + b / 2);
+            ctx.stroke();
+
+            ctx.fillStyle = "white";
+            ctx.fillText(" - mountain", xl+= 3 * b + 10, yl += 11);
+
             ctx.font = " bold 20px Calibri";
-            ctx.fillText("Warehouse", xl+= 30, yl += 50);
+            ctx.fillText("Warehouse", xl -= 10, yl += 50);
 
      
     // Nakreslenie pozadia
@@ -564,7 +581,7 @@
     ctx.fillText("1", x, y);
 
     // hora
-    for (a = 1; a <= 3; a += 1) {
+    for (let a = 1; a <= 3; a += 1) {
         ctx.fillStyle = "brown";
         ctx.fillRect( a * dimension + 10, 2 * dimension + 10, dimension - 20, dimension - 20);
     }
@@ -579,7 +596,7 @@
         ctx.fillStyle = "white";
         ctx.fillText("1", x, y += 2 * dimension);
         ctx.font = "18px Calibri";
-        ctx.fillText("1", xl += 140, yl += 170);
+        ctx.fillText("1", xl += 140, yl += 146);
     }, cas += 1000);
 
     // 1. tah hraca 1 - 2. akcia
@@ -599,7 +616,7 @@
         ctx.fillStyle = "white";
         ctx.font = "18px Calibri";
         ctx.fillText("2", xl, yl += 20);
-        u = yl - 160;
+        u = yl - 135;
     }, cas += 1000);
 
     setTimeout(function() {
@@ -658,7 +675,7 @@
     setTimeout(function() { 
         ctx.font = "20px Calibri";
         ctx.fillStyle = "white";
-        ctx.fillText("Player 1:", xl -= 130, yl -= 100);
+        ctx.fillText("Player 1:", xl -= 130, yl -= 90);
         ctx.font = "50px Calibri";
     }, cas += 1000);
 
@@ -704,7 +721,7 @@
     setTimeout(function() {
         ctx.fillText("1", x -= dimension, y);
         ctx.fillStyle = "black";
-        ctx.fillRect(xl += 55, yl += 80, 20, 20);
+        ctx.fillRect(xl += 55, yl += 70, 20, 20);
         ctx.fillStyle = "white";
         ctx.font = "18px Calibri";
         ctx.fillText("4", xl, yl += 20);
@@ -775,7 +792,7 @@
     setTimeout(function() { 
         ctx.font = "20px Calibri";
         ctx.fillStyle = "white";
-        ctx.fillText("Player 1:", xl -= 130, yl -= 100);
+        ctx.fillText("Player 1:", xl -= 130, yl -= 90);
         ctx.font = "50px Calibri";
     }, cas += 1000);
 
@@ -829,7 +846,7 @@
     setTimeout(function() {
         ctx.fillText("1", x += dimension, y);
         ctx.fillStyle = "black";
-        ctx.fillRect(xl += 55, yl += 80, 20, 20);
+        ctx.fillRect(xl += 55, yl += 70, 20, 20);
         ctx.fillStyle = "white";
         ctx.font = "18px Calibri";
         ctx.fillText("6", xl, yl += 20);
