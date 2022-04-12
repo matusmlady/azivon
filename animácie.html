@@ -881,11 +881,21 @@
             obrazok2 = new Image();
             const dimension = 80;
             
-
             function stvorec(xArg = 0, yArg = 0, x = 0, y = 0) {
-            //Draw a rectangle
-            ctx.beginPath();
-            ctx.strokeRect(xArg, yArg, x, y);
+                //Draw a rectangle
+                ctx.beginPath();
+                ctx.strokeRect(xArg, yArg, x, y);
+            }
+
+            function chata(xArg = 0, yArg = 0, a = 0 , b = 0) {
+                ctx.fillStyle = "#c04000";
+                ctx.fillRect(xArg * dimension -70, yArg * dimension -50, dimension - 20, dimension - 40);
+                ctx.fillStyle = "yellow";
+                ctx.beginPath();
+                ctx.moveTo(a * dimension -70, b * dimension - 50);
+                ctx.lineTo(a * dimension - 40, b * dimension -70);
+                ctx.lineTo(a * dimension - 10, b * dimension - 50);
+                ctx.fill();
             }
 
             // Legenda
@@ -932,10 +942,26 @@
             stvorec(xl, yl, b, b);
             ctx.fillStyle = "white";
             ctx.fillText(" - player 1 power ", xl+= 16, yl += 11);
-            ctx.font = " bold 20px Calibri";
-            ctx.fillText("Warehouse", xl+= 30, yl += 50);
 
-     
+            // sweet woods v legende
+            yl += 13;
+            for ( xl = 5 * dimension + 13; xl < 5 * dimension + 2 * b + 5; xl += b + 5) {
+                ctx.fillStyle = "#BCA26F";
+                ctx.fillRect(xl, yl, b , b);
+                }
+            xl = 5 * dimension + 13;
+            ctx.strokeStyle = "yellow";
+            ctx.beginPath();
+            ctx.moveTo(xl + b / 2, yl + b / 2);
+            ctx.lineTo(xl + 2 * b - 2, yl + b / 2);
+            ctx.stroke();
+
+            ctx.fillStyle = "white";
+            ctx.fillText(" - sweet woods", xl += 2 * b + 8, yl += 11);
+
+            ctx.font = " bold 20px Calibri";
+            ctx.fillText("Warehouse", xl += 10, yl += 50);
+
             // Nakreslenie pozadia
             ctx.fillStyle = "#8BC766";
             ctx.strokeStyle = "black";
@@ -969,7 +995,7 @@
                 ctx.fillStyle = "white";
                 ctx.fillText("1", x += dimension, y += 2 * dimension);
                 ctx.font = "18px Calibri";
-                ctx.fillText("1", xl += 140, yl += 170);
+                ctx.fillText("1", xl += 137, yl += 146);
             }, cas += 1000);
 
             setTimeout(function() {
@@ -1009,7 +1035,7 @@
                 ctx.fillRect(dimension + 10, dimension + 10, dimension - 20, dimension - 20);
                 ctx.strokeStyle = "yellow";
                 ctx.beginPath();
-                ctx.moveTo(dimension, dimension + dimension / 2);
+                ctx.moveTo(dimension + dimension / 2, dimension + dimension / 2);
                 ctx.lineTo(2 * dimension, dimension + dimension / 2);
                 ctx.stroke();
             }, cas += 1000);
@@ -1026,7 +1052,7 @@
             setTimeout(function() { 
                 ctx.font = "20px Calibri";
                 ctx.fillStyle = "white";
-                ctx.fillText("Player 1:", xl -= 130, yl -= 100);
+                ctx.fillText("Player 1:", xl -= 130, yl -= 90);
                 ctx.font = "50px Calibri";
                 xl += 75;
             }, cas += 1000);
@@ -1050,7 +1076,7 @@
                     y1 += 2 * dimension;
                     // priratanie sily hraca 1
                     ctx.fillStyle = "black";
-                     ctx.fillRect(xl, yl -= 20, 20, 20);
+                    ctx.fillRect(xl, yl -= 20, 20, 20);
                     yl += 20;
                     ctx.font = "20px Calibri";
                     ctx.fillStyle = "white";
@@ -1063,13 +1089,13 @@
             setTimeout(function() {
                 ctx.fillText("1", x, y -= dimension);
                 ctx.fillStyle = "black";
-                ctx.fillRect(xl += 55, yl += 80, 20, 20);
+                ctx.fillRect(xl += 55, yl += 70, 20, 20);
                 ctx.fillStyle = "white";
                 ctx.font = "18px Calibri";
                 ctx.fillText("3", xl, yl += 20);
             }, cas += 1000);
 
-            // 3. tah hraca 1 - 2. akcia
+            // odstranenie zvýraznených políčok
             setTimeout(function() {
                 ctx.drawImage(obrazok2,0,0);
                 ctx.font = "50px Calibri";
@@ -1079,6 +1105,27 @@
                 ctx.fillStyle = "white";
                 ctx.font = "18px Calibri";
                 ctx.fillText("3", xl, yl += 20);
+            }, cas += 1000);
+
+             // 3. tah hraca 1 - 2. akcia
+             setTimeout(function() {
+                ctx.strokeStyle = "yellow";
+                ctx.lineWidth = "3";
+                ctx.beginPath();
+                ctx.moveTo(dimension + 10, dimension + 10);
+                ctx.lineTo(2 * dimension - 10, 2 * dimension - 10);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(2 * dimension - 10, dimension + 10);
+                ctx.lineTo(dimension + 10, 2 * dimension - 10);
+                ctx.stroke();
+                ctx.font = "50px Calibri";
+                ctx.fillText("1", x, y);
+            }, cas += 1000);
+
+            // 4. tah hraca 1 - 1. akcia
+            setTimeout(function() {
+                chata(3, 3, 3, 3);
             }, cas += 1000);
             
             setTimeout(animacia4, cas += 1000);
