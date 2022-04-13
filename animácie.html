@@ -161,7 +161,7 @@
         
         // animácia kruhu vpravo dole
         setTimeout(function() {cislo(x += 2 * dimension, y += 2 * dimension)}, cas += 100);
-        setTimeout(animácia1, cas += 1000);
+        setTimeout(animácia1, cas += 3000);
         }
         animácia1();
 
@@ -454,7 +454,7 @@
     ctx.drawImage(savedData,0,0);*/
     
 
-    setTimeout(animácia2, cas += 1000);
+    setTimeout(animácia2, cas += 3000);
     }
     animácia2();
    </script>
@@ -863,7 +863,7 @@
         ctx.fillText("6", xl, yl += 20);
     }, cas += 1000);
 
-    setTimeout(animacia3, cas += 1000);
+    setTimeout(animacia3, cas += 3000);
 }
     animacia3();
     </script>
@@ -887,15 +887,28 @@
                 ctx.strokeRect(xArg, yArg, x, y);
             }
 
-            function chata(xArg = 0, yArg = 0, a = 0 , b = 0) {
-                ctx.fillStyle = "#c04000";
-                ctx.fillRect(xArg * dimension -70, yArg * dimension -50, dimension - 20, dimension - 40);
-                ctx.fillStyle = "yellow";
+            function chata(xArg = 0, yArg = 0) {
+                ctx.lineWidth = "7";
+                ctx.strokeStyle = "white";
+                ctx.strokeRect(xArg * dimension -70, yArg * dimension -50, dimension - 20, dimension - 40);
                 ctx.beginPath();
-                ctx.moveTo(a * dimension -70, b * dimension - 50);
-                ctx.lineTo(a * dimension - 40, b * dimension -70);
-                ctx.lineTo(a * dimension - 10, b * dimension - 50);
-                ctx.fill();
+                ctx.moveTo(xArg * dimension -70, yArg * dimension - 50);
+                ctx.lineTo(xArg * dimension - 40, yArg * dimension -70);
+                ctx.lineTo(xArg * dimension - 10, yArg * dimension - 50);
+                ctx.stroke();
+            }
+
+            function sweetwoods(xArg = 0, yArg = 0) {
+                for (let x = xArg; x <= xArg + 1; x += 1) {
+                    let y = yArg;
+                    ctx.fillStyle = "#BCA26F";
+                    ctx.fillRect(x * dimension - 7/8 * dimension, y * dimension - 7/8 * dimension, dimension - 20, dimension - 20);
+                }
+                ctx.strokeStyle = "yellow";
+                ctx.beginPath();
+                ctx.moveTo(xArg * dimension - dimension / 2, yArg * dimension - dimension / 2);
+                ctx.lineTo(xArg * dimension + dimension / 2, yArg * dimension - dimension / 2);
+                ctx.stroke();
             }
 
             // Legenda
@@ -912,6 +925,7 @@
             xl = 5 * dimension + 13;;
             yl = 45;
             let b = 14;
+            
             
             ctx.fillStyle = "#8BC766";
             ctx.strokeStyle = "black";
@@ -980,15 +994,7 @@
             ctx.fillStyle = "white";
             ctx.fillText("1", x, y);
             // sweet woods
-            for (a = 1; a <= 2; a += 1) {
-                ctx.fillStyle = "#BCA26F";
-                ctx.fillRect(a * dimension + 10, dimension + 10, dimension - 20, dimension - 20);
-            }
-            ctx.strokeStyle = "yellow";
-            ctx.beginPath();
-            ctx.moveTo(dimension + dimension / 2, dimension + dimension / 2);
-            ctx.lineTo(2 * dimension + dimension / 2, dimension + dimension / 2);
-            ctx.stroke();
+            sweetwoods(2,2);
 
             // 1. tah hraca 1 - 1. akcia
             setTimeout(function() {
@@ -1109,8 +1115,8 @@
 
              // 3. tah hraca 1 - 2. akcia
              setTimeout(function() {
-                ctx.strokeStyle = "yellow";
-                ctx.lineWidth = "3";
+                ctx.strokeStyle = "white";
+                ctx.lineWidth = "5";
                 ctx.beginPath();
                 ctx.moveTo(dimension + 10, dimension + 10);
                 ctx.lineTo(2 * dimension - 10, 2 * dimension - 10);
@@ -1125,10 +1131,10 @@
 
             // 4. tah hraca 1 - 1. akcia
             setTimeout(function() {
-                chata(3, 3, 3, 3);
+                chata(3, 3);
             }, cas += 1000);
             
-            setTimeout(animacia4, cas += 1000);
+            setTimeout(animacia4, cas += 3000);
         }
         animacia4();
     </script>
