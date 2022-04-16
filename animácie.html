@@ -511,16 +511,18 @@
             }
 
             // Legenda
-            let xl = 5 * dimension + 80;
-            let yl = 20;
+            let xl = 5 * dimension + 80; // xova suradnica pre legendu
+            let yl = 20; //yova suradnica pre legendu
+            let xt = xl + 70; // xova suradnica pre tahy
+            let yt = yl + 360; // yova suradnica pre tahy
+
             ctx.fillRect(5 * dimension, 0, 220, 5 * dimension);
             ctx.font = " bold 18px Calibri";
             ctx.fillStyle = "white";
             ctx.fillText("Legend", xl,yl);
             ctx.font = "18px Calibri";
-            ctx.fillText("Turn:", xl += 70, yl += 360);
+            ctx.fillText("Turn:", xt, yt);
 
-     
             xl = 5 * dimension + 13;
             yl = 45;
             let b = 14;
@@ -571,9 +573,12 @@
             ctx.fillStyle = "white";
             ctx.fillText(" - mountain", xl+= 3 * b + 10, yl += 11);
 
+            // Warehouse
+            ctx.fillStyle = "white";
+            let xw = xl - b / 2; // xova suradnica pre warehouse
+            let yw = yl + 45; // yova suradnica pre warehouse
             ctx.font = " bold 20px Calibri";
-            ctx.fillText("Warehouse", xl -= 10, yl += 50);
-
+            ctx.fillText("Warehouse", xw, yw);
      
     // Nakreslenie pozadia
     ctx.fillStyle = "#8BC766";
@@ -601,7 +606,7 @@
         ctx.fillStyle = "white";
         ctx.fillText("1", x, y += 2 * dimension);
         ctx.font = "18px Calibri";
-        ctx.fillText("1", xl += 140, yl += 146);
+        ctx.fillText("1", xt += 50, yt);
     }, cas += 1000);
 
     // 1. tah hraca 1 - 2. akcia
@@ -617,11 +622,10 @@
         ctx.fillStyle = "white";
         ctx.fillText("1", x += dimension, y);
         ctx.fillStyle = "black";
-        ctx.fillRect(xl, yl -= 20, 20, 20);
+        ctx.fillRect(xt, yt -= 20, 20, 20);
         ctx.fillStyle = "white";
         ctx.font = "18px Calibri";
-        ctx.fillText("2", xl, yl += 20);
-        u = yl - 135;
+        ctx.fillText("2", xt, yt += 20);
     }, cas += 1000);
 
     setTimeout(function() {
@@ -631,8 +635,9 @@
 
     // 2. a 3. tah hraca 1 - uloženie akcii do warehouse
     let counter = 0;
-    for (w = 5 * dimension + 50; w < 5 * dimension + 80; w += 10) {
+    for (let w = 5 * dimension + 85; w < 5 * dimension + 115; w += 10) {
         setTimeout(function(){
+            let u = yw + 10;
             w += 10;
             counter += 1;
             ctx.strokeStyle = "white";
@@ -644,10 +649,10 @@
             u -= 20
             if (counter == 2) {
                 ctx.fillStyle = "black";
-                ctx.fillRect(xl, yl -= 20, 20, 20);
+                ctx.fillRect(xt, yt -= 20, 20, 20);
                 ctx.fillStyle = "white";
                 ctx.font = "18px Calibri";
-                ctx.fillText("3", xl, yl += 20);
+                ctx.fillText("3", xt, yt += 20);
             }
         }, cas += 1000);
     }
@@ -680,7 +685,7 @@
     setTimeout(function() { 
         ctx.font = "20px Calibri";
         ctx.fillStyle = "white";
-        ctx.fillText("Player 1:", xl -= 130, yl -= 90);
+        ctx.fillText("Player 1:", xw += 10, yw += 50);
         ctx.font = "50px Calibri";
     }, cas += 1000);
 
@@ -726,10 +731,10 @@
     setTimeout(function() {
         ctx.fillText("1", x -= dimension, y);
         ctx.fillStyle = "black";
-        ctx.fillRect(xl += 55, yl += 70, 20, 20);
+        ctx.fillRect(xt, ylt -= 20, 20, 20);
         ctx.fillStyle = "white";
         ctx.font = "18px Calibri";
-        ctx.fillText("4", xl, yl += 20);
+        ctx.fillText("4", xt, yt += 20);
     }, cas += 1000);
 
     setTimeout(function() {
@@ -737,10 +742,10 @@
         ctx.font = "50px Calibri";
         ctx.fillText("1", x, y);
         ctx.fillStyle = "black";
-        ctx.fillRect(xl, yl -= 20, 20, 20);
+        ctx.fillRect(xt, yt -= 20, 20, 20);
         ctx.fillStyle = "white";
         ctx.font = "18px Calibri";
-        ctx.fillText("4", xl, yl += 20);
+        ctx.fillText("4", xt, yt += 20);
         obrazok.src = c.toDataURL("image/png");
     }, cas += 1000);
 
@@ -930,13 +935,26 @@
                 ctx.stroke();
             }
 
+            function drevo(xArg = 0, yArg = 0) {
+                // uloženie dreva do warehouse
+                ctx.strokeStyle = "brown";
+                ctx.lineWidth = "3";
+                kruznica(xArg, yArg, b);
+                ctx.fillStyle = "#966F33";
+                kruh(xArg, yArg, b -= 3);
+                b += 3;
+                for (let r = 9; r >= 1; r -= 2){
+                    ctx.lineWidth = "1";
+                    kruznica(xArg, yArg, r);
+                }
+            }
+
             // Legenda
             let xl = 5 * dimension + 80; // xova suradnica pre legendu
             let yl = 20; //yova suradnica pre legendu
             let xt = xl + 70; // xova suradnica pre tahy
             let yt = yl + 360; // yova suradnica pre tahy
-            
-
+        
             ctx.fillRect(5 * dimension, 0, 220, 5 * dimension);
             ctx.font = " bold 18px Calibri";
             ctx.fillStyle = "white";
@@ -944,11 +962,9 @@
             ctx.font = "18px Calibri";
             ctx.fillText("Turn:", xt, yt);
 
-     
             xl = 5 * dimension + 13;
             yl = 45;
             let b = 14;
-            
             
             ctx.fillStyle = "#8BC766";
             ctx.strokeStyle = "black";
@@ -996,17 +1012,34 @@
             ctx.fillStyle = "white";
             ctx.fillText(" - sweet woods", xl += 2 * b + 8, yl += 11);
 
+            // chata v legende
+            ctx.lineWidth = "2";
+            ctx.strokeStyle = "white";
+            ctx.strokeRect(xl -= 3 * b - b / 2, yl += 20, b, b);
+            ctx.beginPath();
+            ctx.moveTo(xl, yl);
+            ctx.lineTo(xl +=  b / 2, yl -= b / 2);
+            ctx.lineTo(xl += b / 2, yl += b / 2);
+            ctx.stroke();
+            ctx.fillText(" - cottage", xl += 3, yl += 10);
+
             ctx.strokeStyle = "white";
             ctx.lineWidth = "3";
             ctx.beginPath();
-            ctx.moveTo(xl -= 2 * b + 1, yl += 11);
+            ctx.moveTo(xl -= b / 2 + 3, yl += 15);
             ctx.lineTo(xl, yl += b);
             ctx.stroke();
             ctx.fillText(" - action", xl += 3, yl -= 3);
 
+            drevo(xl, yl += 25);
+            ctx.fillStyle = "white";
+            ctx.fillText(" - log", xl += b + 3, yl += 3);
+            xl -= b + 3
+
             // Warehouse
+            ctx.fillStyle = "white";
             let xw = xl + 30; // xova suradnica pre warehouse
-            let yw = yl + 50; // yova suradnica pre warehouse
+            let yw = yl + 45; // yova suradnica pre warehouse
             ctx.font = " bold 20px Calibri";
             ctx.fillText("Warehouse", xw, yw);
 
@@ -1294,12 +1327,9 @@
                 ctx.font = "50px Calibri";
                 ctx.fillText("1", x, y);
                 // uloženie dreva do warehouse
-                ctx.strokeStyle = "brown";
                 xk = xw - 55
                 yk = yw - 20
-                kruznica(xk, yk, b);
-                ctx.fillStyle = "#966F33";
-                kruh(xk, yk, b -= 3);
+                drevo(xk, yk);
             }, cas += 1000);
 
             // vytaženie lesa
@@ -1318,21 +1348,18 @@
                 ctx.fillStyle = "white";
                 ctx.fillText("1", x, y);
                 // uloženie dreva do warehouse
-                ctx.strokeStyle = "brown";
-                kruznica(xk += 40, yk, b += 3);
-                ctx.fillStyle = "#966F33";
-                kruh(xk, yk, b -= 3);
+                drevo(xk += 40, yk);
             }, cas += 1000);
 
 
             // 5. tah hraca 1 - 2. akcia - postavenie chaty
                 setTimeout(function() {
+                    chata(3, 3);
                     for (let x = xk - 40; x <= xk + 40; x += 40){
-                chata(3, 3);
-                b = 15;
-                ctx.fillStyle = "black";
-                let y = yk;
-                kruh(x, y, b);
+                        b = 16;
+                        ctx.fillStyle = "black";
+                        let y = yk;
+                        kruh(x, y, b);
                 } 
             }, cas += 1000); 
            
