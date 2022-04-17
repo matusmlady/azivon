@@ -571,11 +571,19 @@
             ctx.stroke();
 
             ctx.fillStyle = "white";
-            ctx.fillText(" - mountain", xl+= 3 * b + 10, yl += 11);
+            ctx.fillText(" - mountain", xl += 3 * b + 10, yl += 11);
+
+            ctx.strokeStyle = "white";
+            ctx.lineWidth = "3";
+            ctx.beginPath();
+            ctx.moveTo(xl -= 3 * b + 3, yl += 15);
+            ctx.lineTo(xl, yl += b);
+            ctx.stroke();
+            ctx.fillText(" - action", xl += 3, yl -= 3);
 
             // Warehouse
             ctx.fillStyle = "white";
-            let xw = xl - b / 2; // xova suradnica pre warehouse
+            let xw = xl + 35; // xova suradnica pre warehouse
             let yw = yl + 45; // yova suradnica pre warehouse
             ctx.font = " bold 20px Calibri";
             ctx.fillText("Warehouse", xw, yw);
@@ -583,6 +591,7 @@
     // Nakreslenie pozadia
     ctx.fillStyle = "#8BC766";
     ctx.strokeStyle = "black";
+    ctx.lineWidth = "1";
     for (let x = 0; x < 5 * dimension; x = x + dimension) {
         for (let y = 0; y < 5 * dimension; y = y + dimension) {
             ctx.fillRect(x, y, dimension, dimension);
@@ -701,7 +710,7 @@
         ctx.fillText("1", x1, y += dimension);
         // priratanie sily hraca 1
         ctx.font = "20px Calibri";
-        ctx.fillText(score1, xl += 75, yl);
+        ctx.fillText(score1, xw += 75, yw);
         ctx.font = "50px Calibri";
     }, cas += 1000);
 
@@ -718,11 +727,11 @@
             ctx.fillText("1", x1, y1);
             // priratanie sily hraca 1
             ctx.fillStyle = "black";
-            ctx.fillRect(xl, yl -= 20, 20, 20);
-            yl += 20;
+            ctx.fillRect(xw, yw -= 20, 20, 20);
+            yw += 20;
             ctx.font = "20px Calibri";
             ctx.fillStyle = "white";
-            ctx.fillText(score1, xl, yl);
+            ctx.fillText(score1, xw, yw);
             ctx.font = "50px Calibri";
             }, cas += 1000);    
         }
@@ -731,7 +740,7 @@
     setTimeout(function() {
         ctx.fillText("1", x -= dimension, y);
         ctx.fillStyle = "black";
-        ctx.fillRect(xt, ylt -= 20, 20, 20);
+        ctx.fillRect(xt, yt -= 20, 20, 20);
         ctx.fillStyle = "white";
         ctx.font = "18px Calibri";
         ctx.fillText("4", xt, yt += 20);
@@ -753,9 +762,10 @@
     setTimeout(function() {
     counter = 0;
     }, cas);
-    for (z = 5 * dimension + 50; z < 5 * dimension + 80; z += 10) {
+    for (let z = 5 * dimension + 85; z < 5 * dimension + 115; z += 10) {
         setTimeout(function(){
             z += 10;
+            let u = yw - 40;
             counter += 1;
             ctx.strokeStyle = "white";
             ctx.lineWidth = "3";
@@ -766,10 +776,10 @@
             u -= 20
             if (counter == 2) {
                 ctx.fillStyle = "black";
-                ctx.fillRect(xl, yl -= 20, 20, 20);
+                ctx.fillRect(xt, yt -= 20, 20, 20);
                 ctx.fillStyle = "white";
                 ctx.font = "18px Calibri";
-                ctx.fillText("5", xl, yl += 20);
+                ctx.fillText("5", xt, yt += 20);
             }
         }, cas += 1000);
     }
@@ -802,7 +812,7 @@
     setTimeout(function() { 
         ctx.font = "20px Calibri";
         ctx.fillStyle = "white";
-        ctx.fillText("Player 1:", xl -= 130, yl -= 90);
+        ctx.fillText("Player 1:", xw -= 75, yw);
         ctx.font = "50px Calibri";
     }, cas += 1000);
 
@@ -826,7 +836,7 @@
         ctx.fillText("1", x1, y);
         // priratanie sily hraca 1
         ctx.font = "20px Calibri";
-        ctx.fillText(score1, xl += 75, yl);
+        ctx.fillText(score1, xw += 75, yw);
         ctx.font = "50px Calibri";
     }, cas += 1000);
 
@@ -843,11 +853,11 @@
             x1 += dimension;
             // priratanie sily hraca 1
             ctx.fillStyle = "black";
-            ctx.fillRect(xl, yl -= 20, 20, 20);
-            yl += 20;
+            ctx.fillRect(xw, yw -= 20, 20, 20);
+            yw += 20;
             ctx.font = "20px Calibri";
             ctx.fillStyle = "white";
-            ctx.fillText(score1, xl, yl);
+            ctx.fillText(score1, xw, yw);
             ctx.font = "50px Calibri";
             }, cas += 1000);    
         }
@@ -856,10 +866,10 @@
     setTimeout(function() {
         ctx.fillText("1", x += dimension, y);
         ctx.fillStyle = "black";
-        ctx.fillRect(xl += 55, yl += 70, 20, 20);
+        ctx.fillRect(xt, yt -= 20, 20, 20);
         ctx.fillStyle = "white";
         ctx.font = "18px Calibri";
-        ctx.fillText("6", xl, yl += 20);
+        ctx.fillText("6", xt, yt += 20);
     }, cas += 1000);
 
     setTimeout(function() {
@@ -867,10 +877,10 @@
         ctx.font = "50px Calibri";
         ctx.fillText("1", x, y);
         ctx.fillStyle = "black";
-        ctx.fillRect(xl, yl -= 20, 20, 20);
+        ctx.fillRect(xt, yt -= 20, 20, 20);
         ctx.fillStyle = "white";
         ctx.font = "18px Calibri";
-        ctx.fillText("6", xl, yl += 20);
+        ctx.fillText("6", xt, yt += 20);
     }, cas += 1000);
 
     setTimeout(animacia3, cas += 3000);
@@ -913,7 +923,7 @@
 
             function chata(xArg = 0, yArg = 0) {
                 ctx.lineWidth = "7";
-                ctx.strokeStyle = "white";
+                ctx.strokeStyle = "brown";
                 ctx.strokeRect(xArg * dimension -70, yArg * dimension -50, dimension - 20, dimension - 40);
                 ctx.beginPath();
                 ctx.moveTo(xArg * dimension -70, yArg * dimension - 50);
@@ -1014,7 +1024,7 @@
 
             // chata v legende
             ctx.lineWidth = "2";
-            ctx.strokeStyle = "white";
+            ctx.strokeStyle = "brown";
             ctx.strokeRect(xl -= 3 * b - b / 2, yl += 20, b, b);
             ctx.beginPath();
             ctx.moveTo(xl, yl);
@@ -1354,7 +1364,10 @@
 
             // 5. tah hraca 1 - 2. akcia - postavenie chaty
                 setTimeout(function() {
-                    chata(3, 3);
+                    chata(2, 3);
+                    ctx.font = "50px Calibri";
+                    ctx.fillStyle = "white";
+                    ctx.fillText("1", x, y += dimension);
                     for (let x = xk - 40; x <= xk + 40; x += 40){
                         b = 16;
                         ctx.fillStyle = "black";
