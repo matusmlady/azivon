@@ -1423,6 +1423,26 @@
                 ctx.fillRect(xArg * dimension - 11/16 * dimension, yArg * dimension - 11/16 * dimension,  m, m);
             }
 
+            function mec (xArg = 0, yArg = 0, r = 0) {
+                //rukoväť meča
+                ctx.fillStyle = "brown";
+                ctx.beginPath();
+                let x = xArg * dimension - 5/8 * dimension
+                let y = yArg * dimension - 5/8 * dimension
+                ctx.arc(x, y, r, 0, 1 * Math.PI);
+                ctx.fill();
+                ctx.fillRect(x -= r, y, 3/40 * dimension, - 4/40 * dimension);
+                ctx.fillStyle = "grey";
+                ctx.fillRect(x, y -= 4/40 * dimension, 3/40 * dimension, - 6/40 * dimension);
+                ctx.beginPath();
+                ctx.moveTo(x,y -= 6/40 * dimension);
+                ctx.lineTo(x += 2 * r, y);
+                ctx.lineTo(x -= r, y -= 3/40 * dimension);
+                ctx.lineTo(x -= r, y += 3/40 * dimension);
+                ctx.fill();
+                ctx.fillStyle = "brown";
+                ctx.fillRect(x -= r, y += 5/40 * dimension, 4 * r, 2/40 * dimension)
+            }
             // Legenda
             let xl = 5 * dimension + 80; // xova suradnica pre legendu
             let yl = 20; //yova suradnica pre legendu
@@ -1537,6 +1557,7 @@
             ctx.fillStyle = "white";
             ctx.fillText("1", x, y);
             material(1,2);
+            mec(2,1,3);
 
             // 1. tah hraca 1 - 1. akcia
             setTimeout(function() {
