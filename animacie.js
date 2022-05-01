@@ -1423,12 +1423,12 @@
                 ctx.fillRect(xArg * dimension - 11/16 * dimension, yArg * dimension - 11/16 * dimension,  m, m);
             }
 
-            function mec (xArg = 0, yArg = 0, r = 0) {
-                //rukoväť meča
+            function mec (xArg = 0, yArg = 0) {
                 ctx.fillStyle = "brown";
                 ctx.beginPath();
-                let x = xArg * dimension - 5/8 * dimension
-                let y = yArg * dimension - 5/8 * dimension
+                let x = xArg * dimension - 5/8 * dimension;
+                let y = yArg * dimension - 5/8 * dimension;
+                let r = 3;
                 ctx.arc(x, y, r, 0, 1 * Math.PI);
                 ctx.fill();
                 ctx.fillRect(x -= r, y, 3/40 * dimension, - 4/40 * dimension);
@@ -1442,6 +1442,49 @@
                 ctx.fill();
                 ctx.fillStyle = "brown";
                 ctx.fillRect(x -= r, y += 5/40 * dimension, 4 * r, 2/40 * dimension)
+            }
+
+            function stit (xArg = 0, yArg = 0) {
+                ctx.fillStyle = "blue";
+                let x = xArg * dimension - 3/8 * dimension;
+                let y = yArg * dimension - 3/8 * dimension;
+                ctx.fillRect(x, y, 1/16 * dimension, 3/20 * dimension);
+                ctx.fillStyle = "yellow";
+                ctx.fillRect(x += 1/16 * dimension, y, 1/16 * dimension, 3/20 * dimension);
+                ctx.fillStyle = "blue";
+                ctx.beginPath();
+                ctx.moveTo(x -= 1/16 * dimension, y += 3/20 * dimension);
+                ctx.lineTo(x += 1/16 * dimension, y);
+                ctx.lineTo(x, y += 1/16 * dimension);
+                ctx.closePath();
+                ctx.fill();
+                ctx.fillStyle = "yellow";
+                ctx.beginPath();
+                ctx.moveTo(x, y);
+                ctx.lineTo(x, y -= 1/16 * dimension);
+                ctx.lineTo(x += 1/16 * dimension, y);
+                ctx.closePath();
+                ctx.fill();
+            }
+
+            function SilaVojakov (xArg = 0, yArg = 0) {
+                mec(xArg,yArg);
+                stit(xArg,yArg);
+                //lomené deliace mec a stit
+                let x = xArg * dimension - 7/8 * dimension;
+                let y = yArg * dimension - 1/8 * dimension;
+                ctx.fillStyle = "red";
+                ctx.lineWidth = "3";
+                ctx.beginPath();
+                ctx.moveTo(x,y);
+                ctx.lineTo(x += 6/8 * dimension, y -= 6/8 * dimension);
+                ctx.stroke();
+                x = xArg * dimension - 7/8 * dimension - 2;
+                y = yArg * dimension - 5/8 * dimension;
+                ctx.font = "25px Calibri";
+                ctx.fillStyle = "white";
+                ctx.fillText("1", x,y);
+                ctx.fillText("1", x += 3/8 * dimension - 3, y += 4/8 * dimension - 3);
             }
             // Legenda
             let xl = 5 * dimension + 80; // xova suradnica pre legendu
@@ -1557,11 +1600,12 @@
             ctx.fillStyle = "white";
             ctx.fillText("1", x, y);
             material(1,2);
-            mec(2,1,3);
+            SilaVojakov(3,1);
 
             // 1. tah hraca 1 - 1. akcia
             setTimeout(function() {
                 ctx.fillStyle = "white";
+                ctx.font = "50px Calibri";
                 ctx.fillText("1", x += 2 * dimension, y += 2 * dimension);
                 ctx.font = "18px Calibri";
                 ctx.fillText("1", xt += 45, yt);
@@ -1578,6 +1622,7 @@
             setTimeout(function() {
                 ctx.fillStyle = "#8BC766";
                 ctx.strokeStyle = "black";
+                ctx.lineWidth = "1";
                 ctx.fillRect(0, dimension, dimension, dimension);
                 ctx.strokeRect(0,dimension,dimension,dimension);
                 ctx.font = "50px Calibri";
