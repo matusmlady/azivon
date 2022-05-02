@@ -1394,8 +1394,10 @@
             obrazok3 = new Image();
             const dimension = 80;
 
-            function kruznica(xArg = 0, yArg = 0, r = 0) {
+            function kruznica(xArg = 0, yArg = 0, r = 0, farba = 0) {
             //Draw a circle
+            ctx.strokeStyle = farba;
+            ctx.lineWidth = "1";
             ctx.beginPath();
             ctx.arc(xArg, yArg, r, 0, 2 * Math.PI);
             ctx.stroke();
@@ -1421,6 +1423,69 @@
                 ctx.fillRect(xArg * dimension - 11/16 * dimension, yArg * dimension - 11/16 * dimension,  m, m);
             }
 
+            function mec (xArg = 0, yArg = 0) {
+                ctx.fillStyle = "brown";
+                ctx.beginPath();
+                let x = xArg * dimension - 5/8 * dimension;
+                let y = yArg * dimension - 5/8 * dimension;
+                let r = 3;
+                ctx.arc(x, y, r, 0, 1 * Math.PI);
+                ctx.fill();
+                ctx.fillRect(x -= r, y, 3/40 * dimension, - 4/40 * dimension);
+                ctx.fillStyle = "grey";
+                ctx.fillRect(x, y -= 4/40 * dimension, 3/40 * dimension, - 6/40 * dimension);
+                ctx.beginPath();
+                ctx.moveTo(x,y -= 6/40 * dimension);
+                ctx.lineTo(x += 2 * r, y);
+                ctx.lineTo(x -= r, y -= 3/40 * dimension);
+                ctx.lineTo(x -= r, y += 3/40 * dimension);
+                ctx.fill();
+                ctx.fillStyle = "brown";
+                ctx.fillRect(x -= r, y += 5/40 * dimension, 4 * r, 2/40 * dimension)
+            }
+
+            function stit (xArg = 0, yArg = 0) {
+                ctx.fillStyle = "blue";
+                let x = xArg * dimension - 3/8 * dimension;
+                let y = yArg * dimension - 3/8 * dimension;
+                ctx.fillRect(x, y, 1/16 * dimension, 3/20 * dimension);
+                ctx.fillStyle = "yellow";
+                ctx.fillRect(x += 1/16 * dimension, y, 1/16 * dimension, 3/20 * dimension);
+                ctx.fillStyle = "blue";
+                ctx.beginPath();
+                ctx.moveTo(x -= 1/16 * dimension, y += 3/20 * dimension);
+                ctx.lineTo(x += 1/16 * dimension, y);
+                ctx.lineTo(x, y += 1/16 * dimension);
+                ctx.closePath();
+                ctx.fill();
+                ctx.fillStyle = "yellow";
+                ctx.beginPath();
+                ctx.moveTo(x, y);
+                ctx.lineTo(x, y -= 1/16 * dimension);
+                ctx.lineTo(x += 1/16 * dimension, y);
+                ctx.closePath();
+                ctx.fill();
+            }
+
+            function SilaVojakov (xArg = 0, yArg = 0, utok = 0, obrana = 0) {
+                mec(xArg,yArg);
+                stit(xArg,yArg);
+                //lomené deliace mec a stit
+                let x = xArg * dimension - 7/8 * dimension;
+                let y = yArg * dimension - 1/8 * dimension;
+                ctx.beginPath();
+                ctx.fillStyle = "red";
+                ctx.lineWidth = "3";
+                ctx.moveTo(x,y);
+                ctx.lineTo(x += 6/8 * dimension, y -= 6/8 * dimension);
+                ctx.stroke();
+                x = xArg * dimension - 7/8 * dimension - 2;
+                y = yArg * dimension - 5/8 * dimension;
+                ctx.font = "25px Calibri";
+                ctx.fillStyle = "white";
+                ctx.fillText(utok, x,y);
+                ctx.fillText(obrana, x += 3/8 * dimension - 3, y += 4/8 * dimension - 3);
+            }
             // Legenda
             let xl = 5 * dimension + 80; // xova suradnica pre legendu
             let yl = 20; //yova suradnica pre legendu
@@ -1473,16 +1538,38 @@
             ctx.fillStyle = "white";
             ctx.fillText(" - material", xl += 9, yl += 7);
 
-            kruh(xl -= 5, yl += 20, 7, "blue");
+            // defender v legende
+            kruznica(xl -= 5, yl += 22, 9, "grey");
             ctx.fillStyle = "white";
-            ctx.fillText("1", xl -= 4, yl += 4);
-            ctx.fillText(" - attacker", xl += 10, yl);
+            ctx.fillText("1", xl -= 3, yl += 4);
+            ctx.fillText(" - defender", xl += 12, yl);
             
+            // attacker v legende
+            ctx.strokeStyle = "grey";
+            ctx.beginPath();
+            ctx.moveTo(xl -= 17, yl += 33);
+            ctx.lineTo(xl += 20, yl);
+            ctx.lineTo(xl -= 10, yl -= 20);
+            ctx.lineTo(xl -= 10, yl += 20);
+            ctx.stroke();
+            ctx.fillStyle = "white";
+            ctx.fillText("1", xl += 7, yl -= 4);
+            ctx.fillText(" - attacker", xl += 12, yl);
+
+            // bowman v legende
+            ctx.lineWidth = "1";
+            ctx.beginPath();
+            ctx.moveTo(xl -= 13, yl += 15);
+            ctx.lineTo(xl, yl += 24);
+            ctx.quadraticCurveTo(xl += 24, yl -= 12, xl -= 24, yl -= 12); // krivá čiara - quadraticCurveTo(x-position of the control point, y-position of the control point, x-position of the ending point of the line, y-position of the ending point of the line)    
+            ctx.stroke();
+            ctx.fillText("1", xl += 2, yl += 15);
+            ctx.fillText(" - bowman", xl += 12, yl);
 
             ctx.strokeStyle = "white";
             ctx.lineWidth = "3";
             ctx.beginPath();
-            ctx.moveTo(xl -= 5, yl += 15);
+            ctx.moveTo(xl -= 7, yl += 20);
             ctx.lineTo(xl, yl += b);
             ctx.stroke();
             ctx.fillText(" - action", xl += 3, yl -= 3);
@@ -1513,6 +1600,109 @@
             ctx.fillStyle = "white";
             ctx.fillText("1", x, y);
             material(1,2);
+            obrazok3.src = c.toDataURL("image/png");
+
+            // 1. tah hraca 1 - 1. akcia
+            setTimeout(function() {
+                ctx.fillStyle = "white";
+                ctx.font = "50px Calibri";
+                ctx.fillText("1", x += 2 * dimension, y += 2 * dimension);
+                ctx.font = "18px Calibri";
+                ctx.fillText("1", xt += 45, yt);
+            }, cas += 1000);
+
+            // 1. tah hraca 1 - 2. akcia
+            setTimeout(function() {
+                ctx.font = "50px Calibri";
+                ctx.fillStyle = "white";
+                ctx.fillText("1", x -= 2 * dimension, y -= dimension);
+            }, cas += 1000);
+
+            // vyťaženie materiálu a upgrade na defendera
+            setTimeout(function() {
+                ctx.fillStyle = "#8BC766";
+                ctx.strokeStyle = "black";
+                ctx.lineWidth = "1";
+                ctx.fillRect(0, dimension, dimension, dimension);
+                ctx.strokeRect(0,dimension,dimension,dimension);
+                ctx.font = "50px Calibri";
+                ctx.fillStyle = "white";
+                kruznica(3 * dimension - dimension /2, 3 * dimension - dimension / 2, 30, "white");
+                ctx.fillText("1", x, y);
+            }, cas += 1000);
+
+            // utok a obrana policok
+            let CounterX = 0;
+            let counterY = 0;
+            
+            for (let x = 2; x <= 4; x += 1) {
+                CounterX += 1;
+                for (let y = 2; y <= 4; y += 1) {
+                    counterY += 1;
+                    if ( CounterX && counterY === 5) { 
+                        continue; 
+                    }  
+                    setTimeout(function() {
+                        SilaVojakov(x,y,1,2);
+                    }, cas += 1000);  
+                }
+            }
+            
+            //setup
+            setTimeout(function(){
+                ctx.drawImage(obrazok3,0,0);
+            }, cas += 1000);
+
+            // 1. tah hraca 1 - 1. akcia
+            setTimeout(function() {
+                ctx.fillStyle = "white";
+                ctx.font = "50px Calibri";
+                ctx.fillText("1", x += 2 * dimension, y += dimension);
+                ctx.font = "18px Calibri";
+                ctx.fillText("1", xt += 45, yt);
+            }, cas += 1000);
+
+            // 1. tah hraca 1 - 2. akcia
+            setTimeout(function() {
+                ctx.font = "50px Calibri";
+                ctx.fillStyle = "white";
+                ctx.fillText("1", x -= 2 * dimension, y -= dimension);
+            }, cas += 1000);
+
+            // vyťaženie materiálu a upgrade na attackera
+            setTimeout(function() {
+                ctx.fillStyle = "#8BC766";
+                ctx.strokeStyle = "black";
+                ctx.lineWidth = "1";
+                ctx.fillRect(0, dimension, dimension, dimension);
+                ctx.strokeRect(0,dimension,dimension,dimension);
+                ctx.font = "50px Calibri";
+                ctx.fillStyle = "white";
+                ctx.beginPath();
+                ctx.strokeStyle = "white";
+                ctx.moveTo(3 * dimension - 7/8 * dimension, 3 * dimension - 2/8 * dimension);
+                ctx.lineTo(3 * dimension - 1/8 * dimension, 3 * dimension - 2/8 * dimension);
+                ctx.lineTo(3 * dimension - 4/8 * dimension, 3 * dimension - 7/8 * dimension);
+                ctx.closePath();
+                ctx.stroke();
+                ctx.fillText("1", x, y);
+            }, cas += 1000);
+
+            // utok a obrana policok
+            let CounterX2 = 0;
+            let CounterY2 = 0
+            for (let x = 2; x <= 4; x += 1) {
+                CounterX2 += 1;
+                for (let y = 2; y <= 4; y += 1) {
+                    CounterY2 += 1;
+                    if ( CounterX2 && CounterY2 === 5) { 
+                        continue; 
+                    }  
+                    setTimeout(function() {
+                        SilaVojakov(x,y,2,1);
+                    }, cas += 1000);  
+                }
+            }
 
             setTimeout(animacia5, cas += 3000);
         }
