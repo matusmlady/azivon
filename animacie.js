@@ -1,21 +1,3 @@
-<!DOCTYPE html>
-<html>
-<html lang='en'>
- <head>
-  <title>Animácie</title>
-   <style>
-    .platno {
-             margin: auto;
-             margin-bottom: 20px;
-             width: 620px;
-             height: 400px;
-
-            }
-   </style>
- </head>
- <body>
-  <div class="platno"><canvas id="animacia1"></canvas></div>
-    <script>
         function animácia1() {
         let c = document.getElementById("animacia1"); // First of all, you must find the <canvas> element. This is done by using the HTML DOM method getElementById().
         let ctx = c.getContext("2d"); //Secondly, you need a drawing object for the canvas. The getContext() is a built-in HTML object, with properties and methods for drawing.
@@ -163,11 +145,6 @@
         setTimeout(function() {cislo(x += 2 * dimension, y += 2 * dimension)}, cas += 100);
         setTimeout(animácia1, cas += 3000);
         }
-        animácia1();
-
-    </script>
-  <div class="platno"><canvas id="animacia2"></canvas></div>
-   <script>   
     function animácia2() {
         let c = document.getElementById("animacia2"); // First of all, you must find the <canvas> element. This is done by using the HTML DOM method getElementById().
         let ctx = c.getContext("2d"); //Secondly, you need a drawing object for the canvas. The getContext() is a built-in HTML object, with properties and methods for drawing.
@@ -456,11 +433,6 @@
 
     setTimeout(animácia2, cas += 3000);
     }
-    animácia2();
-   </script>
-  </div>
-  <div class="platno"><canvas id="animacia3"></canvas>
-    <script>
         function animacia3() {
             let c = document.getElementById("animacia3"); // First of all, you must find the <canvas> element. This is done by using the HTML DOM method getElementById().
             let ctx = c.getContext("2d"); //Secondly, you need a drawing object for the canvas. The getContext() is a built-in HTML object, with properties and methods for drawing.
@@ -885,11 +857,6 @@
 
     setTimeout(animacia3, cas += 3000);
 }
-    animacia3();
-    </script>
-  </div>
-  <div class="platno"><canvas id="animacia4"></canvas>
-    <script>
         function animacia4() {
             let c = document.getElementById("animacia4"); // First of all, you must find the <canvas> element. This is done by using the HTML DOM method getElementById().
             let ctx = c.getContext("2d"); //Secondly, you need a drawing object for the canvas. The getContext() is a built-in HTML object, with properties and methods for drawing.
@@ -1378,11 +1345,7 @@
            
             setTimeout(animacia4, cas += 3000);
         }
-        animacia4();
-    </script>
-  </div>
-  <div class="platno"><canvas id="animacia5"></canvas>
-    <script>
+        
         function animacia5() {
             let c = document.getElementById("animacia5"); // First of all, you must find the <canvas> element. This is done by using the HTML DOM method getElementById().
             let ctx = c.getContext("2d"); //Secondly, you need a drawing object for the canvas. The getContext() is a built-in HTML object, with properties and methods for drawing.
@@ -1936,9 +1899,8 @@
 
             setTimeout(animacia5, cas += 3000);
         }
-        animacia5();
-        
-        </script>
-  </div>
- </body>
-</html>
+animácia1(); 
+animácia2();
+animacia3();
+animacia4();
+animacia5();
