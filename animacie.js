@@ -44,11 +44,11 @@
          ctx.fillStyle = "white";
          ctx.font = "14px Calibri";
          ctx.fillText(" - tile", xl += 16, yl += 11);
-         ctx.fillStyle = "red";
+         ctx.fillStyle = "white";
          ctx.fillText("1", xl -= 14, yl += 26);
          ctx.fillStyle = "white";
          ctx.fillText(" - conquered tiles", xl += 5, yl);
-         ctx.fillStyle = "red";
+         ctx.fillStyle = "white";
          kruh(xl, yl += 25 , 7);
          ctx.fillStyle = "white";
          ctx.fillText(" - conquerable tiles", xl+= 8, yl += 5);
@@ -77,6 +77,7 @@
         
         // animácia cisla vľavo hore a uloženie obrázka
         setTimeout(function() {
+            ctx.fillStyle = "white";
             cislo(x, y);
             savedData.src = c.toDataURL("image/png");
         }, cas += 500);
@@ -103,7 +104,10 @@
         
 
         // animácia cisla v strede
-        setTimeout(function() {cislo(x += 2 * dimension, y += 2 * dimension)}, cas += 100);
+        setTimeout(function() {
+            ctx.fillStyle = "white";
+            cislo(x += 2 * dimension, y += 2 * dimension)
+        }, cas += 100);
 
         setTimeout(function() {
             ctx.drawImage(savedData,0,0);
@@ -118,7 +122,7 @@
             }
             ctx.fillStyle = "#8BC766";
             kruh(200, 200, 10);
-            ctx.fillStyle = "red";
+            ctx.fillStyle = "white";
             cislo(x, y)
             }, cas += 500);
 
@@ -142,7 +146,10 @@
         setTimeout(function() {ctx.fillStyle = "#8BC766"; kruh(360, 360, 10); ctx.fillStyle = "red"}, cas);
         
         // animácia kruhu vpravo dole
-        setTimeout(function() {cislo(x += 2 * dimension, y += 2 * dimension)}, cas += 100);
+        setTimeout(function() {
+            ctx.fillStyle = "white";
+            cislo(x += 2 * dimension, y += 2 * dimension)
+        }, cas += 100);
         setTimeout(animácia1, cas += 3000);
         }
     function animácia2() {
@@ -192,7 +199,7 @@
      ctx.font = "14px Calibri";
      ctx.fillText(" - tile", xl += 16, yl += 11);
 
-     ctx.fillStyle = "red";
+     ctx.fillStyle = "white";
      ctx.fillText("1", xl -= 14, yl += 26);
      ctx.fillStyle = "white";
      ctx.fillText(" - conquered tiles by player 1", xl += 5, yl);
@@ -238,7 +245,7 @@
 
     // setup
     ctx.strokeStyle = "red";
-    ctx.fillStyle = "red";
+    ctx.fillStyle = "white";
     let cas = 0;
     ctx.font = "50px Calibri";
     let x = 7 * dimension / 20; 
@@ -249,7 +256,7 @@
 
     // 1. tah hraca 1 - 1. akcia
     setTimeout(function() {
-        ctx.fillStyle = "red";
+        ctx.fillStyle = "white";
         ctx.fillText("1", x -= 2 * dimension, y -= 2 * dimension);
         ctx.fillStyle = "white";
         ctx.font = "18px Calibri";
@@ -259,7 +266,7 @@
     // 1. tah hraca 1 - 2. akcia
     setTimeout(function() {
         ctx.font = "50px Calibri";
-        ctx.fillStyle = "red";
+        ctx.fillStyle = "white";
         ctx.fillText("1", x + dimension, y += dimension);
     }, cas += 1000);
 
@@ -277,7 +284,7 @@
 
     // 2. tah hraca 1 - 1. akcia
     setTimeout(function() {
-        ctx.fillStyle = "red";
+        ctx.fillStyle = "white";
         ctx.fillText("1", x, y += dimension);
         ctx.fillStyle = "black";
         ctx.fillRect(xl, yl -= 20, 20, 20);
@@ -289,7 +296,7 @@
     // 2. tah hraca 1 - 2. akcia
     setTimeout(function() {
         ctx.font = "50px Calibri";
-        ctx.fillStyle = "red";
+        ctx.fillStyle = "white";
         ctx.fillText("1", x += dimension, y += dimension);
     }, cas += 1000);
 
@@ -309,7 +316,7 @@
     // tabulka score
     setTimeout(function() { 
         ctx.font = "20px Calibri";
-        ctx.fillStyle = "red";
+        ctx.fillStyle = "white";
         ctx.fillText("Player 1", xl -= 170, yl -= 120);
         ctx.fillStyle = "yellow";
         ctx.fillText("Player 2", xl += 100, yl);
@@ -367,7 +374,7 @@
         ctx.fillStyle = "#949437";
         ctx.fillRect(0, 0, dimension, dimension);
         stvorec(0, 0, dimension, dimension);
-        ctx.fillStyle = "red";
+        ctx.fillStyle = "white";
         ctx.fillText("1", x -= 2 * dimension, y -= dimension);
         // priratanie sily hraca 1
         ctx.font = "20px Calibri";
@@ -383,14 +390,14 @@
             ctx.fillRect(x, y, dimension, dimension);
             stvorec(x, y, dimension, dimension);
             x1 += dimension;
-            ctx.fillStyle = "red";
+            ctx.fillStyle = "white";
             ctx.fillText("1", x1, y1);
             // priratanie sily hraca 1
             ctx.fillStyle = "black";
             ctx.fillRect(xl, yl -= 20, 20, 20);
             yl += 20;
             ctx.font = "20px Calibri";
-            ctx.fillStyle = "red";
+            ctx.fillStyle = "white";
             ctx.fillText(score1, xl, yl);
             ctx.font = "50px Calibri";
             }, cas += 1000);    
@@ -402,7 +409,7 @@
         ctx.fillRect(dimension, dimension, dimension, dimension);
         ctx.strokeStyle = "black";
         ctx.strokeRect(dimension, dimension, dimension, dimension);
-        ctx.fillStyle = "red";
+        ctx.fillStyle = "white";
         ctx.fillText("1", x += dimension, y += dimension);
         ctx.fillStyle = "black";
         ctx.fillRect(xl += 145, yl += 70, 20, 20);
@@ -418,7 +425,7 @@
         ctx.fillRect(dimension,  dimension, dimension, dimension);
         ctx.strokeStyle = "black";
         ctx.strokeRect(dimension, dimension, dimension, dimension);
-        ctx.fillStyle = "red";
+        ctx.fillStyle = "white";
         ctx.fillText("1", x, y);
         ctx.fillStyle = "black";
         ctx.fillRect(xl, yl -= 20, 20, 20);
@@ -426,10 +433,6 @@
         ctx.font = "18px Calibri";
         ctx.fillText("3", xl, yl += 20);
     }, cas += 1000);
-
-    /*savedData.src = c.toDataURL("image/png");
-    ctx.drawImage(savedData,0,0);*/
-    
 
     setTimeout(animácia2, cas += 3000);
     }
@@ -1345,7 +1348,6 @@
            
             setTimeout(animacia4, cas += 3000);
         }
-        
         function animacia5() {
             let c = document.getElementById("animacia5"); // First of all, you must find the <canvas> element. This is done by using the HTML DOM method getElementById().
             let ctx = c.getContext("2d"); //Secondly, you need a drawing object for the canvas. The getContext() is a built-in HTML object, with properties and methods for drawing.
@@ -1899,7 +1901,7 @@
 
             setTimeout(animacia5, cas += 3000);
         }
-animácia1(); 
+animácia1();
 animácia2();
 animacia3();
 animacia4();
