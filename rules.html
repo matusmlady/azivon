@@ -69,18 +69,19 @@
 <ul>
  <li>Elements are the second layer of the map. They add extra places where you can fortify your position and fight.</li>
  <li>Each of the elements has a number connected to it.</li>
- <li>This number influences the size of the element, the actions you spend to conquer one tile of this element and the elements power = it's defence and attack.</li>
+ <li>This number influences the size of the element, the actions you spend to conquer one tile of this element and the element's power = it's defence and attack.</li>
  <li>When conquering a neutral element, you need to spend as much actions as the element's connected number. You need to be attacking on the tile with the power equal to the element's number.</li>
  <li>If it were a conquered element, you need to spend the same ammount of actions, however your attack must be atleast one higher than the defence of this tile.</li>
+ <li>You can use elements and their attack to conquer other elements, even other tiles of the same elements, or elements owned by others.</li>
+ <li>When conquering teritorry, you can't jump over an element in order to conquer something, unless you own the element. This means you possibly need to take a longer route going around.</li>
  <li>	Mountains (3, brown) - spawns in lines of 3, you need 3 actions and 3 attack strength to conquer it. It attacks and defends with the power of 3.</li>
  <li>	Lakes (2, blue) - spawns in lines of 2, you need 2 actions and 2 attack strength to conquer it. It attacks and defends with the power of 2.</li>
  <li>	Castle (4, gray) - you need 4 actions and 4 attack strength to conquer it. It attacks and defends with the power of 4. A specific property of the castle is, that it does not spawn in lines of 4, but 1. Another specific property is that it spawns in the third layer - as a feature, meaning it can spawn f.e. on top of a mountain (see Features).</li>
  <li>	Sweet woods (2, beige) - work exactly the same as lakes. But with an extra behaviour. When one tile of woods is chopped down, you get a log. For 2 logs you can build a cottage. A cottage behaves exactly as a castle, with the difference that it has the power of 3, not 4. After chopping the wood cross out the tile. No more trees can be gained there afterwards. To build the cottage you can combine trees from multiple sweet woods elements. Also, you can save a log in your warehouse. It takes up space of 5 actions. A cottage can be placed only on your territory. The placement needs to make sense - you can't place it on a lake or on a castle. Grass, mountains, gold, chopped down/unchopped sweet woods are all suitable. After chopping down the tree the tile behaves as an empty tile with the power of 1.</li>
- <li>You can use elements and their attack to conquer other elements, even other tiles of the same elements, or elements owned by others.</li>
- <li>When conquering teritorry, you can't jump over an element in order to conquer something, unless you own the element. This means you possibly need to take a longer route going around.</li>
 </ul>
 
-<h4>Features</h4>
+<h4></h4>
+Features
 <ul>
  <li>Features are the third layer.</li>
  <li>They are displayed on top of everything.</li>
@@ -89,11 +90,15 @@
  <li>	Village (red) - after stepping on it you receive the loot on top of the treasure on the right side of the map. After obtaining the loot you cross it out. The next village someone stepps on, provides the next loot.</li>
  <li>	Metal (gray) - resource you can use to reinforce builgings. One building (cottage, castle) can receive only one iron. It provides +1 power to the tile. You mark a tile as reinforced by highlighting the edges of the tile. A metal can be stored in the warehouse taking up 5 places.</li>
  <li>	Material (pink) - allows you to build soldiers. One soldier per one tile per one material. Soldiers are an upgrade of your tile, changing it's behaviour.</li>
- <li>		Draw the corresponding shape aroung your number on a given tile to build a soldier.</li>
- <li>		Defender (circle) - the tile itself and adjacent tiles have +1 defence.</li>
- <li>		Attacker (triangle) - provides +1 attack against surrounding tiles.</li>
- <li>		Bowman (D = bow) - tile loses the +1 defense for itself. Attack and support for other tiles are changed from radius 1 to radius 2, losing radius 1. Bowmans can't shoot through terrain that is higher/would block them. If sweet woods are in their way or they stand on grass and in front of a mountain they are blocked.</li>
- <li>		Catapult (square) - +2 attack against structures only in the range of 2 tiles. No support. Can be built only on open terrain.</li>
+</ul>
+
+<h4>Soldiers</h4>
+<ul>
+ <li>Draw the corresponding shape aroung your number on a given tile to build a soldier.</li>
+ <li>Defender (circle) - the tile itself and adjacent tiles have +1 defence.</li>
+ <li>Attacker (triangle) - provides +1 attack against surrounding tiles.</li>
+ <li>Bowman (D = bow) - tile loses the +1 defense for itself. Attack and support for other tiles are changed from radius 1 to radius 2, losing radius 1. Bowmans can't shoot through terrain that is higher/would block them. If sweet woods are in their way or they stand on grass and in front of a mountain they are blocked.</li>
+ <li>Catapult (square) - +2 attack against structures only in the range of 2 tiles. No support. Can be built only on open terrain.</li>
 </ul>
 
 <h4>Floorings</h4>
