@@ -46,7 +46,7 @@ You can use elements and their attack to conquer any other tiles.
 You can't jump over an element in order to get somewhere, unless you own the tile.
 Mountains (brown, 3) - spawn in lines of 3, 3 actions and 3 attack strength required to conquer it. It attacks and defends other tiles with the power of 3.
 Lakes (blue, 2) - same as mountains however with the numeber 2.
-Castle (gray, 4) - same as previously but with number 4. A specific property of it is that it only spawns in lines of 1 and in the third layer - as a feature, meaning it can spawn f.e. on top of a mountain.
+Castle (blackish, 4) - same as previously but with number 4. A specific property of it is that it only spawns in lines of 1 and in the third layer - as a feature, meaning it can spawn f.e. on top of a mountain.
 Sweet woods (beige, 2) - exactly the same as lakes with an extra behaviour. When one tile of woods is chopped down (crossed out), you get a log. For 2 logs you can build a cottage. Also, you can save a log in your warehouse, taking up space of 5 actions. After chopping down the tree the tile behaves as an empty tile with the power of 1.
 
 Features
