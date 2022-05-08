@@ -33,6 +33,9 @@
  <li>We recommend writing a player's corresponding number on the tiles you conquer.</li>
 </ul>
 
+<div><canvas id='Setup1' style='margin-bottom: 20px; margin-top: 20px;'></canvas></div>
+<div><canvas id='Setup2' style='margin-bottom: 20px; margin-top: 20px;'></canvas></div>
+
 <h4>Warehouse</h4>
 <ul>
  <li>Each player has a warehouse the size of 20 actions.</li>
@@ -44,6 +47,9 @@
  <li>When you use actions from the warehouse you can simply cross them off of the stored actions.</li>
 </ul>
 
+<div><canvas id='Warehouse1' style='margin-bottom: 20px; margin-top: 20px;'></canvas></div>
+<div><canvas id='Warehouse2' style='margin-bottom: 20px; margin-top: 20px;'></canvas></div>
+
 <h4>Expansion</h4>
 <ul>
  <li>You expand by counquering tiles.</li>
@@ -52,6 +58,9 @@
  <li>You don't miove, you expand to other tiles.</li>
  <li>Later you will be able to fight for the territory with others.</li>
 </ul>
+
+<div><canvas id='Expansion1' style='margin-bottom: 20px; margin-top: 20px;'></canvas></div>
+<div><canvas id='Expansion2' style='margin-bottom: 20px; margin-top: 20px;'></canvas></div>
 
 <h4>Conquering</h4>
 <ul>
@@ -64,6 +73,9 @@
  <li>A field is conquerable only when the attack is greater than the defence.</li>
  <li>To conquer a tile of another player, you need to use the same number of actions the first owner used to conquer it. For a tile without elements or features, this is one.</li>
 </ul>
+
+<div><canvas id='Conquering1' style='margin-bottom: 20px; margin-top: 20px;'></canvas></div>
+<div><canvas id='Conquering2' style='margin-bottom: 20px; margin-top: 20px;'></canvas></div>
 
 <h4>Elements</h4>
 <ul>
@@ -80,6 +92,9 @@
  <li>Sweet woods (beige, 2) - exactly the same as lakes with an extra behaviour. When one tile of woods is chopped down (crossed out), you get a log. For 2 logs you can build a cottage. Also, you can save a log in your warehouse, taking up space of 5 actions. After chopping down the tree the tile behaves as an empty tile with the power of 1.</li>
 </ul>
 
+<div><canvas id='Elements1' style='margin-bottom: 20px; margin-top: 20px;'></canvas></div>
+<div><canvas id='Elements2' style='margin-bottom: 20px; margin-top: 20px;'></canvas></div>
+
 <h4>Features</h4>
 <ul>
  <li>Features are the third layer.</li>
@@ -91,6 +106,9 @@
  <li>Material (pink) - allows you to build soldiers. One per tile per material. Soldiers are an upgrade of your tile, changing it's behaviour.</li>
 </ul>
 
+<div><canvas id='Features1' style='margin-bottom: 20px; margin-top: 20px;'></canvas></div>
+<div><canvas id='Features2' style='margin-bottom: 20px; margin-top: 20px;'></canvas></div>
+
 <h4>Soldiers</h4>
 <ul>
  <li>Draw the corresponding shape around your number on a given tile to build a soldier.</li>
@@ -99,6 +117,9 @@
  <li>Bowman (D = bow) - tile loses the +1 defense for itself. Attack and support for other tiles are changed from radius 1 to radius 2, losing radius 1. Bowmans can't shoot through terrain that is higher/would block them. If sweet woods are in their way or they stand on grass and in front of a mountain they are blocked.</li>
  <li>Catapult (square) - +2 attack against structures only in the range of 2 tiles. No support. Can be built only on open terrain.</li>
 </ul>
+
+<div><canvas id='Soldiers1' style='margin-bottom: 20px; margin-top: 20px;'></canvas></div>
+<div><canvas id='Soldiers2' style='margin-bottom: 20px; margin-top: 20px;'></canvas></div>
 
 <h4>Floorings</h4>
 <ul>
@@ -109,10 +130,16 @@
  <li>Water - Pirates are dangerous, don't get near water!</li>
 </ul>
 
+<div><canvas id='Floorings1' style='margin-bottom: 20px; margin-top: 20px;'></canvas></div>
+<div><canvas id='Floorings2' style='margin-bottom: 20px; margin-top: 20px;'></canvas></div>
+
 <h4>Buildings</h4>
 <ul>
  <li>Cottage (3) - A cottage behaves exactly as a castle, with the difference that it has the power of 3, not 4. After chopping the wood cross out the tile. No more trees can be gained there afterwards. To build the cottage you can combine trees from multiple sweet woods elements. A cottage can be placed only on your territory. The placement needs to make sense - you can't place it on a lake or on a castle. Grass, mountains, gold, chopped down/unchopped sweet woods are all suitable. </li>
 </ul>
+
+<div><canvas id='Buildings1' style='margin-bottom: 20px; margin-top: 20px;'></canvas></div>
+<div><canvas id='Buildings2' style='margin-bottom: 20px; margin-top: 20px;'></canvas></div>
 
 <h4>Other</h4>
 <ul>
@@ -122,6 +149,10 @@
  <li>Spawns are chosen randomly, without seeing the map first. (turn the page upside down)</li>
  <li>If there is more players than corners, choose tiles that are equally distant from each other.</li>
 </ul>
+
+<div><canvas id='Other1' style='margin-bottom: 20px; margin-top: 20px;'></canvas></div>
+<div><canvas id='Other2' style='margin-bottom: 20px; margin-top: 20px;'></canvas></div>
+
   
   <script src='animacie.js'></script>
 </body>
