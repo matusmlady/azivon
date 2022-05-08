@@ -24,108 +24,95 @@
  <div class="kecy">
    <p> &emsp; In this section of our website, we will try to explain rules of this beautiful game. (Disclaimer: adjust the rules as you wish! This is mainly for inspiration. Of course feel free to use them.) </p>
   
-  <h4 id="setup">Setup</h4>
-   <ol>
-    <li>The number of players is unlimited.</li>
-    <li>Players spawn in corners, and/or they should be evenly placed. They start with this first tile as their only teritory.</li>
-    <li>Every turn you receive <b>2</b> actions.</li>
-  </ol>
-  
-  <h4 id="warehouse">Warehouse</h4>
-  <ol>
-   <li>Each player has a warehouse the size of <b>20</b> actions.</li>
-   <li>You use the warehouse by taking notes on the paper where you print your map.</li>
-   <li>You can store there one or both of the actions you receive each turn.</li>
-   <li>The limit you can save there is actions per turn * 10 = 20.</li>
-   <li>You can save up actions in order to create massive pushes on the map.</li>
-   <li>The limit of actions you can spend per turn is 10 actions. (That means 2 actions you receive + 8 stored in the warehouse.)</li>
-   <li>When you use actions from the warehouse you can simply cross them off of the stored actions.</li>
-  </ol>
-  
-  <h4 id = "expansion">Expansion</h4>
-  <ol>
-   <li>You expand by counquering tiles.</li> 
-   <li>For 1 action you can conquer exactly 1 <b>empty</b> tile.</li>
-   <li>You can conquer any tile, that is at maximum 2 tiles (vertically, horizontally, diagonally or these ways combined...) away from your current territory.</li>
-   <li>You don't move your teritory, you only expand - conquer other tiles.</li>
-   <li>Later in the game you will be able to fight for the territory with other players.</li>
-  </ol>
-   
-  <div><canvas id="animacia1" style="margin-bottom: 20px; margin-top: 20px;"></canvas></div>
-  
-  <h4 id = "conquering">Conquering</h4>
-  <ol>
-   <li>When fighting, for each tile you can calculate the attack on this tile and also this tile's defence.</li>
-   <li>A tile <b>without</b> elements has in default the power of <b>1</b>. That means it's defense - supporting the tile itself and supporting adjacent tiles is 1 and it's attack on adjacent tiles is 1 as well.</li>
-   <li>By default, the <b>defender</b> has a defence of <b>1</b>, because of the tile itself having this basic defence.</li>
-   <li>The defending tile has support from every adjacent <b>friendly</b> tile, for each tile it is 1 extra support = defence. ?support from other players vs combined attack; diplomacy; alances</li> <!-- tá veta začínajuca otáznikam je už finálna verzia aelbo sa to má ešte upravovať xd? -->
-   <li>The <b>attacker</b> on the other hand, has <b>1</b> attack strength for each adjacent attacking tile.</li>
-   <li>This means that only the adjacent tiles are counted when calculating the attacker's strength and the defender's defence. Also the defender has always one extra defence for the tile itself.</li>
-   <li>When talking about adjacent tiles, we mean the diagonally adjacent tiles as well.</li>
-   <li>Any field is conquerable only when the attacker's power is <b>greater</b> than the defender's defence.</li>
-   <li>For conquering a field of another player, you need to use the number of actions the first owner used to conquer this tile. For a tile without elements or features, this is one.</li>
-  </ol>
-  <div><canvas id="animacia2" style="margin-bottom: 20px; margin-top: 20px;"></canvas></div>
-  
-  <h4 id = "elements">Elements</h4>
-   <ol>
-    <li>Elements are the second layer of the map. They add extra places where you can fortify your position and fight.</li>
-    <li>Each of the elements has a <b>number</b> connected to it.</li>
-    <li>This number influences the <b>size</b> of the element, the<b>actions</b> you spend to conquer one tile of this element. Also the elements <b>power</b> = it's defence and attack.</li>
-    <li>When conquering a <b>neutral</b> element, you need to spend <b>as much</b> actions as the <b>number connected to it</b>. You need to attack on the field with the power <b>equal</b> to the element's connected number.</li>
-    <li>If it were a conquered element, you need to spend the same ammount of actions, however your attack must be atleast <b>one higher</b> than the defence of this tile.</li>
+<h4>Setup</h4>
+<ul>
+ <li>You will need a pencil to play this game.</li>
+ <li>The number of players is unlimited.</li>
+ <li>Players spawn in corners, and/or they should be evenly placed. They start with this first tile as their only teritory.</li>
+ <li>Every turn you receive 2 actions.</li>
+ <li>We recommend writing a player's corresponding number on the tiles you conquer.</li>
+</ul>
 
-    <li>You can use elements an their attack to conquer other elements, even other tiles of the same elements or elements owned by others.</li>
-    <li>When conquering teritorry, even though you can conquer as far as 2 tiles away, you can not conquer teritorry <b>behind</b> an element, if you can not get there on by one tile. When counting how far a tile is you need to go one by one tile. And you can not use an unconquered element when conting your route to the wanted tile. You can't jump over an element in order to conquer something, unless you own the element. This means you possibly need to take a longer route - an go around the element.</li>
-   </ol>
-      <ul>
-     <li>Mountains (3) - spawns in lines of 3, you need 3 actions to conquer it and also 3 attack strength (for a neutral mountain), it attacks and defends with the power of 3, the color is <b>brown</b>.</li>
-     <li>Lakes (2) - spawns in lines of 2, you need 2 actions to conquer it and also 3 attack strength (for a neutral lake), it attacks and defends with the power of 2, the color is <b>blue</b>.</li>
-     <li>Castle (4) - you need 4 actions to conquer it and also 4 attack strength (for a neutral castle), it attacks and defends with the power of 2, a specific property of castle is, that it does not spawn in lines of 4 (currently it spawns as a <b>single</b> tile), another specific property is that it spawns in the third layer - as a feature, meaning it can spawn alone but also f.e. on top of a mountain (see <a href ="#features">Features</a>), the color is <b>gray</b></li>
-     <li>Sweet woods (2) - work exactly the same as lakes, however they have an extra behaviour. A tile of sweet woods contains one tree that you can chop down. For 2 trees you can build a <b>cottage</b>. A cottage behaves exactly as a castle with the difference that it has the power of 3, not 4. When you chop down a tree you cross out the tile from which you chopped it (it needs to be your at the time). <b>No more</b> trees can be gained there afterwards. To build the cottage you can combine trees from multiple sweet woods elements. Also, you can chop down the tree and <b>save it</b> in your warehouse, so when you loose the sweet woods tile you can use it later. However it takes up space of <b>5</b> actions. So in total you can only use it to store 4 trees without storing any actions. A cottage can be placed only on teritorry <b>you control</b>, and it needs to make sense - you can't place it on a <b>lake</b> or on a <b>castle</b>, however grass, mountains, gold, chopped down/unchopped sweet woods, etc. are all suitable. The color of sweet woods is <b>beige</b>. After the tile is crossed because you chopped down the tree, it only has the power of 1, it behaves as if it was an <b>empty</b> tile.</li> 
-    </ul> 
-   <div><canvas id="animacia3" style="margin-bottom: 20px; margin-top: 20px;"></canvas></div>
-   <div><canvas id="animacia4" style="margin-bottom: 20px; margin-top: 20px;"></canvas></div>
-  
-  <h4 id='features'>Features</h4>
-   <ol>
-     <li>Features are the third layer.</li>
-     <li>They are displayed on top of everything.</li>
-     <li>To obtain them just conquer the tile without any additional cost.</li>
-     <ul>
-      <li>Gold - after stepping on it, you can take one surrounding tile for free. However it can not contain any element or feature and it has to be neutral. It is gold.</li>
-      <li>Village (red) - after stepping on it you receive the loot on top of the treasure, located on the right side of the map. After obtaining the loot you cross it out. The next village someone stepps on, provides the next loot, etc.</li>
-      <li>Metal (gray) - resource you can use to reinforce builgings. One building (cottage, castle) can receive one iron, which provides +1 power to the tile. You mark a tile as reinforced by highlighting the edges of the tile with a pencil. You can mine the iron and store it. It takes up 5 places in your warehouse.</li>
-      <li>Material (pink) - allows you to build soldiers. One per one material. Soldiers are an upgrade to your tile, one tile can only have one.</li>
-      <ul>
-        <li>Defender (circle) - By drawing a circle around your number on a given tile, it becomes a defender. This means the tile itself and adjacent tiles have +1 defence.</li>
-        <li>Attacker (triangle) - Similiar to defender, however this one provides +1 attack to surrounding tiles.</li>
-        <li>Bowman (D) - It's symbol is a D - as a bow. They change the way this tile intracts with others. The tile itself loses the +1 defense for itself. Attack and support for other tiles is moved from distance 1 to distance 2. They can't shoot through terrain that is higher/would block them. This means if sweet woods is in their way, or they are on bare surface and a mountain is in front of them.</li>
-        <li>Catapult (square) - +2 attack against structures only in the range of 2 tiles. No support. Can be built only on open terrain.</li>
-      </ul>
-     </ul>
-   </ol>
-  <div><canvas id="animacia5" style="margin-bottom: 20px; margin-top: 20px;"></canvas></div>
-  
-  <h4 id='floorings'>Floorings</h4>
-   <ol>
-    <li>Fllorings are the first layer, spawned below everything.</li>
-    <ul>
-     <li>Grass - behaves normally. It was used in all previous examples.</li>
-     <li>Desert - here you loose the 1 defence you gain from the tile itself.</li>
-     <li>Snow - when using snow in your movement, you can only move 1 tile away.</li>
-     <li>Water - Pirates are dangerous, don't get near water!</li>
-    </ul>
-   </ol>
+<h4>Warehouse</h4>
+<ul>
+ <li>Each player has a warehouse the size of 20 actions.</li>
+ <li>You use the warehouse by taking notes on the paper where you print your map.</li>
+ <li>You can store there one or both of the actions you receive each turn.</li>
+ <li>The limit you can save there is actions per turn * 10 = 20</li>
+ <li>You can save up actions in order to create massive pushes on the map.</li>
+ <li>The limit of actions you can spend per turn is 10 actions. (That means 2 actions you receive + 8 stored in the warehouse.)</li>
+ <li>When you use actions from the warehouse you can simply cross them off of the stored actions.</li>
+</ul>
 
-  <h4 id='other'>Other</h4>
-   <ol>
-    <li>After someone conquers your spawn, you loose!</li>
-    <li>Your terittory becomes an NPC - it remains on the map and can be conquered.</li>
-    <li>The game ends, when one of the players can't do anything anymore.</li>
-    <li>Spawns are chosen randomly, without seeing the map first. (turn the page upside down)</li>
-    <li>If there is more players than corners, choose tiles that are equally distant from each other.</li>
-   </ol>
+<h4>Expansion</h4>
+<ul>
+ <li>You expand by counquering tiles.</li>
+ <li>For 1 action you can conquer exactly 1 empty tile.</li>
+ <li>You can conquer any tile, that is at maximum 2 tiles (vertically, horizontally, diagonally or these ways combined...) away from your current territory.</li>
+ <li>You don't miove, you expand to other tiles.</li>
+ <li>Later you will be able to fight for the territory with others.</li>
+</ul>
+
+<h4>Conquering</h4>
+<ul>
+ <li>When fighting, for each tile you can calculate the attack on this tile and the tile's defence.</li>
+ <li>By default, a tile has the power of 1. It defends itself and the surrounding tiles with defence 1, and attacks the surrounding tiles with attack 1.</li>
+ <li>The defending tile has support from every adjacent friendly tile, for each tile it is 1 extra defence.</li>
+ <li>The attacker has 1 attack strength for each adjacent attacking tile.</li>
+ <li>Only the adjacent tiles are counted to the attack and defence. Plus the defender has always one extra defence for the tile itself.</li>
+ <li>When talking about adjacent tiles, we also mean diagonally adjacent tiles.</li>
+ <li>A field is conquerable only when the attack is greater than the defence.</li>
+ <li>To conquer a tile of another player, you need to use the same number of actions the first owner used to conquer it. For a tile without elements or features, this is one.</li>
+</ul>
+
+<h4>Elements</h4>
+<ul>
+ <li>Elements are the second layer of the map. They add extra places where you can fortify your position and fight.</li>
+ <li>Each of the elements has a number connected to it.</li>
+ <li>This number influences the size of the element, the actions you spend to conquer one tile of this element and the elements power = it's defence and attack.</li>
+ <li>When conquering a neutral element, you need to spend as much actions as the element's connected number. You need to be attacking on the tile with the power equal to the element's number.</li>
+ <li>If it were a conquered element, you need to spend the same ammount of actions, however your attack must be atleast one higher than the defence of this tile.</li>
+ <li>	Mountains (3, brown) - spawns in lines of 3, you need 3 actions and 3 attack strength to conquer it. It attacks and defends with the power of 3.</li>
+ <li>	Lakes (2, blue) - spawns in lines of 2, you need 2 actions and 2 attack strength to conquer it. It attacks and defends with the power of 2.</li>
+ <li>	Castle (4, gray) - you need 4 actions and 4 attack strength to conquer it. It attacks and defends with the power of 4. A specific property of the castle is, that it does not spawn in lines of 4, but 1. Another specific property is that it spawns in the third layer - as a feature, meaning it can spawn f.e. on top of a mountain (see Features).</li>
+ <li>	Sweet woods (2, beige) - work exactly the same as lakes. But with an extra behaviour. When one tile of woods is chopped down, you get a log. For 2 logs you can build a cottage. A cottage behaves exactly as a castle, with the difference that it has the power of 3, not 4. After chopping the wood cross out the tile. No more trees can be gained there afterwards. To build the cottage you can combine trees from multiple sweet woods elements. Also, you can save a log in your warehouse. It takes up space of 5 actions. A cottage can be placed only on your territory. The placement needs to make sense - you can't place it on a lake or on a castle. Grass, mountains, gold, chopped down/unchopped sweet woods are all suitable. After chopping down the tree the tile behaves as an empty tile with the power of 1.</li>
+ <li>You can use elements and their attack to conquer other elements, even other tiles of the same elements, or elements owned by others.</li>
+ <li>When conquering teritorry, you can't jump over an element in order to conquer something, unless you own the element. This means you possibly need to take a longer route going around.</li>
+</ul>
+
+<h4>Features</h4>
+<ul>
+ <li>Features are the third layer.</li>
+ <li>They are displayed on top of everything.</li>
+ <li>To obtain them conquer the tile without any additional cost.</li>
+ <li>	Gold (gold) - after stepping on it, you can take one surrounding tile for free. It can't contain an element or a feature and has to be neutral.</li>
+ <li>	Village (red) - after stepping on it you receive the loot on top of the treasure on the right side of the map. After obtaining the loot you cross it out. The next village someone stepps on, provides the next loot.</li>
+ <li>	Metal (gray) - resource you can use to reinforce builgings. One building (cottage, castle) can receive only one iron. It provides +1 power to the tile. You mark a tile as reinforced by highlighting the edges of the tile. A metal can be stored in the warehouse taking up 5 places.</li>
+ <li>	Material (pink) - allows you to build soldiers. One soldier per one tile per one material. Soldiers are an upgrade of your tile, changing it's behaviour.</li>
+ <li>		Draw the corresponding shape aroung your number on a given tile to build a soldier.</li>
+ <li>		Defender (circle) - the tile itself and adjacent tiles have +1 defence.</li>
+ <li>		Attacker (triangle) - provides +1 attack against surrounding tiles.</li>
+ <li>		Bowman (D = bow) - tile loses the +1 defense for itself. Attack and support for other tiles are changed from radius 1 to radius 2, losing radius 1. Bowmans can't shoot through terrain that is higher/would block them. If sweet woods are in their way or they stand on grass and in front of a mountain they are blocked.</li>
+ <li>		Catapult (square) - +2 attack against structures only in the range of 2 tiles. No support. Can be built only on open terrain.</li>
+</ul>
+
+<h4>Floorings</h4>
+<ul>
+ <li>The first layer, spawned below everything.</li>
+ <li>	Grass - behaves normally. It was used in all previous examples.</li>
+ <li>	Desert - here you loose the 1 defence you gain from the tile itself.</li>
+ <li>	Snow - when using snow in your movement, you can only move 1 tile away.</li>
+ <li>	Water - Pirates are dangerous, don't get near water!</li>
+</ul>
+
+<h4>Other</h4>
+<ul>
+ <li>After someone conquers your spawn, you loose!</li>
+ <li>Your terittory remains on the map and can be conquered.</li>
+ <li>The game ends, when one of the players can't do anything anymore.</li>
+ <li>Spawns are chosen randomly, without seeing the map first. (turn the page upside down)</li>
+ <li>If there is more players than corners, choose tiles that are equally distant from each other.</li>
+</ul>
   
   <script src='animacie.js'></script>
 </body>
