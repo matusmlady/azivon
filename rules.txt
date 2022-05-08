@@ -74,7 +74,7 @@ Grass - behaves normally. It was used in all previous examples.
 Desert - here you loose the 1 defence you gain from the tile itself.
 Snow - when using snow in your movement, you can only move 1 tile away.
 Water - Pirates are dangerous, don't get near water!
-	
+
 Buildings
 
 Cottage (3) - A cottage behaves exactly as a castle, with the difference that it has the power of 3, not 4. After chopping the wood cross out the tile. No more trees can be gained there afterwards. To build the cottage you can combine trees from multiple sweet woods elements. A cottage can be placed only on your territory. The placement needs to make sense - you can't place it on a lake or on a castle. Grass, mountains, gold, chopped down/unchopped sweet woods are all suitable. 
