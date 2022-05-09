@@ -1,7 +1,7 @@
 function mapMain(columns, rows){
   tiles = []//?move to data
-  data.instructions["hore"] = - columns
-  data.instructions["dole"] = columns
+  data.instructions["up"] = - columns
+  data.instructions["down"] = columns
 
   class tile {
     constructor(arg){
@@ -22,68 +22,61 @@ function mapMain(columns, rows){
         this.farby.banned[x] = 0
       }
       
-      this.vlavo = this.index % columns
-      this.vpravo = columns - this.vlavo - 1
-      this.hore = Math.floor(this.index / columns)
-      this.dole = rows - this.hore - 1
+      this.left = this.index % columns
+      this.right = columns - this.left - 1
+      this.up = Math.floor(this.index / columns)
+      this.down = rows - this.up - 1
       
       this.flooring = {
         chosen: "",
         dimensions: [this.index],
-        "vlavo,hore": [0, 0],
-        "vlavo": [0, 0.5],
-        "vlavo,dole": [0, 1],
-        "dole": [0.5, 1],
-        "vpravo,dole": [1, 1],
-        "vpravo": [1, 0.5],
-        "vpravo,hore": [1, 0],
-        "hore": [0.5, 0]
+        "left,up": [0, 0],
+        "left": [0, 0.5],
+        "left,down": [0, 1],
+        "down": [0.5, 1],
+        "right,down": [1, 1],
+        "right": [1, 0.5],
+        "right,up": [1, 0],
+        "up": [0.5, 0]
       }
       this.element = {
         chosen: "",
         dimensions: [this.index],
-        "vlavo,hore": [33/100/2, 33/100/2],/////////prepocitat na 66%
-        "vlavo": [33/100/2, 0.5],
-        "vlavo,dole": [33/100/2, 1-33/100/2],
-        "dole": [0.5, 1-33/100/2],
-        "vpravo,dole": [1-33/100/2, 1-33/100/2],
-        "vpravo": [1-33/100/2, 0.5],
-        "vpravo,hore": [1-33/100/2, 33/100/2],
-        "hore": [0.5, 33/100/2]
-        /*"vlavo,hore": [6/30, 6/30],/////////prepocitat na 66%
-        "vlavo": [6/30, 15/30],
-        "vlavo,dole": [6/30, 24/30],
-        "dole": [15/30, 24/30],
-        "vpravo,dole": [24/30, 24/30],
-        "vpravo": [24/30, 15/30],
-        "vpravo,hore": [24/30, 6/30],
-        "hore": [15/30, 6/30]*/
+        "left,up": [33/100/2, 33/100/2],
+        "left": [33/100/2, 0.5],
+        "left,down": [33/100/2, 1-33/100/2],
+        "down": [0.5, 1-33/100/2],
+        "right,down": [1-33/100/2, 1-33/100/2],
+        "right": [1-33/100/2, 0.5],
+        "right,up": [1-33/100/2, 33/100/2],
+        "up": [0.5, 33/100/2]
       }
       this.feature = {
         chosen: "",
         dimensions: [this.index],
-        "vlavo,hore": [66/100/2, 66/100/2],/////////prepocitat na 33%
-        "vlavo": [66/100/2, 0.5],
-        "vlavo,dole": [66/100/2, 1-66/100/2],
-        "dole": [0.5, 1-66/100/2],
-        "vpravo,dole": [1-66/100/2, 1-66/100/2],
-        "vpravo": [1-66/100/2, 0.5],
-        "vpravo,hore": [1-66/100/2, 66/100/2],
-        "hore": [0.5, 66/100/2]
+        "left,up": [66/100/2, 66/100/2],
+        "left": [66/100/2, 0.5],
+        "left,down": [66/100/2, 1-66/100/2],
+        "down": [0.5, 1-66/100/2],
+        "right,down": [1-66/100/2, 1-66/100/2],
+        "right": [1-66/100/2, 0.5],
+        "right,up": [1-66/100/2, 66/100/2],
+        "up": [0.5, 66/100/2]
       }
       
     }
     
-    vyberMain(arg){
+    vybermapMain(arg){
       if (this[arg].chosen != ""){
         return
       }
       this.ban(arg)
-      this.obmedz(arg)
+      this.restrict(arg)
       
       do{
         this[arg].chosen = this.vyber(arg)
         if (this.dlzka(arg) == 0){
+          this.chosen = 'none'///////////////
           console.log("error")
           break
         }
@@ -98,22 +91,22 @@ function mapMain(columns, rows){
           //let todoMinus = []////////////////////////////////////////////////////////////////////
           ////let todoPlus = []
           for (const z of this[arg].dimensions){
-            ////todoPlus = tiles[z].stvorec(todoPlus, y)
-            todo = [...todo, ...tiles[z].stvorec(todo, y)]
+            ////todoPlus = tiles[z].square(todoPlus, y)
+            todo = [...todo, ...tiles[z].square(todo, y)]
           }
           //for (const z of this[arg].dimensions){
-            //todoMinus = tiles[z].stvorec(todoMinus, y - 1)
+            //todoMinus = tiles[z].square(todoMinus, y - 1)
           //}
 
           ////todo = [...todo, ...todoPlus]//.filter(x => !todoMinus.includes(x))]
         }
-        this.uprav(todo, x.action, x.colors)
+        this.edit(todo, x.action, x.colors)
         
       }
         
     }
 
-    stvorec(todo, radiusArg){
+    square(todo, radiusArg){
       if (radiusArg == 0){
         return [...todo, this.index]
       }
@@ -121,10 +114,10 @@ function mapMain(columns, rows){
         return todo
       }
       let todoOkolie = todo
-      todoOkolie = this.hrana(todoOkolie, radiusArg, 1, this.hore, this.index - radiusArg * columns, "vlavo", radiusArg, this.vlavo, "vpravo", this.vpravo)
-      todoOkolie = this.hrana(todoOkolie, radiusArg, 1, this.dole, this.index + radiusArg * columns, "vlavo", radiusArg, this.vlavo, "vpravo", this.vpravo)
-      todoOkolie = this.hrana(todoOkolie, radiusArg, columns, this.vlavo, this.index - radiusArg, "hore", radiusArg * columns - columns, this.hore * columns, "dole", this.dole * columns)
-      todoOkolie = this.hrana(todoOkolie, radiusArg, columns, this.vpravo, this.index + radiusArg, "hore", radiusArg * columns - columns, this.hore * columns, "dole", this.dole * columns)
+      todoOkolie = this.hrana(todoOkolie, radiusArg, 1, this.up, this.index - radiusArg * columns, "left", radiusArg, this.left, "right", this.right)
+      todoOkolie = this.hrana(todoOkolie, radiusArg, 1, this.down, this.index + radiusArg * columns, "left", radiusArg, this.left, "right", this.right)
+      todoOkolie = this.hrana(todoOkolie, radiusArg, columns, this.left, this.index - radiusArg, "up", radiusArg * columns - columns, this.up * columns, "down", this.down * columns)
+      todoOkolie = this.hrana(todoOkolie, radiusArg, columns, this.right, this.index + radiusArg, "up", radiusArg * columns - columns, this.up * columns, "down", this.down * columns)
       return todoOkolie
 
     }
@@ -171,7 +164,7 @@ function mapMain(columns, rows){
       }
     }
     
-    obmedz(arg){
+    restrict(arg){
       for (const x of data[arg].list){
         if (this.farby.negative[x] != 0){
           this.farby.positive[x] > this.farby.negative[x] ? this.farby.positive[x] -= this.farby.negative[x] : this.farby.positive[x] = 0
@@ -180,7 +173,7 @@ function mapMain(columns, rows){
     }
     
     smer(element){
-      let directions = [["vlavo"], ["vpravo"], ["hore"], ["dole"], ["vlavo", "hore"], ["vlavo", "dole"], ["vpravo", "hore"], ["vpravo", "dole"]]
+      let directions = [["left"], ["right"], ["up"], ["down"], ["left", "up"], ["left", "down"], ["right", "up"], ["right", "down"]]
       let which = ""
       for (let x = 0; x < 8; x++){
         which = directions[Math.floor(Math.random() * directions.length)]
@@ -200,22 +193,22 @@ function mapMain(columns, rows){
             }
           }
           
-          if (which == "vpravo"){
-            which = ["vlavo"]
-          } else if (which == "vlavo"){
-            which = ["vpravo"]
-          } else if (which == "hore"){
-            which = ["dole"]
-          } else if (which == "dole"){
-            which = ["hore"]
-          } else if (which.toString() == "vlavo,hore"){
-            which = ["vpravo", "dole"]
-          } else if (which.toString() == "vlavo,dole"){
-            which = ["vpravo", "hore"]
-          } else if (which.toString() == "vpravo,hore"){
-            which = ["vlavo", "dole"]
-          } else if (which.toString() == "vpravo,dole"){
-            which = ["vlavo", "hore"]
+          if (which == "right"){
+            which = ["left"]
+          } else if (which == "left"){
+            which = ["right"]
+          } else if (which == "up"){
+            which = ["down"]
+          } else if (which == "down"){
+            which = ["up"]
+          } else if (which.toString() == "left,up"){
+            which = ["right", "down"]
+          } else if (which.toString() == "left,down"){
+            which = ["right", "up"]
+          } else if (which.toString() == "right,up"){
+            which = ["left", "down"]
+          } else if (which.toString() == "right,down"){
+            which = ["left", "up"]
           }
           
           for (let z = 1; z < this[data[element].layer].dimensions.length; z++){
@@ -285,7 +278,7 @@ function mapMain(columns, rows){
       return 1
     }
     
-    uprav(arg = [], action = 0, colors = ""){
+    edit(arg = [], action = 0, colors = ""){
       for (let x of arg){
         if (action == 0){
           for (const z of colors.split(", ")){
@@ -313,7 +306,7 @@ function mapMain(columns, rows){
   for (let m = 0; m < rows * columns * 3; m++){
     let number1 = Math.floor(Math.random() * tilesRaw.length)
     let number2 = Math.floor(Math.random() * (tilesRaw[number1].length - 1)) + 1
-    tiles[tilesRaw[number1][0]].vyberMain(tilesRaw[number1][number2])
+    tiles[tilesRaw[number1][0]].vybermapMain(tilesRaw[number1][number2])
     tilesRaw[number1].splice(number2, 1)
     tilesRaw[number1].length == 1 ? tilesRaw.splice(number1, 1) : undefined;
   }
@@ -321,8 +314,64 @@ function mapMain(columns, rows){
   for (const x of data.loot.list){
     data.loot[x] = []
     for (let y = 0, z = data.count[x]; y < z; y++){
-      data.loot[x].push(Math.floor(Math.random() * 3 + 1))
+      data.loot[x].push(Math.floor(Math.random() * 2 + 1))
     }
   }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
