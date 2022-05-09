@@ -1,4 +1,4 @@
-const dimension = 40
+dimension = 40
 
 function draw(columns, rows, dimension){
   function floorsFeatures(arg1, arg2, arg3){
