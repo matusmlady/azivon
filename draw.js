@@ -10,14 +10,26 @@ function draw(columns, rows, dimension){
           ctx.rect(c*dimension + arg1, r*dimension + arg1 , dimension / arg2, dimension / arg2)
           ctx.fill()
           ctx.stroke()
+  ctx.beginPath()
+  ctx.moveTo(c * dimension + tiles[r*columns+c].element.vpravo[0] * dimension, r * dimension + tiles[r*columns+c].element.vpravo[1] * dimension)
+  ctx.lineTo(c * dimension + tiles[r*columns+c].element["vpravo,dole"][0] * dimension, r * dimension + tiles[r*columns+c].element["vpravo,dole"][1] * dimension)
+  ctx.lineTo(c * dimension + tiles[r*columns+c].element.dole[0] * dimension, r * dimension + tiles[r*columns+c].element.dole[1] * dimension)
+  ctx.lineTo(c * dimension + tiles[r*columns+c].element["vlavo,dole"][0] * dimension, r * dimension + tiles[r*columns+c].element["vlavo,dole"][1] * dimension)
+  ctx.lineTo(c * dimension + tiles[r*columns+c].element.vlavo[0] * dimension, r * dimension + tiles[r*columns+c].element.vlavo[1] * dimension)
+  ctx.lineTo(c * dimension + tiles[r*columns+c].element["vlavo,hore"][0] * dimension, r * dimension + tiles[r*columns+c].element["vlavo,hore"][1] * dimension)
+  ctx.lineTo(c * dimension + tiles[r*columns+c].element.hore[0] * dimension, r * dimension + tiles[r*columns+c].element.hore[1] * dimension)
+  ctx.lineTo(c * dimension + tiles[r*columns+c].element["vpravo,hore"][0] * dimension, r * dimension + tiles[r*columns+c].element["vpravo,hore"][1] * dimension)
 
+  ctx.closePath()
+  ctx.fill()
+  ctx.stroke()/*
           ctx.strokeStyle = "lime"
           ctx.beginPath();
           ctx.moveTo(tiles[tiles[r*columns+c][arg3].dimensions[0]].vlavo * dimension + dimension / 2, tiles[tiles[r*columns+c][arg3].dimensions[0]].hore * dimension + dimension / 2);
           let poslednyRozmer = tiles[r*columns+c][arg3].dimensions.length - 1
           ctx.lineTo(tiles[tiles[r*columns+c][arg3].dimensions[poslednyRozmer]].vlavo * dimension + dimension / 2, tiles[tiles[r*columns+c][arg3].dimensions[poslednyRozmer]].hore * dimension + dimension / 2);
           ctx.stroke();
-          ctx.strokeStyle = "black"
+          ctx.strokeStyle = "black"*/
 
 
         }
