@@ -6,10 +6,10 @@ function draw(columns, rows, dimension){
       for (c = 0; c < columns; c++){
         if (data[tiles[r*columns+c][arg3].chosen].color != "none"){
           ctx.fillStyle = data[tiles[r*columns+c][arg3].chosen].color
-          ctx.beginPath()
+          /*ctx.beginPath()
           ctx.rect(c*dimension + arg1, r*dimension + arg1 , dimension / arg2, dimension / arg2)
           ctx.fill()
-          ctx.stroke()
+          ctx.stroke()*/
   ctx.beginPath()
   ctx.moveTo(c * dimension + tiles[r*columns+c][arg3].vpravo[0] * dimension, r * dimension + tiles[r*columns+c].element.vpravo[1] * dimension)
   ctx.lineTo(c * dimension + tiles[r*columns+c][arg3]["vpravo,dole"][0] * dimension, r * dimension + tiles[r*columns+c].element["vpravo,dole"][1] * dimension)
