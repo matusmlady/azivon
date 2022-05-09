@@ -154,10 +154,6 @@ function creatorMain(){
 
 
 
-
-
-
-
 function exportSetup(){
   reset()
   readData()
@@ -292,8 +288,8 @@ function initial(columnsArg, rowsArg){
   data = {
     count: {},
     instructions: {
-      vlavo: - 1,
-      vpravo: 1
+      left: - 1,
+      right: 1
     },
     list: [],
     flooring: {
@@ -355,8 +351,8 @@ function initial(columnsArg, rowsArg){
   data.fillerElementIndex = colorList.indexOf(data.fillerElement)
   
   addColor("mountains", "element", "#A75F49", 5, [{action: 0, colors: "water", radius: 0}, {action: 1, colors: "metal, gold, castle", radius: 0}], 3, false, append())
-  addColor("woods", "element", "#BCA26F", 5, [{action: 0, colors: "water, desert, village, metal, gold, castle", radius: 0}], 2, false, append())
-  addColor("lake", "element", "#64E1E2", 5, [{action: 0, colors: "water, village, metal, gold, castle, material", radius: 0}], 2, false, append())
+  addColor("woods", "element", "#BCA26F", 7, [{action: 0, colors: "water, desert, village, metal, gold, castle", radius: 0}], 2, false, append())
+  addColor("lake", "element", "#64E1E2", 5, [{action: 0, colors: "water, village, metal, gold, castle, castle2, material", radius: 0}], 2, false, append())
   
   addColor("noFeature", "feature", "#000000", 200, [], 0, false, append())
   document.getElementById("color"+(count-1)).type = "text"
@@ -376,7 +372,8 @@ function initial(columnsArg, rowsArg){
   addColor("metal", "feature", "#8E9ED1", 1, [{action: 0, colors: "water, lake", radius: 0}], 1, false, append())
   addColor("gold", "feature", "#C2AB35", 1, [{action: 0, colors: "water, woods, lake", radius: 0}], 1, false, append())
   addColor("castle", "feature", "#AAAAAA", 1, [{action: 0, colors: "water, woods, lake", radius: 0}], 1, false, append())
-  addColor("material", "feature", "#D494D0", 1, [{action: 0, colors: "water, lake", radius: 0}], 1, false, append())
+  addColor("castle2", "feature", "#AAAAAA", 1, [{action: 0, colors: "water, woods, lake", radius: 0}], 2, false, append())
+  addColor("material", "feature", "#D494D0", 6, [{action: 0, colors: "water, lake", radius: 0}], 1, false, append())
 
   document.getElementById("columns").value = data.columns
   document.getElementById("rows").value = data.rows
