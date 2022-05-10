@@ -2,8 +2,8 @@ dimension = 35
 data = {
     count: {},
     instructions: {
-      vlavo: - 1,
-      vpravo: 1
+      left: - 1,
+      right: 1
     },
     list: [],
     flooring: {
