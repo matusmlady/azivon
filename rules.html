@@ -33,7 +33,7 @@
  <li>We recommend writing a player's corresponding number on the tiles you conquer.</li>
 </ul>
 
-<canvas id='animacia1' style='height: 0px; width: 0px;'></canvas>
+<canvas id='Setup1' style='height: 0px; width: 0px;'></canvas>
 <canvas id='Setup2' style='height: 0px; width: 0px;'></canvas>
 
 <h4>Warehouse</h4>
@@ -59,7 +59,7 @@
  <li>Later you will be able to fight for the territory with others.</li>
 </ul>
 
-<canvas id='animacia2' style='height: 0px; width: 0px;'></canvas>
+<canvas id='Expansion1' style='height: 0px; width: 0px;'></canvas>
 <canvas id='Expansion2' style='height: 0px; width: 0px;'></canvas>
 
 <h4>Conquering</h4>
@@ -79,21 +79,22 @@
 
 <h4>Elements</h4>
 <ul>
- <li>The second layer of the map. They add extra places where you can fortify and fight.</li>
- <li>Each of them has a number.</li>
- <li>It influences the size of the element, the actions you spend to conquer one tile of it and the element's power (defence and attack).</li>
- <li>To obtain a neutral element, you need to spend as much actions as the element's number. You need to be attacking the tile with the power equal to the number.</li>
- <li>For a conquered element your attack has to be atleast one higher than the defence of this tile, the cost is the same as it's number.</li>
+ <li>The second layer of the map. Adds extra places where you can fortify and fight.</li>
+ <li>Each of the elements has a number.</li>
+ <li>This influences the element's size, the actions you spend to conquer one tile of it and the element's power (defence and attack).</li>
+ <li>To obtain a neutral element;s tile, you spend as much actions as the element's number. You need to attack the tile with the power equal to the number.</li>
+ <li>For a conquered element your attack has to be atleast one higher than the tile's defence.</li>
+ <li>The cost of conquer is always the same as the element's number.</li>
  <li>You can use elements and their attack to conquer any other tiles.</li>
  <li>You can't jump over an element in order to get somewhere, unless you own the tile.</li>
  <li>Mountains (brown, 3) - spawn in lines of 3, 3 actions and 3 attack strength required to conquer it. It attacks and defends other tiles with the power of 3.</li>
- <li>Lakes (blue, 2) - same as mountains however with the numeber 2.</li>
- <li>Castle (blackish, 4) - same as previously but with number 4. A specific property of it is that it only spawns in lines of 1 and in the third layer - as a feature, meaning it can spawn f.e. on top of a mountain.</li>
- <li>Sweet woods (beige, 2) - exactly the same as lakes with an extra behaviour. When one tile of woods is chopped down (crossed out), you get a log. For 2 logs you can build a cottage. Also, you can save a log in your warehouse, taking up space of 5 actions. After chopping down the tree the tile behaves as an empty tile with the power of 1.</li>
+ <li>Lakes (blue, 2) - same as mountains however with the number 2.</li>
+ <li>Castle (blackish, 4) - same as previously but with number 4. It's specific property is that it only spawns in lines of 1 and in the third layer - as a feature, meaning it can spawn f.e. on top of a mountain.</li>
+ <li>Sweet woods (beige, 2) - exactly the same as lakes with an extra behaviour. When one tile of woods is chopped down (crossed out), you get a log. For 2 logs you can build a cottage. Also, you can save a log in your warehouse, each taking up space of 5 actions. After chopping down the tree the tile behaves as an empty tile with the power of 1.</li>
 </ul>
 
-<canvas id='animacia3' style='height: 0px; width: 0px;'></canvas>
-<canvas id='animacia4' style='height: 0px; width: 0px;'></canvas>
+<canvas id='Elements1' style='height: 0px; width: 0px;'></canvas>
+<canvas id='Elements2' style='height: 0px; width: 0px;'></canvas>
 
 <h4>Features</h4>
 <ul>
@@ -119,7 +120,7 @@
 </ul>
 
 <canvas id='Soldiers1' style='height: 0px; width: 0px;'></canvas>
-<canvas id='animacia5' style='height: 0px; width: 0px;'></canvas>
+<canvas id='Soldiers2' style='height: 0px; width: 0px;'></canvas>
 
 <h4>Floorings</h4>
 <ul>
@@ -135,7 +136,7 @@
 
 <h4>Buildings</h4>
 <ul>
- <li>Cottage (3) - A cottage behaves exactly as a castle, with the difference that it has the power of 3, not 4. After chopping the wood cross out the tile. No more trees can be gained there afterwards. To build the cottage you can combine trees from multiple sweet woods elements. A cottage can be placed only on your territory. The placement needs to make sense - you can't place it on a lake or on a castle. Grass, mountains, gold, chopped down/unchopped sweet woods are all suitable. </li>
+ <li>Cottage (3) - behaves exactly as a castle, however has the power of 3, not 4. After chopping the wood cross out the tile. No more trees can be gained there afterwards. To build the cottage you can combine trees from multiple sweet woods elements. A cottage can be placed only on your territory. The placement needs to make sense - you can't place it on a lake or on a castle. Grass, mountains, gold, chopped down/unchopped sweet woods are all suitable. </li>
 </ul>
 
 <canvas id='Buildings1' style='height: 0px; width: 0px;'></canvas>
@@ -152,6 +153,7 @@
 
 <canvas id='Other1' style='height: 0px; width: 0px;'></canvas>
 <canvas id='Other2' style='height: 0px; width: 0px;'></canvas>
+
 
 
   
