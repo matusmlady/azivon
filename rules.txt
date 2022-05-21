@@ -37,17 +37,18 @@ To conquer a tile of another player, you need to use the same number of actions 
 
 Elements
 
-The second layer of the map. They add extra places where you can fortify and fight.
-Each of them has a number.
-It influences the size of the element, the actions you spend to conquer one tile of it and the element's power (defence and attack).
-To obtain a neutral element, you need to spend as much actions as the element's number. You need to be attacking the tile with the power equal to the number.
-For a conquered element your attack has to be atleast one higher than the defence of this tile, the cost is the same as it's number.
+The second layer of the map. Adds extra places where you can fortify and fight.
+Each of the elements has a number.
+This influences the element's size, the actions you spend to conquer one tile of it and the element's power (defence and attack).
+To obtain a neutral element;s tile, you spend as much actions as the element's number. You need to attack the tile with the power equal to the number.
+For a conquered element your attack has to be atleast one higher than the tile's defence.
+The cost of conquer is always the same as the element's number.
 You can use elements and their attack to conquer any other tiles.
 You can't jump over an element in order to get somewhere, unless you own the tile.
 Mountains (brown, 3) - spawn in lines of 3, 3 actions and 3 attack strength required to conquer it. It attacks and defends other tiles with the power of 3.
-Lakes (blue, 2) - same as mountains however with the numeber 2.
-Castle (blackish, 4) - same as previously but with number 4. A specific property of it is that it only spawns in lines of 1 and in the third layer - as a feature, meaning it can spawn f.e. on top of a mountain.
-Sweet woods (beige, 2) - exactly the same as lakes with an extra behaviour. When one tile of woods is chopped down (crossed out), you get a log. For 2 logs you can build a cottage. Also, you can save a log in your warehouse, taking up space of 5 actions. After chopping down the tree the tile behaves as an empty tile with the power of 1.
+Lakes (blue, 2) - same as mountains however with the number 2.
+Castle (blackish, 4) - same as previously but with number 4. It's specific property is that it only spawns in lines of 1 and in the third layer - as a feature, meaning it can spawn f.e. on top of a mountain.
+Sweet woods (beige, 2) - exactly the same as lakes with an extra behaviour. When one tile of woods is chopped down (crossed out), you get a log. For 2 logs you can build a cottage. Also, you can save a log in your warehouse, each taking up space of 5 actions. After chopping down the tree the tile behaves as an empty tile with the power of 1.
 
 Features
 
