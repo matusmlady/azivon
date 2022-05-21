@@ -1,5 +1,5 @@
-        function animácia1() {
-        let c = document.getElementById("animacia1"); // First of all, you must find the <canvas> element. This is done by using the HTML DOM method getElementById().
+        function Expansion1() {
+        let c = document.getElementById("Expansion1"); // First of all, you must find the <canvas> element. This is done by using the HTML DOM method getElementById().
         let ctx = c.getContext("2d"); //Secondly, you need a drawing object for the canvas. The getContext() is a built-in HTML object, with properties and methods for drawing.
         c.height = 400;
         c.width = 620;
@@ -150,10 +150,11 @@
             ctx.fillStyle = "white";
             cislo(x += 2 * dimension, y += 2 * dimension)
         }, cas += 100);
-        setTimeout(animácia1, cas += 3000);
+        setTimeout(Expansion1, cas += 3000);
         }
-    function animácia2() {
-        let c = document.getElementById("animacia2"); // First of all, you must find the <canvas> element. This is done by using the HTML DOM method getElementById().
+        Expansion1();
+    function Conquering1() {
+        let c = document.getElementById("Conquering1"); // First of all, you must find the <canvas> element. This is done by using the HTML DOM method getElementById().
         let ctx = c.getContext("2d"); //Secondly, you need a drawing object for the canvas. The getContext() is a built-in HTML object, with properties and methods for drawing.
         c.height = 400;
         c.width = 620;
@@ -434,10 +435,11 @@
         ctx.fillText("3", xl, yl += 20);
     }, cas += 1000);
 
-    setTimeout(animácia2, cas += 3000);
+    setTimeout(Conquering1, cas += 3000);
     }
-        function animacia3() {
-            let c = document.getElementById("animacia3"); // First of all, you must find the <canvas> element. This is done by using the HTML DOM method getElementById().
+    Conquering1();
+        function Elements1() {
+            let c = document.getElementById("Elements1"); // First of all, you must find the <canvas> element. This is done by using the HTML DOM method getElementById().
             let ctx = c.getContext("2d"); //Secondly, you need a drawing object for the canvas. The getContext() is a built-in HTML object, with properties and methods for drawing.
             c.height = 400;
             c.width = 620;
@@ -858,10 +860,11 @@
         ctx.fillText("6", xt, yt += 20);
     }, cas += 1000);
 
-    setTimeout(animacia3, cas += 3000);
+    setTimeout(Elements1, cas += 3000);
 }
-        function animacia4() {
-            let c = document.getElementById("animacia4"); // First of all, you must find the <canvas> element. This is done by using the HTML DOM method getElementById().
+    Elements1();
+        function Elements2() {
+            let c = document.getElementById("Elements2"); // First of all, you must find the <canvas> element. This is done by using the HTML DOM method getElementById().
             let ctx = c.getContext("2d"); //Secondly, you need a drawing object for the canvas. The getContext() is a built-in HTML object, with properties and methods for drawing.
             c.height = 400;
             c.width = 620;
@@ -1346,10 +1349,11 @@
                 } 
             }, cas += 1000); 
            
-            setTimeout(animacia4, cas += 3000);
+            setTimeout(Elements2, cas += 3000);
         }
-        function animacia5() {
-            let c = document.getElementById("animacia5"); // First of all, you must find the <canvas> element. This is done by using the HTML DOM method getElementById().
+        Elements2();
+        function Features1() {
+            let c = document.getElementById("Features1"); // First of all, you must find the <canvas> element. This is done by using the HTML DOM method getElementById().
             let ctx = c.getContext("2d"); //Secondly, you need a drawing object for the canvas. The getContext() is a built-in HTML object, with properties and methods for drawing.
             c.height = 400;
             c.width = 620;
@@ -1861,7 +1865,6 @@
             }, cas += 1000);
 
 
-
             // utok a obrana policok
 
             let CounterX5 = 0;
@@ -1894,15 +1897,12 @@
                         ctx.fillRect(x * dimension - dimension, y * dimension - dimension, dimension, dimension);
                         ctx.strokeRect(x * dimension - dimension, y * dimension - dimension, dimension,dimension);
                         ctx.strokeStyle = "white";
-                        SilaVojakov(x,y,3,1,1);
+                        SilaVojakov(x,y,3,0,1);
                     }, cas += 1000);
                 }
             }
 
-            setTimeout(animacia5, cas += 3000);
+            setTimeout(Features1, cas += 3000);
         }
-animácia1();
-animácia2();
-animacia3();
-animacia4();
-animacia5();
+        Features1();
+ 
