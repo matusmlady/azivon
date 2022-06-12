@@ -1,4 +1,4 @@
-function append(){
+/*function append(){
   const att = document.createAttribute("id")
   att.value = "label" + count
   const elmnt = document.createElement("div")
@@ -11,9 +11,15 @@ function insert(){
   const elmnt = document.createElement("div")
   elmnt.setAttributeNode(att)
   document.getElementById('colorList').insertBefore(elmnt, document.getElementById('colorList').children[0])
-}
+}*/
 
 function addColor(name = "label"+count, layer = "flooring", color = "#8BC766", ratio = 1, properties = [], colorWidth = 1, loot = false){
+  const att = document.createAttribute("id")
+  att.value = "label" + count
+  const elmnt = document.createElement("div")
+  elmnt.setAttributeNode(att)
+  document.getElementById('colorList').appendChild(elmnt)
+  
   colorList.push("label"+count)
   propertyList[count] = []
   
@@ -218,7 +224,7 @@ function fileUploaded(){
   document.getElementById('colorList').innerHTML = ''
   console.log("deletion success")
   for (const x of data.list){
-    append()
+    //append()
     const temp = data[x]
     addColor(temp.label, temp.layer, temp.color, temp.ratio, temp.properties, temp.colorWidth, temp.lootability.loot)
   }
@@ -321,7 +327,7 @@ function initial(columnsArg, rowsArg){
   //?????pridat flooring nic = none
   //?vlastnosti napr ze nieco v hre davam hracovi = nespawnu sa automaticky dve na rovnakom policku
   
-  addColor("grass", "flooring", "#8BC766", 250, [], 1, false, append())
+  addColor("grass", "flooring", "#8BC766", 250, [], 1, false)
   ////////////////////////document.getElementById("color"+(count-1)).disabled = "true"
   document.getElementById("colorWidth"+(count-1)).disabled = "true"
   document.getElementById("ratio"+(count-1)).min = "1"
@@ -332,11 +338,11 @@ function initial(columnsArg, rowsArg){
   data.fillerFlooring = 'label'+(count-1)
   data.fillerFlooringIndex = colorList.indexOf(data.fillerFlooring)
     
-  addColor("desert", "flooring", "#FFFFA5", 50, [{action: 0, colors: "snow", radius: 3}, {action: 0, colors: "woods", radius: 0}, {action: 50, colors: "desert", radius: 3}], 1, false, append())
-  addColor("snow", "flooring", "#FFFFFF", 50, [{action: 0, colors: "desert", radius: 3}, {action: 50, colors: "snow", radius: 3}], 1, false, append())
-  addColor("water", "flooring", "#66BBDD", 5, [{action: 80, colors: "water", radius: 3}, {action: 0, colors: "material, mountains, lake, woods, village, metal, gold, castle", radius: 0}], 1, false, append())//#5696C0
+  addColor("desert", "flooring", "#FFFFA5", 50, [{action: 0, colors: "snow", radius: 3}, {action: 0, colors: "woods", radius: 0}, {action: 50, colors: "desert", radius: 3}], 1, false)
+  addColor("snow", "flooring", "#FFFFFF", 50, [{action: 0, colors: "desert", radius: 3}, {action: 50, colors: "snow", radius: 3}], 1, false)
+  addColor("water", "flooring", "#66BBDD", 5, [{action: 80, colors: "water", radius: 3}, {action: 0, colors: "material, mountains, lake, woods, village, metal, gold, castle", radius: 0}], 1, false)//#5696C0
   
-  addColor("noElement", "element", "#000000", 100, [], 0, false, append())
+  addColor("noElement", "element", "#000000", 100, [], 0, false)
   document.getElementById("color"+(count-1)).type = "text"
   document.getElementById("color"+(count-1)).value = "none"
   document.getElementById("color"+(count-1)).disabled = "true"
@@ -350,11 +356,11 @@ function initial(columnsArg, rowsArg){
   data.fillerElement = 'label'+(count-1)
   data.fillerElementIndex = colorList.indexOf(data.fillerElement)
   
-  addColor("mountains", "element", "#A75F49", 5, [{action: 0, colors: "water", radius: 0}, {action: 1, colors: "metal, gold, castle", radius: 0}], 3, false, append())
-  addColor("woods", "element", "#BCA26F", 7, [{action: 0, colors: "water, desert, village, metal, gold, castle", radius: 0}], 2, false, append())
-  addColor("lake", "element", "#64E1E2", 5, [{action: 0, colors: "water, village, metal, gold, castle, castle2, material", radius: 0}], 2, false, append())
+  addColor("mountains", "element", "#A75F49", 5, [{action: 0, colors: "water", radius: 0}, {action: 1, colors: "metal, gold, castle", radius: 0}], 3, false)
+  addColor("woods", "element", "#BCA26F", 7, [{action: 0, colors: "water, desert, village, metal, gold, castle", radius: 0}], 2, false)
+  addColor("lake", "element", "#64E1E2", 5, [{action: 0, colors: "water, village, metal, gold, castle, castle2, material", radius: 0}], 2, false)
   
-  addColor("noFeature", "feature", "#000000", 200, [], 0, false, append())
+  addColor("noFeature", "feature", "#000000", 200, [], 0, false)
   document.getElementById("color"+(count-1)).type = "text"
   document.getElementById("color"+(count-1)).value = "none"
   document.getElementById("color"+(count-1)).disabled = "true"
@@ -368,12 +374,12 @@ function initial(columnsArg, rowsArg){
   data.fillerFeature = 'label'+(count-1)
   data.fillerFeatureIndex = colorList.indexOf(data.fillerFeature)
   
-  addColor("village", "feature", "#FD7C7C", 6, [{action: 0, colors: "water, woods, lake", radius: 0}], 1, true, append())
-  addColor("metal", "feature", "#8E9ED1", 1, [{action: 0, colors: "water, lake", radius: 0}], 1, false, append())
-  addColor("gold", "feature", "#C2AB35", 1, [{action: 0, colors: "water, woods, lake", radius: 0}], 1, false, append())
-  addColor("castle", "feature", "#AAAAAA", 1, [{action: 0, colors: "water, woods, lake", radius: 0}], 1, false, append())
-  addColor("castle2", "feature", "#AAAAAA", 1, [{action: 0, colors: "water, woods, lake", radius: 0}], 2, false, append())
-  addColor("material", "feature", "#D494D0", 6, [{action: 0, colors: "water, lake", radius: 0}], 1, false, append())
+  addColor("village", "feature", "#FD7C7C", 6, [{action: 0, colors: "water, woods, lake", radius: 0}], 1, true)
+  addColor("metal", "feature", "#8E9ED1", 1, [{action: 0, colors: "water, lake", radius: 0}], 1, false)
+  addColor("gold", "feature", "#C2AB35", 1, [{action: 0, colors: "water, woods, lake", radius: 0}], 1, false)
+  addColor("castle", "feature", "#AAAAAA", 1, [{action: 0, colors: "water, woods, lake", radius: 0}], 1, false)
+  addColor("castle2", "feature", "#AAAAAA", 1, [{action: 0, colors: "water, woods, lake", radius: 0}], 2, false)
+  addColor("material", "feature", "#D494D0", 6, [{action: 0, colors: "water, lake", radius: 0}], 1, false)
 
   document.getElementById("columns").value = data.columns
   document.getElementById("rows").value = data.rows
