@@ -70,7 +70,7 @@ data.castle = new farba("castle", "feature", "#AAAAAA", 1, [{action: 0, colors: 
 data.castle2 = new farba("castle", "feature", "#AAAAAA", 1, [{action: 0, colors: "water, woods, lake", radius: 0}], 2, undefined)
 data.material = new farba("material", "feature", "#D494D0", 5, [{action: 0, colors: "water, lake", radius: 0}], undefined, undefined)
   
-main(data.columns, data.rows)//////removed ;
+mapMain(data.columns, data.rows)//////removed ;
 draw(data.columns, data.rows, dimension)/////also here
 
 
