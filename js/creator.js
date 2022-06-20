@@ -14,9 +14,9 @@ function insert(){
 }*/
 
 function addColor(name = "label"+count, layer = "flooring", color = "#8BC766", ratio = 1, properties = [], colorWidth = 1, loot = false){
+  const elmnt = document.createElement("div")
   const att = document.createAttribute("id")
   att.value = "label" + count
-  const elmnt = document.createElement("div")
   elmnt.setAttributeNode(att)
   document.getElementById('colorList').appendChild(elmnt)
   
@@ -29,7 +29,6 @@ function addColor(name = "label"+count, layer = "flooring", color = "#8BC766", r
   document.getElementById('label'+count).innerHTML += "<label for='name"+count+"'></label><input id='name"+count+"' type='text' pattern='(?:[A-Za-z][A-Za-z0-9]*)(?<!noFeature|grass|noElement)' maxlength='20' minlength='1' value='"+name+"' size='15' required>"
   document.getElementById('label'+count).innerHTML += "<label for='layer"+count+"'></label><select id='layer"+count+"'><option value='"+layer+"' selected hidden>"+layer+"</option><option value='flooring'>flooring</option><option value='element'>element</option><option value='feature'>feature</option></select>"
   
-
   document.getElementById('label'+count).innerHTML += "<label for='colorWidth"+count+"'>width:</label><input id='colorWidth"+count+"' type='number' min='0' max='100' value='"+colorWidth+"'  size='2' required>"
   document.getElementById('label'+count).innerHTML += "<label for='loot"+count+"'></label><select id='loot"+count+"'><option value='"+loot+"' selected hidden>"+(loot==true?'loot':'nothing')+"</option><option value='false'>nothing</option><option value='true'>loot</option></select></br>"
   
@@ -69,8 +68,6 @@ function addProperty(arg, action = 0, colors = document.getElementById("name"+ar
 
 
 
-
-
 function reset(){
   data.count = {}
   data.list = []
@@ -95,9 +92,8 @@ function reset(){
       return tempMax + 23;
     }
   }
-  //?hory ako by generovali loot?, 1 za policko vs 1 za 1ks viac polickoveho elementu
+  //////////////////?hory ako by generovali loot?, 1 za policko vs 1 za 1ks viac polickoveho elementu
 }
-
 
 
 
@@ -158,8 +154,6 @@ function creatorMain(){
 }
 
 
-
-
 function exportSetup(){
   reset()
   readData()
@@ -203,7 +197,7 @@ function importSetup(){
 
 
 function fileUploaded(){
-  //?try catch error handling when importing invalid file
+  ////////////////////////////////////////////?try catch error handling when importing invalid file
   data.loot = {
     list: [],
     maxLoot: function(){
@@ -222,14 +216,12 @@ function fileUploaded(){
   propertyList = []
   
   document.getElementById('colorList').innerHTML = ''
-  console.log("deletion success")
   for (const x of data.list){
     //append()
     const temp = data[x]
     addColor(temp.label, temp.layer, temp.color, temp.ratio, temp.properties, temp.colorWidth, temp.lootability.loot)
   }
   
-  //////////document.getElementById("color"+(data.fillerFlooringIndex)).disabled = "true"//////////////////////////////
   document.getElementById("colorWidth"+(data.fillerFlooringIndex)).disabled = "true"
   document.getElementById("ratio"+(data.fillerFlooringIndex)).min = "1"
   document.getElementById("layer"+(data.fillerFlooringIndex)).disabled = "true"
@@ -262,8 +254,7 @@ function fileUploaded(){
 }
 
 
-
-
+//////////////?netreba function staci proste kod
 function initial(columnsArg, rowsArg){
   count = 0
   propertyCount = []
@@ -328,7 +319,6 @@ function initial(columnsArg, rowsArg){
   //?vlastnosti napr ze nieco v hre davam hracovi = nespawnu sa automaticky dve na rovnakom policku
   
   addColor("grass", "flooring", "#8BC766", 250, [], 1, false)
-  ////////////////////////document.getElementById("color"+(count-1)).disabled = "true"
   document.getElementById("colorWidth"+(count-1)).disabled = "true"
   document.getElementById("ratio"+(count-1)).min = "1"
   document.getElementById("layer"+(count-1)).disabled = "true"
@@ -403,14 +393,15 @@ initial(15, 15)
   //ways of color representation understand and ability to use them hexa, text
   
 //oninvalid='setCustomValidity("Please start with a letter, then you can also use numbers.")'
-//oninvalid='setCustomValidity("Enter one ore more numbers separated by a comma and a space.")' 
 //autocomplete='off'
 
 
 
 //ostranit problem ze treba furt scrollovat etc userfriendliness
 
-//way of detecting errors and telling them to the user, f.e. two colors with a same name
+//..way of detecting errors and telling them to the user, f.e. ..
+
+//..two colors with a same name error..
 
 
 
