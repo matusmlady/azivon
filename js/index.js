@@ -67,7 +67,7 @@ data.village = new farba("village", "feature", "#FD7C7C", 1, [{action: 0, colors
 data.metal = new farba("metal", "feature", "#8E9EA5", 1, [{action: 0, colors: "water, woods, lake", radius: 0}], undefined, undefined)
 data.gold = new farba("gold", "feature", "#C2AB35", 1, [{action: 0, colors: "water, woods, lake", radius: 0}], undefined, undefined)
 data.castle = new farba("castle", "feature", "#AAAAAA", 1, [{action: 0, colors: "water, woods, lake", radius: 0}], undefined, undefined)
-data.castle2 = new farba("castle", "feature", "#AAAAAA", 1, [{action: 0, colors: "water, woods, lake", radius: 0}], 2, undefined)
+data.castle2 = new farba("castle2", "feature", "#AAAAAA", 1, [{action: 0, colors: "water, woods, lake", radius: 0}], 2, undefined)
 data.material = new farba("material", "feature", "#D494D0", 5, [{action: 0, colors: "water, lake", radius: 0}], undefined, undefined)
   
 mapMain(data.columns, data.rows)//////removed ;
