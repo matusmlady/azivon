@@ -58,14 +58,14 @@ input[type='button']:hover {
 }
 @keyframes background-color-2 {
                                100% {
-                                      background-color: gold;
+                                      background-color: hsl(0, 0%, 75%);
                                      }
                                 }
-button[type='submit']{
+input[type='submit']{
         background: hsl(0, 0%, 100%);
         
 }
-button[type='submit']:hover {
+input[type='submit']:hover {
               animation-name: background-color-2;
               animation-duration: 500ms;
               animation-fill-mode: forwards;
