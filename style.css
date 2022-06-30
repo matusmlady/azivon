@@ -42,28 +42,21 @@ body {
            margin: auto;
 }
 
-input[type='button']{
+input[type='button'],input[type='submit']{
         background: hsl(0, 0%, 100%);
         border-radius: 8px;
 }
-input[type='button']:hover {
+input[type='button']:hover ,input[type='submit']:hover {
               animation-name: background-color-2;
               animation-duration: 500ms;
               animation-fill-mode: forwards;
+}
 }
 @keyframes background-color-2 {
                                100% {
                                       background-color: hsl(0, 0%, 75%);
                                      }
                                 }
-input[type='submit']{
-        background: hsl(0, 0%, 100%);
-        border-radius: 8px;
-        
-}
-input[type='submit']:hover {
-              animation-name: background-color-2;
-              animation-duration: 500ms;
-              animation-fill-mode: forwards;
+
 
       
