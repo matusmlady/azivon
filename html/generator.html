@@ -18,7 +18,7 @@
 <div id='colorList'></div></br></br>
 <input id='addColorButton' type='button' value='add color' onclick='addColor()'></br>
 
-</br><button type='submit'>generate</button><input type="button" value="Print this map" onclick="printMap()"><a id='fileExport1' href='' download=''><input id='expButton1' type="button" value="Export setup" onclick='exportSetup();this.disabled = true; setTimeout(function(){document.getElementById("expButton1").disabled = false}, 1500)'></a><input id='fileInput' type='file' accept='.json' style='display:none' onchange='importSetup()'><input type='button' value='Import setup' onclick='document.getElementById("fileInput").click()'>
+<input type='submit' value='generate'><input type="button" value="Print this map" onclick="printMap()"><a id='fileExport1' href='' download=''><input id='expButton1' type="button" value="Export setup" onclick='exportSetup();this.disabled = true; setTimeout(function(){document.getElementById("expButton1").disabled = false}, 1500)'></a><input id='fileInput' type='file' accept='.json' style='display:none' onchange='importSetup()'><input type='button' value='Import setup' onclick='document.getElementById("fileInput").click()'>
 
 <div id="canvasMain"><canvas id="map"></canvas></div>
 
