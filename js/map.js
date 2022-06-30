@@ -12,13 +12,13 @@ function mapMain(columns, rows){
         negative: {},
         banned: {}
       }
-      for (const x of data.list){
-        this.farby.positive[x] = data[x].ratio
+      for (const x in data.colors){
+        this.farby.positive[x] = data.colors[x].ratio
       }
-      for (const x of data.list){
+      for (const x in data.colors){
         this.farby.negative[x] = 0
       }
-      for (const x of data.list){
+      for (const x in data.colors){
         this.farby.banned[x] = 0
       }
       
@@ -84,7 +84,7 @@ function mapMain(columns, rows){
       while (!this.smer(this[arg].chosen))
       data.count[this[arg].chosen] += 1
       
-      for (const x of data[this[arg].chosen].properties){
+      for (const x of data.colors[this[arg].chosen].properties){
         let todo = []
         for (let y = 0; y <= x.radius; y++){//of x.radiuses.split(", ")){
           ////y = Number(y)
@@ -139,10 +139,10 @@ function mapMain(columns, rows){
     vyber(arg){
       let random = Math.floor(Math.random() * this.dlzka(arg))
       let counter = 0
-      for (const x of data[arg].list){
+      for (const x of data.layers[arg]){
         counter += this.farby.positive[x]
         if (random < counter){
-          return data[x].label
+          return data.colors[x].label
         }
       }
       //?poistka nejaka ak dlzka je 0; vpodstate uz mam poistku niekde v kode
@@ -150,14 +150,14 @@ function mapMain(columns, rows){
     
     dlzka(arg){
       let counter = 0
-      for (const x of data[arg].list){
+      for (const x of data.layers[arg]){
         counter += this.farby.positive[x]
       }
       return counter
     }
     
     ban(arg){
-      for (const x of data[arg].list){
+      for (const x of data.layers[arg]){
         if (this.farby.banned[x] == 1){
           this.farby.positive[x] = 0
         }
@@ -165,7 +165,7 @@ function mapMain(columns, rows){
     }
     
     restrict(arg){
-      for (const x of data[arg].list){
+      for (const x of data.layers[arg]){
         if (this.farby.negative[x] != 0){
           this.farby.positive[x] > this.farby.negative[x] ? this.farby.positive[x] -= this.farby.negative[x] : this.farby.positive[x] = 0
         }
@@ -178,17 +178,17 @@ function mapMain(columns, rows){
       for (let x = 0; x < 8; x++){
         which = directions[Math.floor(Math.random() * directions.length)]
         if (this.check(which, element)){
-          for (let z = 0; z < this[data[element].layer].dimensions.length - 1; z++){
-            let tileLocal = tiles[this[data[element].layer].dimensions[z]]
-            for (let y = 0; y < this[data[element].layer][which].length; y++){//pre kazdu suradnicu (x, y) vybraneho pomocneho bodu
-              if (this[data[element].layer][which][y] != 0.5){//ak nie je stredova ta konkretna suradnica (bud x alebo y)
-                tileLocal[data[element].layer][which][y] = Math.round(this[data[element].layer][which][y])//tak ju zaokruhli == posun z vnutra na okraj
+          for (let z = 0; z < this[data.colors[element].layer].dimensions.length - 1; z++){
+            let tileLocal = tiles[this[data.colors[element].layer].dimensions[z]]
+            for (let y = 0; y < this[data.colors[element].layer][which].length; y++){//pre kazdu suradnicu (x, y) vybraneho pomocneho bodu
+              if (this[data.colors[element].layer][which][y] != 0.5){//ak nie je stredova ta konkretna suradnica (bud x alebo y)
+                tileLocal[data.colors[element].layer][which][y] = Math.round(this[data.colors[element].layer][which][y])//tak ju zaokruhli == posun z vnutra na okraj
               }
             }
             
             if (which.length == 2){//ak riesim diagonalne smery
               for (let y = 0; y < 2; y++){//okrem rohoveho bodu posuniem aj stredove okolo rohoveho bodu
-                tileLocal[data[element].layer][which[y]] = this[data[element].layer][which]//na suradnice rohoveho aby nerobili problem pri zobrazovani
+                tileLocal[data.colors[element].layer][which[y]] = this[data.colors[element].layer][which]//na suradnice rohoveho aby nerobili problem pri zobrazovani
               }
             }
           }
@@ -211,17 +211,17 @@ function mapMain(columns, rows){
             which = ["left", "up"]
           }
           
-          for (let z = 1; z < this[data[element].layer].dimensions.length; z++){
-            let tileLocal = tiles[this[data[element].layer].dimensions[z]]
-            for (let y = 0; y < this[data[element].layer][which].length; y++){
-              if (this[data[element].layer][which][y] != 0.5){
-                tileLocal[data[element].layer][which][y] = Math.round(this[data[element].layer][which][y])
+          for (let z = 1; z < this[data.colors[element].layer].dimensions.length; z++){
+            let tileLocal = tiles[this[data.colors[element].layer].dimensions[z]]
+            for (let y = 0; y < this[data.colors[element].layer][which].length; y++){
+              if (this[data.colors[element].layer][which][y] != 0.5){
+                tileLocal[data.colors[element].layer][which][y] = Math.round(this[data.colors[element].layer][which][y])
               }
             }
 
             if (which.length == 2){
               for (let y = 0; y < 2; y++){
-                tileLocal[data[element].layer][which[y]] = tileLocal[data[element].layer][which]
+                tileLocal[data.colors[element].layer][which[y]] = tileLocal[data.colors[element].layer][which]
               }
             }
           }
@@ -240,19 +240,19 @@ function mapMain(columns, rows){
     check(arg, element){
       let pokyn = arg
       for (const x of pokyn){
-        if (this[x] < data[element].colorWidth - 1){
+        if (this[x] < data.colors[element].colorWidth - 1){
           return 0
         }
       }
       let suradnicky = [this.index]
       let pseudo = this.index;
-      for (let x = 0; x < data[element].colorWidth - 1; x++){
+      for (let x = 0; x < data.colors[element].colorWidth - 1; x++){
         if (pokyn.length == 2){
           /*if (tiles[pseudo + data.instructions[pokyn[0]]][data[element].layer].dimensions.some(y => tiles[pseudo + data.instructions[pokyn[1]]][data[element].layer].dimensions.includes(y))){
             return 0
           }*/
-          for (const y of tiles[pseudo + data.instructions[pokyn[0]]][data[element].layer].dimensions){
-            if (tiles[pseudo + data.instructions[pokyn[1]]][data[element].layer].dimensions.includes(y)){
+          for (const y of tiles[pseudo + data.instructions[pokyn[0]]][data.colors[element].layer].dimensions){
+            if (tiles[pseudo + data.instructions[pokyn[1]]][data.colors[element].layer].dimensions.includes(y)){
               return 0
             }
           }
@@ -260,7 +260,7 @@ function mapMain(columns, rows){
         for (const y of pokyn){
           pseudo += data.instructions[y]
         }
-        if (tiles[pseudo][data[element].layer].chosen != ""){
+        if (tiles[pseudo][data.colors[element].layer].chosen != ""){
           return 0
         }
         if (tiles[pseudo].farby.banned[element] == 1){
@@ -271,8 +271,8 @@ function mapMain(columns, rows){
       }
       
       for (const x of suradnicky){
-        tiles[x][data[element].layer].chosen = element
-        tiles[x][data[element].layer].dimensions = suradnicky
+        tiles[x][data.colors[element].layer].chosen = element
+        tiles[x][data.colors[element].layer].dimensions = suradnicky
 
       }
       return 1
@@ -311,7 +311,7 @@ function mapMain(columns, rows){
     tilesRaw[number1].length == 1 ? tilesRaw.splice(number1, 1) : undefined;
   }
 
-  for (const x of data.loot.list){
+  for (const x in data.loot){
     data.loot[x] = []
     for (let y = 0, z = data.count[x]; y < z; y++){
       data.loot[x].push(Math.floor(Math.random() * 2 + 1))

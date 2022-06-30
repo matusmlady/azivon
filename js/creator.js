@@ -1,19 +1,42 @@
-/*function append(){
-  const att = document.createAttribute("id")
-  att.value = "label" + count
-  const elmnt = document.createElement("div")
-  elmnt.setAttributeNode(att)
-  document.getElementById('colorList').appendChild(elmnt)
+class farba {////////////////////////////
+  ///?shouldn't colorWidth = 0 mean display color = none
+  //?different size of loot, probabilities, even return strings etc
+  constructor(label, layer, color, ratio = 0, properties = [], colorWidth = 1, loot){
+    this.label = label
+    this.layer = layer
+    data.layers[layer].push(label)
+    this.color = color
+    this.ratio = ratio
+    this.properties = properties
+    this.colorWidth = colorWidth
+    data.count[label] = 0
+    this.loot = loot
+    if (this.loot) { // Works because values are truthy. https://developer.mozilla.org/en-US/docs/Glossary/Truthy
+      data.loot[label] = []
+    }
+  }
 }
-function insert(){
-  const att = document.createAttribute("id")
-  att.value = "label" + count
-  const elmnt = document.createElement("div")
-  elmnt.setAttributeNode(att)
-  document.getElementById('colorList').insertBefore(elmnt, document.getElementById('colorList').children[0])
-}*/
 
-function addColor(name = "label"+count, layer = "flooring", color = "#8BC766", ratio = 1, properties = [], colorWidth = 1, loot = false){
+function makeColor(label, ...rest) {
+  data.colors[label] = new farba(label, ...rest)
+}
+
+/*function append(){
+   const att = document.createAttribute("id")
+   att.value = "label" + count
+   const elmnt = document.createElement("div")
+   elmnt.setAttributeNode(att)
+   document.getElementById('colorList').appendChild(elmnt)
+   }
+   function insert(){
+   const att = document.createAttribute("id")
+   att.value = "label" + count
+   const elmnt = document.createElement("div")
+   elmnt.setAttributeNode(att)
+   document.getElementById('colorList').insertBefore(elmnt, document.getElementById('colorList').children[0])
+   }*/
+
+function addColor(name = "label"+count, layer = "flooring", color = "#8BC766", ratio = 1, properties = [], colorWidth = 1, loot = undefined){
   const elmnt = document.createElement("div")
   const att = document.createAttribute("id")
   att.value = "label" + count
@@ -30,7 +53,7 @@ function addColor(name = "label"+count, layer = "flooring", color = "#8BC766", r
   document.getElementById('label'+count).innerHTML += "<label for='layer"+count+"'></label><select id='layer"+count+"'><option value='"+layer+"' selected hidden>"+layer+"</option><option value='flooring'>flooring</option><option value='element'>element</option><option value='feature'>feature</option></select>"
   
   document.getElementById('label'+count).innerHTML += "<label for='colorWidth"+count+"'>width:</label><input id='colorWidth"+count+"' type='number' min='0' max='100' value='"+colorWidth+"'  size='2' required>"
-  document.getElementById('label'+count).innerHTML += "<label for='loot"+count+"'></label><select id='loot"+count+"'><option value='"+loot+"' selected hidden>"+(loot==true?'loot':'nothing')+"</option><option value='false'>nothing</option><option value='true'>loot</option></select></br>"
+  document.getElementById('label'+count).innerHTML += "<label for='loot"+count+"'></label><select id='loot"+count+"'><option value='"+loot+"' selected hidden>"+(loot ? 'loot' : 'nothing')+"</option><option value='false'>nothing</option><option value='true'>loot</option></select></br>"
   
     document.getElementById('label'+count).innerHTML += "<input id='addPropertyButton"+count+"' type='button' value='add property' onclick='addProperty("+count+")' onfocus='this.blur()'>"
   document.getElementById('label'+count).innerHTML += "<input id='deleteColorButton"+count+"' type='button' value='delete color' onclick='document.getElementById(`label"+count+"`).remove();colorList.splice(colorList.indexOf(`label"+count+"`),1);propertyList["+count+"] = []'>"
@@ -68,55 +91,21 @@ function addProperty(arg, action = 0, colors = document.getElementById("name"+ar
 
 
 
-function reset(){
+function reset(){  
   data.count = {}
-  data.list = []
-  data.flooring = {
-    list: []
+  data.colors = {}
+  data.layers = {
+    flooring: [],
+    element: [],
+    feature: [],
   }
-  data.element = {
-    list: []
-  }
-  data.feature = {
-    list: []
-  }
-  data.loot = {
-    list: [],
-    maxLoot: function(){
-      let tempMax = 0;
-      for(const x of data.loot.list){
-        if(tempMax < data.loot[x].length * dimension + Math.ceil(ctx.measureText(data.loot[x]).width)){
-          tempMax = data.loot[x].length * dimension + Math.ceil(ctx.measureText(data.loot[x]).width)
-        }
-      }
-      return tempMax + 23;
-    }
-  }
+  data.loot = {}
   //////////////////?hory ako by generovali loot?, 1 za policko vs 1 za 1ks viac polickoveho elementu
 }
 
 
 
-function readData(){
-  class farba {
-    constructor(label, layer, color, ratio = 0, properties = [], colorWidth = 1, lootability = {loot: false}){
-      this.label = label
-      this.layer = layer
-      this.color = color
-      this.ratio = ratio
-      this.properties = properties
-      this.colorWidth = colorWidth
-      data[layer].list.push(this.label)
-      data.list.push(this.label)
-      data.count[label] = 0
-      this.lootability = lootability
-      if (this.lootability.loot == true){
-        data.loot.list.push(this.label)
-      }
-          
-    }
-  }
-  
+function readData(){  
   for (const x of colorList){
     const currentName = document.getElementById(x.replace("label","name")).value;
     const currentLayer = document.getElementById(x.replace("label","layer")).value;
@@ -128,7 +117,7 @@ function readData(){
     }
     const currentColorWidth = document.getElementById(x.replace("label","colorWidth")).value;
     const currentLoot = document.getElementById(x.replace("label","loot")).value;
-    data[currentName] = new farba(currentName, currentLayer, currentColor, Number(currentRatio), currentProperties, Number(currentColorWidth), {loot: currentLoot=="true"?true:false})
+    makeColor(currentName, currentLayer, currentColor, Number(currentRatio), currentProperties, Number(currentColorWidth), currentLoot === "true" ? {} : undefined)
   }
   
   data.columns = Number(document.getElementById("columns").value)
@@ -198,28 +187,17 @@ function importSetup(){
 
 function fileUploaded(){
   ////////////////////////////////////////////?try catch error handling when importing invalid file
-  data.loot = {
-    list: [],
-    maxLoot: function(){
-      let tempMax = 0;
-      for(const x of data.loot.list){
-        if(tempMax < data.loot[x].length * dimension + Math.ceil(ctx.measureText(data.loot[x]).width)){
-          tempMax = data.loot[x].length * dimension + Math.ceil(ctx.measureText(data.loot[x]).width)
-        }
-      }
-      return tempMax + 23;
-    }
-  }
+  data.loot = {}
   count = 0
   propertyCount = []
   colorList = []
   propertyList = []
   
   document.getElementById('colorList').innerHTML = ''
-  for (const x of data.list){
+  for (const c in data.colors){
     //append()
-    const temp = data[x]
-    addColor(temp.label, temp.layer, temp.color, temp.ratio, temp.properties, temp.colorWidth, temp.lootability.loot)
+    const temp = data[c]
+    addColor(temp.label, temp.layer, temp.color, temp.ratio, temp.properties, temp.colorWidth, temp.loot)
   }
   
   document.getElementById("colorWidth"+(data.fillerFlooringIndex)).disabled = "true"
@@ -261,57 +239,33 @@ function initial(columnsArg, rowsArg){
   colorList = []
   propertyList = []
   //reset()
-  class farba {////////////////////////////
-  ///?shouldn't colorWidth = 0 mean display color = none
-  //?different size of loot, probabilities, even return strings etc
-    constructor(label, layer, color, ratio = 0, properties = [], colorWidth = 1, lootability = {loot: false}){
-      this.label = label
-      this.layer = layer
-      this.color = color
-      this.ratio = ratio
-      this.properties = properties
-      this.colorWidth = colorWidth
-      data[layer].list.push(this.label)
-      data.list.push(this.label)
-      data.count[label] = 0
-      this.lootability = lootability
-      if (this.lootability.loot == true){
-        data.loot.list.push(this.label)
-      }
-          
-    }
 
-  }
+
   data = {
     count: {},
     instructions: {
-      left: - 1,
-      right: 1
+      left: -1,
+      right: 1,
     },
-    list: [],
-    flooring: {
-      list: []
+    colors: {},
+    layers: {
+      flooring: [],
+      element: [],
+      feature: [],
     },
-    element: {
-      list: []
-    },
-    feature: {
-      list: []
-    },
+    loot: {},
     columns: columnsArg,
     rows: rowsArg,
-    loot: {
-      list: [],
-      maxLoot: function(){
-        let tempMax = 0;
-        for(const x of data.loot.list){
-          if(tempMax < data.loot[x].length * dimension + Math.ceil(ctx.measureText(data.loot[x]).width)){
-            tempMax = data.loot[x].length * dimension + Math.ceil(ctx.measureText(data.loot[x]).width)
-          }
-        }
-        return tempMax + 23;
-      }
+  }
+
+  data.maxLoot = () => {
+    let max = 0
+    for (const l in data.loot) {
+      const loot = data.loot[l]
+      const value = loot.length * dimension + Math.ceil(ctx.measureText(loot).width)
+      if (max < value) max = value
     }
+    return max + 23
   }
   
   //?colors : self miesto cele meno
