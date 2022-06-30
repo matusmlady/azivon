@@ -6,58 +6,56 @@ body {
       color: white;
       font-family: Calibri, sans-serif;
       font-size: 1.15em;
-      text-align:center;
-      
+      text-align:center;     
 }
-
 .menu {
-           margin: auto;
-           top: 0px;    
+      margin: auto;
+      top: 0px;    
 }
 .generator {   
-           padding-left: 45px;
-            padding-top: 30px;
+      padding-left: 45px;
+      padding-top: 30px;
 }
 .kecy {
-          background: rgba(0, 0, 0, 0.92);
-          width: 620px;
-          padding: 10px;
-          padding-left: 30px;
-          padding-right: 30px;
-          margin-bottom: 20px;
-          /* offset-x, offset-y, blur-radius, spread-radius, color */
-          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.92), 0 6px 6px rgba(0, 0, 0, 0.80);
-          margin: auto;
-          text-align: justify;
+      background: rgba(0, 0, 0, 0.92);
+      width: 620px;
+      padding: 10px;
+      padding-left: 30px;
+      padding-right: 30px;
+      margin-bottom: 20px;
+      /* offset-x, offset-y, blur-radius, spread-radius, color */
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.92), 0 6px 6px rgba(0, 0, 0, 0.80);
+      margin: auto;
+      text-align: justify;
 }  
 .tlacitka_generator {
-           width: 500px;
-           margin: auto;
+      width: 500px;
+      margin: auto;
 }
 .formular {
-           background: hsl(10, 0%, 100%);
+      background: hsl(10, 0%, 100%);
 }
 .menu_pravidla {
-           width: 500px;
-           margin: auto;
+      width: 500px;
+      margin: auto;
 }
 
 input[type='button'],input[type='submit']{
-        background: hsl(0, 0%, 100%);
-        border-radius: 8px;
-        border:none;
+      background: hsl(0, 0%, 100%);
+      border-radius: 8px;
+      border:none;
 }
 input[type='button']:hover ,input[type='submit']:hover {
-              animation-name: background-color-2;
-              animation-duration: 500ms;
-              animation-fill-mode: forwards;
+      animation-name: background-color-2;
+      animation-duration: 500ms;
+      animation-fill-mode: forwards;
 }
 }
 @keyframes background-color-2 {
-                               100% {
-                                      background-color: hsl(0, 0%, 65%);
-                                     }
-                                }
+                   100% {
+                             background-color: hsl(0, 0%, 65%);
+                         }
+}
 
 
       
