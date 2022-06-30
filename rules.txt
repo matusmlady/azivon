@@ -21,7 +21,7 @@ Expansion
 You expand by counquering tiles.
 For 1 action you can conquer exactly 1 empty tile.
 You can conquer any tile, that is at maximum 2 tiles (vertically, horizontally, diagonally or these ways combined...) away from your current territory.
-You don't miove, you expand to other tiles.
+You don't move, you expand to other tiles.
 Later you will be able to fight for the territory with others.
 
 Conquering
