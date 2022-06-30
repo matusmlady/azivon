@@ -55,7 +55,7 @@ input[type='button']:hover ,input[type='submit']:hover {
 }
 @keyframes background-color-2 {
                                100% {
-                                      background-color: hsl(0, 0%, 75%);
+                                      background-color: hsl(0, 0%, 65%);
                                      }
                                 }
 
