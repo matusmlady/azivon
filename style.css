@@ -14,10 +14,8 @@ body {
            margin: auto;
            top: 0px;    
 }
-.generator {
-            padding-top: 30px;
-             width: 49%;
-             margin: auto;
+.generator {   
+           padding-left: 45px;
 }
 .kecy {
           background: rgba(0, 0, 0, 0.92);
