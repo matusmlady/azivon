@@ -41,11 +41,6 @@ body {
            width: 500px;
            margin: auto;
 }
-.button_mainpage{
-           width: 500px;
-           text-align: right;
-           background: hsl(0, 0%, 100%);
-}
 
 input[type='button']{
         background: hsl(0, 0%, 100%);
