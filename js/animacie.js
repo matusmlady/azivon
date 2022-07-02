@@ -1,4 +1,4 @@
-      let SpustenieExpansion = false;
+     let SpustenieExpansion = false;
   
      function Expansion1() {
          let c = document.getElementById("Expansion1"); // First of all, you must find the <canvas> element. This is done by using the HTML DOM method getElementById().
@@ -28,9 +28,22 @@
              ctx.arc(xArg, yArg, r, 0, 2 * Math.PI);
              ctx.fill();
              }
+        
+        function arrow(x = 0, y = 0) {
+            ctx.lineWidth = "10";
+            ctx.beginPath();
+            ctx.strokeStyle = "black";
+            ctx.arc(x * dimension, y * dimension + dimension / 2, 4 * r, 0, 1.5 * Math.PI);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.fillStyle = "black";
+            ctx.moveTo(x * dimension, y * dimension + dimension / 2 - 2 * r);
+            ctx.lineTo(x * dimension, y * dimension + dimension / 2 - 6 * r);
+            ctx.lineTo(x * dimension + 4 * r, y * dimension + dimension / 2 - 4 * r);
+            ctx.fill();
+            }     
          
          function setup() {
-  
              // Legenda
              ctx.lineWidth = 1;
              ctx.fillStyle = "black";
@@ -71,8 +84,8 @@
                  for (let y = 0; y < 5 * dimension; y += dimension) {
                      ctx.fillRect(x, y, dimension, dimension);
                      ctx.strokeRect(x,y,dimension,dimension);
-                 }
-             }
+                    }
+                }
   
              // setup - animácia cisla vľavo hore a uloženie obrázka
              ctx.fillStyle = "white";
@@ -81,10 +94,11 @@
              y = 11 * dimension / 16; 
              ctx.fillText("1", x, y);
              savedData.src = c.toDataURL("image/png");
-         }   
+            }   
          
          function Expansion() {
              let cas = 0;
+             setup();
   
              //animácia stvorca ohraničujuceho možnosti na pohyb
              setTimeout(function() {
@@ -171,12 +185,22 @@
                  ctx.fillStyle = "white";
                  ctx.fillText("1", x += 2 * dimension, y += 2 * dimension)
              }, cas += 500);
-  
-             //nacitanie obrazka pre setup
+             
+             //stmavnutie animacie
              setTimeout(function(){
-                 setup();
-                 SpustenieExpansion = false;
+                ctx.globalAlpha = 0.2;
+                ctx.fillStyle = "black";
+                ctx.fillRect(0,0, 8 * dimension, 5 * dimension);
+                ctx.globalAlpha = 1.0;
+                arrow(4, 2);
+                SpustenieExpansion = false;
              }, cas += 2000);
+
+             //stmavnutie animacie
+             setTimeout(function(){
+                c.onclick = function(){Expansion()};
+             }, cas);
+             
          }       
   
          setup();
@@ -209,386 +233,385 @@
                   }
               });
           }
-         /*
-         window.onscroll = function() {myFunction()};
-         function myFunction() {
-          if (c.offsetTop > 1280  && !SpustenieExpansion /* -> SpustenieNazovAnimacie == false *//*) {
-             /* Expansion();
-              SpustenieExpansion = true;
-              }
-          }  
-             const elementInView = (c, dividend = 1) => {
-                 const elementTop = c.getBoundingClientRect().top;
-                 let el = elementTop;
-                 return (
-                     elementTop <=
-                     (window.innerHeight || document.documentElement.clientHeight) / dividend
-                     );
-                 };
-             if (elementInView(c, 1.4)  && !SpustenieExpansion /* -> SpustenieAnimacie == false *//*) {
-                 Expansion();
-                 SpustenieExpansion = true;
-             }
-         }*/
      }
      Expansion1();
-  
-   let SpustenieConquering = false;
-  
-   function Conquering1() {
-       let c = document.getElementById("Conquering1"); // First of all, you must find the <canvas> element. This is done by using the HTML DOM method getElementById().
-       let ctx = c.getContext("2d"); //Secondly, you need a drawing object for the canvas. The getContext() is a built-in HTML object, with properties and methods for drawing.
-       const dimension = 80;
-       c.height = 5 * dimension;
-       c.width = 8 * dimension;
-       c.style.height = c.height + "px";
-       c.style.width = c.width + "px";
-  
-       // Snažil som sa zrelatizovať všetky súradnice prípadnu potrebu zmeny veľkosti const dimension 
-  
-       const r = 1/10 * dimension; // relatívny polomer kruhov vyznačujúcich kam sa môže hráč pohnúť
-       const font = 5/8 * dimension; // relatívna veľkosť fontu hracov
-       const FontNLTS = 9/40 * dimension; // relatívna veľkosť fontu nadpisu legendy a tahov, skore
-       const FontL = 7/40 * dimension; // relatívna veľkosť fontu legendy
-  
-       //súradnice
-       let x = 7 * dimension / 20; // xova suradnica rpe hraca
-       let y = 11 * dimension / 16; // yova suradnica rpe hraca
-       let xl = 5 * dimension + dimension; // xova suradnica pre legendu
-       let yl = 1/4 * dimension; // yova suradnica pre legendu
-       let xt = xl + dimension; // xova suradnica pre tahy
-       let yt = yl + 9/2 * dimension; // yova suradnica pre tahy
-       
-  
-       obrazok1 = new Image();      
-       
-       // zadefinovanie funkcií
-       function kruh(xArg = 0, yArg = 0, r = 0) {
-       //Draw a circle
-       ctx.beginPath();
-       ctx.arc(xArg, yArg, r, 0, 2 * Math.PI);
-       ctx.fill();
-       }
-       
-       function setup() {
-           // Legenda
-           ctx.lineWidth = 1;
-           ctx.fillStyle = "black";
-           ctx.fillRect(5 * dimension, 0, 3 * dimension, 5 * dimension);
-           ctx.font = FontNLTS + "px Calibri";
-           ctx.fillStyle = "white";
-           let xl = 5 * dimension + dimension; // xova suradnica pre legendu
-           let yl = 1/4 * dimension; // yova suradnica pre legendu
-           let xt = xl + dimension; // xova suradnica pre tahy
-           let yt = yl + 9/2 * dimension; // yova suradnica pre tahy
-           ctx.fillText("Legend", xl,yl);
-           ctx.fillText("Turn:", xt, yt);
-           ctx.fillStyle = "#8BC766";
-           ctx.strokeStyle = "black";
-           xl = 5 * dimension + 7/40 * dimension;
-           yl += 1/2 * dimension;
-           let b = 7/40 * dimension;
-           ctx.fillStyle = "white";
-           ctx.font = FontL + "px Calibri";
-       
-           ctx.fillStyle = "white";
-           ctx.fillText("1", xl, yl);
-           ctx.fillStyle = "white";
-           ctx.fillText(" - conquered tiles by player 1", xl += 1/16 * dimension, yl);
-  
-           ctx.fillStyle = "yellow";
-           ctx.fillText("2", xl -= 1/16 * dimension, yl += 5/16 * dimension);
-           ctx.fillStyle = "white";
-           ctx.fillText(" - conquered tiles by player 2", xl+= 1/10 * dimension, yl);
-  
-           ctx.strokeStyle = "red";
-           ctx.strokeRect(xl -= 1/8 * dimension, yl += 3/16 * dimension, b, b);
-           ctx.fillText(" - supporting tiles", xl += 9/40 * dimension, yl += 11/80 * dimension);
-  
-           ctx.strokeStyle = "black";
-           ctx.fillStyle = "#5b5e3f";
-           ctx.fillRect(xl -= 9/40 * dimension, yl += 3/16 * dimension, b, b);
-           ctx.strokeRect(xl, yl, b, b);
-           ctx.fillStyle = "white";
-           ctx.fillText(" - occupied tile", xl+= 1/5 * dimension, yl += 11/80 * dimension);
-  
-           ctx.fillStyle = "#949437";
-           ctx.fillRect(xl -= 1/5 * dimension, yl += 3/16 * dimension, b, b);
-           ctx.strokeRect(xl, yl, b, b);
-           ctx.fillStyle = "white";
-           ctx.fillText(" - player 1 power ", xl += 1/5 * dimension, yl += 11 /80 * dimension);
-  
-           ctx.fillStyle = "#3d0d2c";
-           ctx.fillRect(xl -= 1/5 * dimension, yl += 3/16 * dimension, b, b);
-           ctx.strokeRect(xl, yl, b, b);
-           ctx.fillStyle = "white";
-           ctx.fillText(" - player 2 power ", xl += 1/5 * dimension, yl += 11/80 * dimension);
-  
-           // suradnice tabulky skore
-           xs = xl
-           ys = yl + 1/2 * dimension
-    
-           // Nakreslenie pozadia
-           ctx.fillStyle = "#8BC766";
-           ctx.strokeStyle = "black";
-           for (let x = 0; x < 5 * dimension; x = x + dimension) {
-               for (let y = 0; y < 5 * dimension; y = y + dimension) {
-                   ctx.fillRect(x, y, dimension, dimension);
-                   ctx.strokeRect(x,y,dimension,dimension);
-               }
-           }
-  
-           // setup
-           x = 7 * dimension / 20; // xova suradnica rpe hraca
-           y = 11 * dimension / 16; // yova suradnica rpe hraca
-           ctx.strokeStyle = "red";
-           ctx.fillStyle = "white";
-           ctx.font = font + "px Calibri"; 
-           ctx.fillText("1", x, y);
-           ctx.fillStyle = "yellow";
-           ctx.fillText("2", x += 4 * dimension, y += 4 * dimension);
-       }
-  
-       function Conquering() {
-  
-           let cas = 0;
-           // 1. tah hraca 1 - 1. akcia
-           setTimeout(function() {
-               ctx.fillStyle = "white";
-               ctx.fillText("1", x -= 2 * dimension, y -= 2 * dimension);
-               ctx.fillStyle = "white";
-               ctx.font = FontNLTS + "px Calibri";
-               ctx.fillText("1", xt += 1/2 * dimension, yt);
-           }, cas += 1000);
-  
-           // 1. tah hraca 1 - 2. akcia
-           setTimeout(function() {
-               ctx.font = font + "px Calibri";
-               ctx.fillStyle = "white";
-               ctx.fillText("1", x + dimension, y += dimension);
-           }, cas += 1000);
-  
-           // 1. tah hraca 2 - 1. akcia
-           setTimeout(function() {
-               ctx.fillStyle = "yellow";
-               ctx.fillText("2", x += dimension, y -= dimension);
-           }, cas += 1000);
-  
-               // 1. tah hraca 2 - 2. akcia
-               setTimeout(function() {
-                   ctx.fillStyle = "yellow";
-                   ctx.fillText("2", x -= 2 * dimension, y -= dimension);
-               }, cas += 1000);
-  
-               // 2. tah hraca 1 - 1. akcia
-               setTimeout(function() {
-                   ctx.fillStyle = "white";
-                   ctx.fillText("1", x, y += dimension);
-                   ctx.fillStyle = "black";
-                   ctx.fillRect(xt, yt -= 1/4 * dimension, 1/4 * dimension, 1/4 * dimension);
-                   ctx.fillStyle = "white";
-                   ctx.font = FontNLTS + "px Calibri";
-                   ctx.fillText("2", xt, yt += 1/4 * dimension);
-               }, cas += 1000);
-  
-               // 2. tah hraca 1 - 2. akcia
-               setTimeout(function() {
-                   ctx.font = font + "px Calibri"; 
-                   ctx.fillStyle = "white";
-                   ctx.fillText("1", x += dimension, y += dimension);
-               }, cas += 1000);
-  
-               // 2. tah hraca 2 - 1. akcia
-               setTimeout(function() {
-                   ctx.fillStyle = "yellow";
-                   ctx.fillText("2", x, y -= 2 * dimension);
-               }, cas += 1000);
-  
-               // 2. tah hraca 2 - 2. akcia
-               setTimeout(function() {
-                   ctx.fillStyle = "yellow";
-                   ctx.fillText("2", x -= dimension, y += 2 * dimension);
-                   obrazok1.src = c.toDataURL("image/png");
-               }, cas += 1000);
-  
-               // tabulka score
-               setTimeout(function() { 
-                   ctx.font = FontNLTS + "px Calibri";
-                   ctx.fillStyle = "white";
-                   ctx.fillText("Player 1", xs, ys);
-                   ctx.fillStyle = "yellow";
-                   ctx.fillText("Player 2", xs += 5/4 * dimension, ys);
-                   ctx.fillStyle = "white";
-                   ctx.fillText(":", xs -= 1/4 * dimension, ys += 3/8 * dimension)
-               }, cas += 1000);
-  
-               // zvýraznenie okupovaného políčka
-               setTimeout(function() {
-                   ctx.strokeStyle = "black";
-                   ctx.fillStyle = "#5b5e3f";
-                   ctx.fillRect(dimension, dimension, dimension, dimension);
-                   ctx.strokeRect(dimension, dimension, dimension, dimension);
-                   ctx.fillStyle = "yellow";
-                   ctx.font = font + "px Calibri"; 
-                   ctx.fillText("2", x, y -= 2 * dimension);
-                   // priratanie sily hraca 2
-                   ctx.font = FontNLTS + "px Calibri";
-                   ctx.fillText("1", xs += 9/16 * dimension, ys);
-                   }, cas += 1000);
-  
-               //animácia stvorca ohraničujuceho podporurujúce políčka
-               setTimeout(function() {
-                   ctx.lineWidth = "5";
-                   ctx.strokeStyle = "red";
-                   ctx.strokeRect(3, 3, 3 * dimension, 3 * dimension);
-                   ctx.font = font + "px Calibri"; 
-                   ctx.lineWidth = "1";
-               }, cas += 1000);
-  
-               // zvýraznenie sily hraca 2
-               setTimeout(function() {
-                   ctx.strokeStyle = "black";
-                   ctx.fillStyle = "#3d0d2c";
-                   ctx.fillRect( 2 * dimension, dimension, dimension, dimension);
-                   ctx.strokeRect(2 * dimension, dimension, dimension, dimension);
-                   ctx.fillStyle = "yellow";
-                   ctx.fillText("2", x += dimension, y);
-                   //priratanie sily hraca 2
-                   ctx.fillStyle = "black";
-                   ctx.fillRect(xs, ys -= 1/4 * dimension, 1/4 * dimension, 1/4 * dimension);
-                   ys += 1/4 * dimension;
-                   ctx.font = FontNLTS + "px Calibri";
-                   ctx.fillStyle = "yellow";
-                   ctx.fillText("2", xs, ys);
-               }, cas += 1000);
-  
-               // zvýraznenie sily hraca 1
-               let x1 = 7/20 * dimension;
-               let score1 = 1;
-               setTimeout(function() {
-                   ctx.strokeStyle = "black";
-                   ctx.fillStyle = "#949437";
-                   ctx.fillRect(0, 0, dimension, dimension);
-                   ctx.strokeRect(0, 0, dimension, dimension);
-                   ctx.fillStyle = "white";
-                   ctx.font = font + "px Calibri"; 
-                   ctx.fillText("1", x -= 2 * dimension, y -= dimension);
-                   // priratanie sily hraca 1
-                   ctx.font = FontNLTS + "px Calibri";
-                   ctx.fillText(score1, xs -= 5/4 * dimension, ys);
-                   }, cas += 1000);
-  
-               for (let x = dimension; x <= 2 * dimension; x += dimension) {
-                   let y = 2 * dimension;
-                   let y1 = 2 * dimension + 11/16 * dimension;
-                   setTimeout(function(){
-                       ctx.fillStyle = "#949437";
-                       score1 += 1;
-                       ctx.fillRect(x, y, dimension, dimension);
-                       ctx.strokeRect(x, y, dimension, dimension);
-                       x1 += dimension;
-                       ctx.fillStyle = "white";
-                       ctx.font = font + "px Calibri"; 
-                       ctx.fillText("1", x1, y1);
-                       // priratanie sily hraca 1
-                       ctx.fillStyle = "black";
-                       ctx.fillRect(xs, ys -= 1/4 * dimension, 1/4 * dimension, 1/4 * dimension);
-                       ys += 20;
-                       ctx.font = FontNLTS + "px Calibri";
-                       ctx.fillStyle = "white";
-                       ctx.fillText(score1, xs, ys);
-                   }, cas += 1000);    
-               }
-  
-               // obsadenie policka
-               setTimeout(function(){
-                   ctx.fillStyle = "#8BC766";
-                   ctx.fillRect(dimension, dimension, dimension, dimension);
-                   ctx.strokeStyle = "black";
-                   ctx.strokeRect(dimension, dimension, dimension, dimension);
-                   ctx.fillStyle = "white";
-                   ctx.font = font + "px Calibri"; 
-                   ctx.fillText("1", x += dimension, y += dimension);
-                   ctx.fillStyle = "black";
-                   ctx.fillRect(xt, yt -= 1/4 * dimension, 1/4 * dimension, 1/4 * dimension);
-                   ctx.fillStyle = "white";
-                   ctx.font = FontNLTS + "px Calibri";
-                   ctx.fillText("3", xt, yt += 1/4 * dimension);
-               }, cas += 1000);
-  
-               setTimeout(function() {
-                   ctx.drawImage(obrazok1,0,0);
-                   ctx.font = font + "px Calibri"; 
-                   ctx.fillStyle = "#8BC766";
-                   ctx.fillRect(dimension, dimension, dimension, dimension);
-                   ctx.strokeStyle = "black";
-                   ctx.strokeRect(dimension, dimension, dimension, dimension);
-                   ctx.fillStyle = "white";
-                   ctx.fillText("1", x, y);
-                   ctx.fillStyle = "black";
-                   ctx.fillRect(xt, yt -= 1/4 * dimension, 1/4 * dimension, 1/4 * dimension);
-                   ctx.fillStyle = "white";
-                   ctx.font = FontNLTS + "px Calibri";
-                   ctx.fillText("3", xt, yt += 1/4 * dimension);
-                   }, cas += 1000);
-  
-               //nacitanie obrazka pre setup
-               setTimeout(function(){
-                   setup();
-                   SpustenieConquering = false;
-               }, cas += 2000);
-           }
    
-       setup();
+ let SpustenieConquering = false;
+
+ function Conquering1() {
+     let c = document.getElementById("Conquering1"); // First of all, you must find the <canvas> element. This is done by using the HTML DOM method getElementById().
+     let ctx = c.getContext("2d"); //Secondly, you need a drawing object for the canvas. The getContext() is a built-in HTML object, with properties and methods for drawing.
+     const dimension = 80;
+     c.height = 5 * dimension;
+     c.width = 8 * dimension;
+     c.style.height = c.height + "px";
+     c.style.width = c.width + "px";
+
+     // Snažil som sa zrelatizovať všetky súradnice prípadnu potrebu zmeny veľkosti const dimension 
+
+     const r = 1/10 * dimension; // relatívny polomer kruhov vyznačujúcich kam sa môže hráč pohnúť
+     const font = 5/8 * dimension; // relatívna veľkosť fontu hracov
+     const FontNLTS = 9/40 * dimension; // relatívna veľkosť fontu nadpisu legendy a tahov, skore
+     const FontL = 7/40 * dimension; // relatívna veľkosť fontu legendy
+
+     //súradnice
+     let x = 7 * dimension / 20; // xova suradnica rpe hraca
+     let y = 11 * dimension / 16; // yova suradnica rpe hraca
+     let xl = 5 * dimension + dimension; // xova suradnica pre legendu
+     let yl = 1/4 * dimension; // yova suradnica pre legendu
+     let xt = xl + dimension; // xova suradnica pre tahy
+     let yt = yl + 9/2 * dimension; // yova suradnica pre tahy
+     
+
+     obrazok1 = new Image();      
+     
+     // zadefinovanie funkcií
+     function kruh(xArg = 0, yArg = 0, r = 0) {
+        //Draw a circle
+        ctx.beginPath();
+        ctx.arc(xArg, yArg, r, 0, 2 * Math.PI);
+        ctx.fill();
+     }
+
+     function arrow(x = 0, y = 0) {
+        ctx.lineWidth = "10";
+        ctx.beginPath();
+        ctx.strokeStyle = "black";
+        ctx.arc(x * dimension, y * dimension + dimension / 2, 4 * r, 0, 1.5 * Math.PI);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.fillStyle = "black";
+        ctx.moveTo(x * dimension, y * dimension + dimension / 2 - 2 * r);
+        ctx.lineTo(x * dimension, y * dimension + dimension / 2 - 6 * r);
+        ctx.lineTo(x * dimension + 4 * r, y * dimension + dimension / 2 - 4 * r);
+        ctx.fill();
+        }     
+     
+     function setup() {
+         // Legenda
+         ctx.lineWidth = 1;
+         ctx.fillStyle = "black";
+         ctx.fillRect(5 * dimension, 0, 3 * dimension, 5 * dimension);
+         ctx.font = FontNLTS + "px Calibri";
+         ctx.fillStyle = "white";
+         let xl = 5 * dimension + dimension; // xova suradnica pre legendu
+         let yl = 1/4 * dimension; // yova suradnica pre legendu
+         let xt = xl + dimension; // xova suradnica pre tahy
+         let yt = yl + 9/2 * dimension; // yova suradnica pre tahy
+         ctx.fillText("Legend", xl,yl);
+         ctx.fillText("Turn:", xt, yt);
+         ctx.fillStyle = "#8BC766";
+         ctx.strokeStyle = "black";
+         xl = 5 * dimension + 7/40 * dimension;
+         yl += 1/2 * dimension;
+         let b = 7/40 * dimension;
+         ctx.fillStyle = "white";
+         ctx.font = FontL + "px Calibri";
+     
+         ctx.fillStyle = "white";
+         ctx.fillText("1", xl, yl);
+         ctx.fillStyle = "white";
+         ctx.fillText(" - conquered tiles by player 1", xl += 1/16 * dimension, yl);
+
+         ctx.fillStyle = "yellow";
+         ctx.fillText("2", xl -= 1/16 * dimension, yl += 5/16 * dimension);
+         ctx.fillStyle = "white";
+         ctx.fillText(" - conquered tiles by player 2", xl+= 1/10 * dimension, yl);
+
+         ctx.strokeStyle = "red";
+         ctx.strokeRect(xl -= 1/8 * dimension, yl += 3/16 * dimension, b, b);
+         ctx.fillText(" - supporting tiles", xl += 9/40 * dimension, yl += 11/80 * dimension);
+
+         ctx.strokeStyle = "black";
+         ctx.fillStyle = "#5b5e3f";
+         ctx.fillRect(xl -= 9/40 * dimension, yl += 3/16 * dimension, b, b);
+         ctx.strokeRect(xl, yl, b, b);
+         ctx.fillStyle = "white";
+         ctx.fillText(" - occupied tile", xl+= 1/5 * dimension, yl += 11/80 * dimension);
+
+         ctx.fillStyle = "#949437";
+         ctx.fillRect(xl -= 1/5 * dimension, yl += 3/16 * dimension, b, b);
+         ctx.strokeRect(xl, yl, b, b);
+         ctx.fillStyle = "white";
+         ctx.fillText(" - player 1 power ", xl += 1/5 * dimension, yl += 11 /80 * dimension);
+
+         ctx.fillStyle = "#3d0d2c";
+         ctx.fillRect(xl -= 1/5 * dimension, yl += 3/16 * dimension, b, b);
+         ctx.strokeRect(xl, yl, b, b);
+         ctx.fillStyle = "white";
+         ctx.fillText(" - player 2 power ", xl += 1/5 * dimension, yl += 11/80 * dimension);
+
+         // suradnice tabulky skore
+         xs = xl
+         ys = yl + 1/2 * dimension
   
-       // Intersection Observer API 9(https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API)
-          // Set things up
-          window.addEventListener("scroll", (event) => { // We call Window.addEventListener() to start listening for the load event; once the page has finished loading, we get a reference to the element with the ID "box" using querySelector(), then call the createObserver().
-              target = document.querySelector("#Conquering1");
-              createObserver();
-          }, false);
-  
-           function createObserver() {
-              let observer;
-  
-              let options = {
-                  root: null, // The element that is used as the viewport for checking visibility of the target. Must be the ancestor of the target. Defaults to the browser viewport if not specified or if null.
-                  rootMargin: '0px', // Margin around the root. Can have values similar to the CSS margin property, e.g. "10px 20px 30px 40px" (top, right, bottom, left). The values can be percentages. This set of values serves to grow or shrink each side of the root element's bounding box before computing intersections. Defaults to all zeros.
-                  threshold: 0.8 // Either a single number or an array of numbers which indicate at what percentage of the target's visibility the observer's callback should be executed. The default is 0 (meaning as soon as even one pixel is visible, the callback will be run). A value of 1.0 means that the threshold isn't considered passed until every pixel is visible.
-              }
-  
-              observer = new IntersectionObserver(handleIntersect, options);
-              observer.observe(target);
-          }
-  
-          function handleIntersect(entries, observer) {
-              entries.forEach((entry) => {
-                  if (entry.intersectionRatio > 0.8 && !SpustenieConquering) {
-                      Conquering();
-                      SpustenieConquering = true;
-                  }
-              });
-          }
-  
-       /*window.onscroll = function() {myFunction()};
-       function myFunction() {
-           const elementInView = (c, dividend = 1) => {
-               const elementTop = c.getBoundingClientRect().top;
-               let el = elementTop
-               //console.log(el / dividend)
-               return (
-                   elementTop <=
-                   (window.innerHeight || document.documentElement.clientHeight) / dividend
-                   );
-               };
-           if (elementInView(c, 1.4)  && !SpustenieConquering /* -> SpustenieNazovAnimacie == false *//*) {
-               Conquering();
-               SpustenieConquering = true;
-           }
-       }  */ 
-   }
-   Conquering1();
+         // Nakreslenie pozadia
+         ctx.fillStyle = "#8BC766";
+         ctx.strokeStyle = "black";
+         for (let x = 0; x < 5 * dimension; x = x + dimension) {
+             for (let y = 0; y < 5 * dimension; y = y + dimension) {
+                 ctx.fillRect(x, y, dimension, dimension);
+                 ctx.strokeRect(x,y,dimension,dimension);
+             }
+         }
+
+         // setup
+         x = 7 * dimension / 20; // xova suradnica rpe hraca
+         y = 11 * dimension / 16; // yova suradnica rpe hraca
+         ctx.strokeStyle = "red";
+         ctx.fillStyle = "white";
+         ctx.font = font + "px Calibri"; 
+         ctx.fillText("1", x, y);
+         ctx.fillStyle = "yellow";
+         ctx.fillText("2", x += 4 * dimension, y += 4 * dimension);
+     }
+
+     function Conquering() {
+
+         let cas = 0;
+         setup();
+
+         // 1. tah hraca 1 - 1. akcia
+         setTimeout(function() {
+             ctx.fillStyle = "white";
+             ctx.fillText("1", x -= 2 * dimension, y -= 2 * dimension);
+             ctx.fillStyle = "white";
+             ctx.font = FontNLTS + "px Calibri";
+             ctx.fillText("1", xt += 1/2 * dimension, yt);
+         }, cas += 1000);
+
+         // 1. tah hraca 1 - 2. akcia
+         setTimeout(function() {
+             ctx.font = font + "px Calibri";
+             ctx.fillStyle = "white";
+             ctx.fillText("1", x + dimension, y += dimension);
+         }, cas += 1000);
+
+         // 1. tah hraca 2 - 1. akcia
+         setTimeout(function() {
+             ctx.fillStyle = "yellow";
+             ctx.fillText("2", x += dimension, y -= dimension);
+         }, cas += 1000);
+
+             // 1. tah hraca 2 - 2. akcia
+             setTimeout(function() {
+                 ctx.fillStyle = "yellow";
+                 ctx.fillText("2", x -= 2 * dimension, y -= dimension);
+             }, cas += 1000);
+
+             // 2. tah hraca 1 - 1. akcia
+             setTimeout(function() {
+                 ctx.fillStyle = "white";
+                 ctx.fillText("1", x, y += dimension);
+                 ctx.fillStyle = "black";
+                 ctx.fillRect(xt, yt -= 1/4 * dimension, 1/4 * dimension, 1/4 * dimension);
+                 ctx.fillStyle = "white";
+                 ctx.font = FontNLTS + "px Calibri";
+                 ctx.fillText("2", xt, yt += 1/4 * dimension);
+             }, cas += 1000);
+
+             // 2. tah hraca 1 - 2. akcia
+             setTimeout(function() {
+                 ctx.font = font + "px Calibri"; 
+                 ctx.fillStyle = "white";
+                 ctx.fillText("1", x += dimension, y += dimension);
+             }, cas += 1000);
+
+             // 2. tah hraca 2 - 1. akcia
+             setTimeout(function() {
+                 ctx.fillStyle = "yellow";
+                 ctx.fillText("2", x, y -= 2 * dimension);
+             }, cas += 1000);
+
+             // 2. tah hraca 2 - 2. akcia
+             setTimeout(function() {
+                 ctx.fillStyle = "yellow";
+                 ctx.fillText("2", x -= dimension, y += 2 * dimension);
+                 obrazok1.src = c.toDataURL("image/png");
+             }, cas += 1000);
+
+             // tabulka score
+             setTimeout(function() { 
+                 ctx.font = FontNLTS + "px Calibri";
+                 ctx.fillStyle = "white";
+                 ctx.fillText("Player 1", xs, ys);
+                 ctx.fillStyle = "yellow";
+                 ctx.fillText("Player 2", xs += 5/4 * dimension, ys);
+                 ctx.fillStyle = "white";
+                 ctx.fillText(":", xs -= 1/4 * dimension, ys += 3/8 * dimension)
+             }, cas += 1000);
+
+             // zvýraznenie okupovaného políčka
+             setTimeout(function() {
+                 ctx.strokeStyle = "black";
+                 ctx.fillStyle = "#5b5e3f";
+                 ctx.fillRect(dimension, dimension, dimension, dimension);
+                 ctx.strokeRect(dimension, dimension, dimension, dimension);
+                 ctx.fillStyle = "yellow";
+                 ctx.font = font + "px Calibri"; 
+                 ctx.fillText("2", x, y -= 2 * dimension);
+                 // priratanie sily hraca 2
+                 ctx.font = FontNLTS + "px Calibri";
+                 ctx.fillText("1", xs += 9/16 * dimension, ys);
+                 }, cas += 1000);
+
+             //animácia stvorca ohraničujuceho podporurujúce políčka
+             setTimeout(function() {
+                 ctx.lineWidth = "5";
+                 ctx.strokeStyle = "red";
+                 ctx.strokeRect(3, 3, 3 * dimension - 3, 3 * dimension - 3);
+                 ctx.font = font + "px Calibri"; 
+                 ctx.lineWidth = "1";
+             }, cas += 1000);
+
+             // zvýraznenie sily hraca 2
+             setTimeout(function() {
+                 ctx.strokeStyle = "black";
+                 ctx.fillStyle = "#3d0d2c";
+                 ctx.fillRect( 2 * dimension, dimension, dimension, dimension);
+                 ctx.strokeRect(2 * dimension, dimension, dimension, dimension);
+                 ctx.fillStyle = "yellow";
+                 ctx.fillText("2", x += dimension, y);
+                 //priratanie sily hraca 2
+                 ctx.fillStyle = "black";
+                 ctx.fillRect(xs, ys -= 1/4 * dimension, 1/4 * dimension, 1/4 * dimension);
+                 ys += 1/4 * dimension;
+                 ctx.font = FontNLTS + "px Calibri";
+                 ctx.fillStyle = "yellow";
+                 ctx.fillText("2", xs, ys);
+             }, cas += 1000);
+
+             // zvýraznenie sily hraca 1
+             let x1 = 7/20 * dimension;
+             let score1 = 1;
+             setTimeout(function() {
+                 ctx.strokeStyle = "black";
+                 ctx.fillStyle = "#949437";
+                 ctx.fillRect(3, 3, dimension - 3, dimension - 3);
+                 ctx.strokeRect(3, 3, dimension - 3, dimension - 3);
+                 ctx.fillStyle = "white";
+                 ctx.font = font + "px Calibri"; 
+                 ctx.fillText("1", x -= 2 * dimension, y -= dimension);
+                 // priratanie sily hraca 1
+                 ctx.font = FontNLTS + "px Calibri";
+                 ctx.fillText(score1, xs -= 5/4 * dimension, ys);
+                 }, cas += 1000);
+
+             for (let x = dimension; x <= 2 * dimension; x += dimension) {
+                 let y = 2 * dimension;
+                 let y1 = 2 * dimension + 11/16 * dimension;
+                 setTimeout(function(){
+                     ctx.fillStyle = "#949437";
+                     score1 += 1;
+                     ctx.fillRect(x, y, dimension, dimension);
+                     ctx.strokeRect(x, y, dimension, dimension);
+                     x1 += dimension;
+                     ctx.fillStyle = "white";
+                     ctx.font = font + "px Calibri"; 
+                     ctx.fillText("1", x1, y1);
+                     // priratanie sily hraca 1
+                     ctx.fillStyle = "black";
+                     ctx.fillRect(xs, ys -= 1/4 * dimension, 1/4 * dimension, 1/4 * dimension);
+                     ys += 20;
+                     ctx.font = FontNLTS + "px Calibri";
+                     ctx.fillStyle = "white";
+                     ctx.fillText(score1, xs, ys);
+                 }, cas += 1000);    
+             }
+
+             // obsadenie policka
+             setTimeout(function(){
+                 ctx.fillStyle = "#8BC766";
+                 ctx.fillRect(dimension, dimension, dimension, dimension);
+                 ctx.strokeStyle = "black";
+                 ctx.strokeRect(dimension, dimension, dimension, dimension);
+                 ctx.fillStyle = "white";
+                 ctx.font = font + "px Calibri"; 
+                 ctx.fillText("1", x += dimension, y += dimension);
+                 ctx.fillStyle = "black";
+                 ctx.fillRect(xt, yt -= 1/4 * dimension, 1/4 * dimension, 1/4 * dimension);
+                 ctx.fillStyle = "white";
+                 ctx.font = FontNLTS + "px Calibri";
+                 ctx.fillText("3", xt, yt += 1/4 * dimension);
+             }, cas += 1000);
+
+             setTimeout(function() {
+                 ctx.drawImage(obrazok1,0,0);
+                 ctx.font = font + "px Calibri"; 
+                 ctx.fillStyle = "#8BC766";
+                 ctx.fillRect(dimension, dimension, dimension, dimension);
+                 ctx.strokeStyle = "black";
+                 ctx.strokeRect(dimension, dimension, dimension, dimension);
+                 ctx.fillStyle = "white";
+                 ctx.fillText("1", x, y);
+                 ctx.fillStyle = "black";
+                 ctx.fillRect(xt, yt -= 1/4 * dimension, 1/4 * dimension, 1/4 * dimension);
+                 ctx.fillStyle = "white";
+                 ctx.font = FontNLTS + "px Calibri";
+                 ctx.fillText("3", xt, yt += 1/4 * dimension);
+                 }, cas += 1000);
+
+             //stmavnutie animacie
+             setTimeout(function(){
+                ctx.globalAlpha = 0.2;
+                ctx.fillStyle = "black";
+                ctx.fillRect(0,0, 8 * dimension, 5 * dimension);
+                ctx.globalAlpha = 1.0;
+                arrow(4,2);
+                SpustenieConquering = false;
+             }, cas += 2000);
+
+             //pridanie kolečka - možnosť pre používateĺa znovu spustiť animáciu
+             setTimeout(function(){
+                c.onclick = function(){Conquering()};
+             }, cas += 1000);
+             
+             
+         }
  
+     setup();
+
+     // Intersection Observer API 9(https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API)
+        // Set things up
+        let prevRatio = 0.0;
+        window.addEventListener("scroll", (event) => { // We call Window.addEventListener() to start listening for the load event; once the page has finished loading, we get a reference to the element with the ID "box" using querySelector(), then call the createObserver().
+            target = document.querySelector("#Conquering1");
+            createObserver();
+        }, false);
+
+         function createObserver() {
+            let observer;
+
+            let options = {
+                root: null, // The element that is used as the viewport for checking visibility of the target. Must be the ancestor of the target. Defaults to the browser viewport if not specified or if null.
+                rootMargin: '0px', // Margin around the root. Can have values similar to the CSS margin property, e.g. "10px 20px 30px 40px" (top, right, bottom, left). The values can be percentages. This set of values serves to grow or shrink each side of the root element's bounding box before computing intersections. Defaults to all zeros.
+                threshold: 0.8 // Either a single number or an array of numbers which indicate at what percentage of the target's visibility the observer's callback should be executed. The default is 0 (meaning as soon as even one pixel is visible, the callback will be run). A value of 1.0 means that the threshold isn't considered passed until every pixel is visible.
+            }
+
+            observer = new IntersectionObserver(handleIntersect, options);
+            observer.observe(target);
+        }
+
+        function handleIntersect(entries, observer) {
+            entries.forEach((entry) => {
+                
+                if (entry.intersectionRatio > 0.8 && entry.intersectionRatio > prevRatio && !SpustenieConquering) {
+                    Conquering();
+                    SpustenieConquering = true;
+                }
+
+                if (entry.intersectionRatio < 0.2 && entry.intersectionRatio < prevRatio && !SpustenieConquering) {
+                    Conquering();
+                    SpustenieConquering = true;
+                }
+
+                prevRatio = entry.intersectionRatio;
+            });
+        }
+
+ }
+ Conquering1();
+
         function Elements1() {
             let c = document.getElementById("Elements1"); // First of all, you must find the <canvas> element. This is done by using the HTML DOM method getElementById().
             let ctx = c.getContext("2d"); //Secondly, you need a drawing object for the canvas. The getContext() is a built-in HTML object, with properties and methods for drawing.
@@ -2058,4 +2081,3 @@
             setTimeout(Features1, cas += 3000);
         }
         Features1();
-   
