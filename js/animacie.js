@@ -218,7 +218,7 @@
               let options = {
                   root: null, // The element that is used as the viewport for checking visibility of the target. Must be the ancestor of the target. Defaults to the browser viewport if not specified or if null.
                   rootMargin: '0px', // Margin around the root. Can have values similar to the CSS margin property, e.g. "10px 20px 30px 40px" (top, right, bottom, left). The values can be percentages. This set of values serves to grow or shrink each side of the root element's bounding box before computing intersections. Defaults to all zeros.
-                  threshold: 0.8 // Either a single number or an array of numbers which indicate at what percentage of the target's visibility the observer's callback should be executed. The default is 0 (meaning as soon as even one pixel is visible, the callback will be run). A value of 1.0 means that the threshold isn't considered passed until every pixel is visible.
+                  threshold: [0, 0.8] // Either a single number or an array of numbers which indicate at what percentage of the target's visibility the observer's callback should be executed. The default is 0 (meaning as soon as even one pixel is visible, the callback will be run). A value of 1.0 means that the threshold isn't considered passed until every pixel is visible.
               }
   
               observer = new IntersectionObserver(handleIntersect, options);
@@ -226,16 +226,21 @@
           }
   
           function handleIntersect(entries, observer) {
-              entries.forEach((entry) => {
-                  if (entry.intersectionRatio > 0.8 && !SpustenieExpansion /* -> SpustenieNazovAnimacie == false */) {
-                      Expansion();
-                      SpustenieExpansion = true;
-                  }
-              });
-          }
+            entries.forEach((entry) => {
+                
+                if (entry.intersectionRatio > 0.8 && !SpustenieExpansion) {
+                    Expansion();
+                    SpustenieExpansion = true;
+                }
+
+                if (entry.intersectionRatio <= 0 && !SpustenieExpansion) {
+                    setup();
+                }
+            });
+        }
      }
      Expansion1();
-   
+
  let SpustenieConquering = false;
 
  function Conquering1() {
@@ -356,8 +361,8 @@
          }
 
          // setup
-         x = 7 * dimension / 20; // xova suradnica rpe hraca
-         y = 11 * dimension / 16; // yova suradnica rpe hraca
+         x = 7 * dimension / 20; // xova suradnica pre hraca
+         y = 11 * dimension / 16; // yova suradnica pre hraca
          ctx.strokeStyle = "red";
          ctx.fillStyle = "white";
          ctx.font = font + "px Calibri"; 
@@ -373,11 +378,13 @@
 
          // 1. tah hraca 1 - 1. akcia
          setTimeout(function() {
-             ctx.fillStyle = "white";
-             ctx.fillText("1", x -= 2 * dimension, y -= 2 * dimension);
-             ctx.fillStyle = "white";
-             ctx.font = FontNLTS + "px Calibri";
-             ctx.fillText("1", xt += 1/2 * dimension, yt);
+            x = 7 * dimension / 20; // xova suradnica pre hraca
+            y = 11 * dimension / 16; // yova suradnica pre hraca
+            ctx.fillStyle = "white";
+            ctx.fillText("1", x += 2 * dimension, y += 2 * dimension);
+            ctx.fillStyle = "white";
+            ctx.font = FontNLTS + "px Calibri";
+            ctx.fillText("1", xt += 1/2 * dimension, yt);
          }, cas += 1000);
 
          // 1. tah hraca 1 - 2. akcia
@@ -571,10 +578,9 @@
  
      setup();
 
-     // Intersection Observer API 9(https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API)
+     // Intersection Observer API (https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API)
         // Set things up
-        let prevRatio = 0.0;
-        window.addEventListener("scroll", (event) => { // We call Window.addEventListener() to start listening for the load event; once the page has finished loading, we get a reference to the element with the ID "box" using querySelector(), then call the createObserver().
+        window.addEventListener("load", (event) => { // We call Window.addEventListener() to start listening for the load event; once the page has finished loading, we get a reference to the element with the ID "box" using querySelector(), then call the createObserver().
             target = document.querySelector("#Conquering1");
             createObserver();
         }, false);
@@ -585,7 +591,7 @@
             let options = {
                 root: null, // The element that is used as the viewport for checking visibility of the target. Must be the ancestor of the target. Defaults to the browser viewport if not specified or if null.
                 rootMargin: '0px', // Margin around the root. Can have values similar to the CSS margin property, e.g. "10px 20px 30px 40px" (top, right, bottom, left). The values can be percentages. This set of values serves to grow or shrink each side of the root element's bounding box before computing intersections. Defaults to all zeros.
-                threshold: 0.8 // Either a single number or an array of numbers which indicate at what percentage of the target's visibility the observer's callback should be executed. The default is 0 (meaning as soon as even one pixel is visible, the callback will be run). A value of 1.0 means that the threshold isn't considered passed until every pixel is visible.
+                threshold: [0, 0.8] // Either a single number or an array of numbers which indicate at what percentage of the target's visibility the observer's callback should be executed. The default is 0 (meaning as soon as even one pixel is visible, the callback will be run). A value of 1.0 means that the threshold isn't considered passed until every pixel is visible.
             }
 
             observer = new IntersectionObserver(handleIntersect, options);
@@ -595,23 +601,19 @@
         function handleIntersect(entries, observer) {
             entries.forEach((entry) => {
                 
-                if (entry.intersectionRatio > 0.8 && entry.intersectionRatio > prevRatio && !SpustenieConquering) {
+                if (entry.intersectionRatio > 0.8 && !SpustenieConquering) {
                     Conquering();
                     SpustenieConquering = true;
                 }
 
-                if (entry.intersectionRatio < 0.2 && entry.intersectionRatio < prevRatio && !SpustenieConquering) {
-                    Conquering();
-                    SpustenieConquering = true;
+                if (entry.intersectionRatio <= 0 && !SpustenieConquering) {
+                    setup();
                 }
-
-                prevRatio = entry.intersectionRatio;
             });
         }
 
  }
  Conquering1();
-
         function Elements1() {
             let c = document.getElementById("Elements1"); // First of all, you must find the <canvas> element. This is done by using the HTML DOM method getElementById().
             let ctx = c.getContext("2d"); //Secondly, you need a drawing object for the canvas. The getContext() is a built-in HTML object, with properties and methods for drawing.
