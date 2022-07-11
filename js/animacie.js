@@ -235,6 +235,7 @@
         }
      }
      Expansion1();
+ let SpustenieConquering = false;
 
  function Conquering1() {
      let c = document.getElementById("Conquering1"); // First of all, you must find the <canvas> element. This is done by using the HTML DOM method getElementById().
