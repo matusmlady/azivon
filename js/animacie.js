@@ -96,7 +96,9 @@
              savedData.src = c.toDataURL("image/png");
             }   
          
-         function Expansion() {
+          function Expansion() {
+             SpustenieExpansion = true;
+             c.onclick = "";
              let cas = 0;
              setup();
   
@@ -193,16 +195,12 @@
                 ctx.fillRect(0,0, 8 * dimension, 5 * dimension);
                 ctx.globalAlpha = 1.0;
                 arrow(4, 2);
+                c.onclick = function(){Expansion()};
                 SpustenieExpansion = false;
              }, cas += 2000);
-
-             //stmavnutie animacie
-             setTimeout(function(){
-                c.onclick = function(){Expansion()};
-             }, cas);
              
          }       
-  
+         let CounterAnimacie = 1;
          setup();
   
          // Intersection Observer API 9(https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API)
@@ -228,20 +226,15 @@
           function handleIntersect(entries, observer) {
             entries.forEach((entry) => {
                 
-                if (entry.intersectionRatio > 0.8 && !SpustenieExpansion) {
+                if (entry.intersectionRatio > 0.8 && !SpustenieExpansion && CounterAnimacie == 1) {
                     Expansion();
+                    CounterAnimacie += 1
                     SpustenieExpansion = true;
-                }
-
-                if (entry.intersectionRatio <= 0 && !SpustenieExpansion) {
-                    setup();
                 }
             });
         }
      }
      Expansion1();
-
- let SpustenieConquering = false;
 
  function Conquering1() {
      let c = document.getElementById("Conquering1"); // First of all, you must find the <canvas> element. This is done by using the HTML DOM method getElementById().
@@ -372,7 +365,7 @@
      }
 
      function Conquering() {
-
+         c.onclick = "";
          let cas = 0;
          setup();
 
@@ -571,12 +564,11 @@
              //pridanie kolečka - možnosť pre používateĺa znovu spustiť animáciu
              setTimeout(function(){
                 c.onclick = function(){Conquering()};
-             }, cas += 1000);
-             
-             
+             }, cas += 1000);        
          }
  
      setup();
+     let CounterAnimacie = 1;
 
      // Intersection Observer API (https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API)
         // Set things up
@@ -601,13 +593,10 @@
         function handleIntersect(entries, observer) {
             entries.forEach((entry) => {
                 
-                if (entry.intersectionRatio > 0.8 && !SpustenieConquering) {
+                if (entry.intersectionRatio > 0.8 && !SpustenieConquering && CounterAnimacie == 1) {
                     Conquering();
+                    CounterAnimacie += 1;
                     SpustenieConquering = true;
-                }
-
-                if (entry.intersectionRatio <= 0 && !SpustenieConquering) {
-                    setup();
                 }
             });
         }
@@ -1039,7 +1028,6 @@
     setTimeout(Elements1, cas += 3000);
 }
     Elements1();
-
         function Elements2() {
             let c = document.getElementById("Elements2"); // First of all, you must find the <canvas> element. This is done by using the HTML DOM method getElementById().
             let ctx = c.getContext("2d"); //Secondly, you need a drawing object for the canvas. The getContext() is a built-in HTML object, with properties and methods for drawing.
@@ -1529,7 +1517,6 @@
             setTimeout(Elements2, cas += 3000);
         }
         Elements2();
-
         function Features1() {
             let c = document.getElementById("Features1"); // First of all, you must find the <canvas> element. This is done by using the HTML DOM method getElementById().
             let ctx = c.getContext("2d"); //Secondly, you need a drawing object for the canvas. The getContext() is a built-in HTML object, with properties and methods for drawing.
