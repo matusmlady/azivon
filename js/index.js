@@ -46,6 +46,7 @@ class farba {////////////////////////////
     this.lootability = lootability
     if (this.lootability.loot == true){
       data.loot.list.push(this.label)
+      data.loot[this.label] = []
     }
 
   }
