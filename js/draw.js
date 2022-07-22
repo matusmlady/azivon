@@ -1,74 +1,113 @@
 dimension = 40
 
 function draw(columns, rows, dimension){
-  function floorsFeatures(arg1, arg2, arg3){
+  /*function floorsFeatures(arg1){//change function name//arg1,arg2 useless
     for (r = 0; r < rows; r++){
       for (c = 0; c < columns; c++){
-        if (data[tiles[r * columns + c][arg3].chosen].color != "none"){
-          ctx.fillStyle = data[tiles[r*columns+c][arg3].chosen].color
+        if (data[tiles[r * columns + c][arg1].chosen].color != "none"){
+          ctx.fillStyle = data[tiles[r*columns+c][arg1].chosen].color
           ctx.beginPath()
-          ctx.moveTo(c * dimension + tiles[r*columns+c][arg3].right[0] * dimension, r * dimension + tiles[r*columns+c][arg3].right[1] * dimension)
-          ctx.lineTo(c * dimension + tiles[r*columns+c][arg3]["right,down"][0] * dimension, r * dimension + tiles[r*columns+c][arg3]["right,down"][1] * dimension)
-          ctx.lineTo(c * dimension + tiles[r*columns+c][arg3].down[0] * dimension, r * dimension + tiles[r*columns+c][arg3].down[1] * dimension)
-          ctx.lineTo(c * dimension + tiles[r*columns+c][arg3]["left,down"][0] * dimension, r * dimension + tiles[r*columns+c][arg3]["left,down"][1] * dimension)
-          ctx.lineTo(c * dimension + tiles[r*columns+c][arg3].left[0] * dimension, r * dimension + tiles[r*columns+c][arg3].left[1] * dimension)
-          ctx.lineTo(c * dimension + tiles[r*columns+c][arg3]["left,up"][0] * dimension, r * dimension + tiles[r*columns+c][arg3]["left,up"][1] * dimension)
-          ctx.lineTo(c * dimension + tiles[r*columns+c][arg3].up[0] * dimension, r * dimension + tiles[r*columns+c][arg3].up[1] * dimension)
-          ctx.lineTo(c * dimension + tiles[r*columns+c][arg3]["right,up"][0] * dimension, r * dimension + tiles[r*columns+c][arg3]["right,up"][1] * dimension)
+          ctx.moveTo(c * dimension + tiles[r*columns+c][arg1].right[0] * dimension, r * dimension + tiles[r*columns+c][arg1].right[1] * dimension)
+          ctx.lineTo(c * dimension + tiles[r*columns+c][arg1]["right,down"][0] * dimension, r * dimension + tiles[r*columns+c][arg1]["right,down"][1] * dimension)
+          ctx.lineTo(c * dimension + tiles[r*columns+c][arg1].down[0] * dimension, r * dimension + tiles[r*columns+c][arg1].down[1] * dimension)
+          ctx.lineTo(c * dimension + tiles[r*columns+c][arg1]["left,down"][0] * dimension, r * dimension + tiles[r*columns+c][arg1]["left,down"][1] * dimension)
+          ctx.lineTo(c * dimension + tiles[r*columns+c][arg1].left[0] * dimension, r * dimension + tiles[r*columns+c][arg1].left[1] * dimension)
+          ctx.lineTo(c * dimension + tiles[r*columns+c][arg1]["left,up"][0] * dimension, r * dimension + tiles[r*columns+c][arg1]["left,up"][1] * dimension)
+          ctx.lineTo(c * dimension + tiles[r*columns+c][arg1].up[0] * dimension, r * dimension + tiles[r*columns+c][arg1].up[1] * dimension)
+          ctx.lineTo(c * dimension + tiles[r*columns+c][arg1]["right,up"][0] * dimension, r * dimension + tiles[r*columns+c][arg1]["right,up"][1] * dimension)
           ctx.closePath()
           ctx.fill()
           ctx.stroke()
         }
       }
     }
-  }
+  }*/
 
-  //?pocitat pocty kolko mam zatial vygenerovanych jednotlivych typov colors
   
   function loot(){
     ctx.fillStyle = 'black';
-    for(let i = 0; i < data.loot.list.length && data.loot[data.loot["list"][i]].length>0; i++){
+    ctx.strokeStyle= 'black';
+    for(let i = 0; i < data.loot.keys.length && data.loot[data.loot.keys[i]].length > 0; i++){
       ctx.font = "14px Arial"
       ctx.rotate(90 * Math.PI / 180);
-      ctx.fillText(data.loot.list[i],0,-columns*dimension-5-i*dimension);
+      ctx.fillText(data.loot.keys[i],0,-columns*dimension-5-i*dimension);
       ctx.rotate(270 * Math.PI / 180);
       ctx.font = "14px Arial"
     
-      for (let x = 0; x < data.loot[data.loot["list"][i]].length; x++){
-        ctx.fillText(data.loot[data.loot["list"][i]][x],columns*dimension+i*dimension+5, Math.ceil(ctx.measureText(data.loot["list"][i]).width)+23+x*20);
+      for (let x = 0; x < data.loot[data.loot.keys[i]].length; x++){
+        ctx.fillText(data.loot[data.loot.keys[i]][x],columns*dimension+i*dimension+5, Math.ceil(ctx.measureText(data.loot.keys[i]).width)+23+x*20);
       }
     }
   }
-  function noLoot(){
-    for(let i = 0; i < data.loot.list.length && data.loot[data.loot["list"][i]].length>0; i++){
-        return data.loot.list.length*dimension + 10;
+  /*function noLoot(){
+    for(let i = 0; i < data.loot.keys.length && data.loot[data.loot.keys[i]].length>0; i++){
+        return data.loot.keys.length*dimension + 10;
     }
-      return 0;
-  }
-  c = document.getElementById("map")
-  ctx = c.getContext("2d")
+      return Number(0);
+  }*/
+//  c = document.getElementById("map")
+  //ctx = c.getContext("2d")
 
-  if (rows*dimension > data.loot.maxLoot()){
+/*  if (rows*dimension > data.loot.maxLoot()){
     c.height = rows * dimension
     c.style.height = rows * dimension + 'px'
   } else {
     c.height =  data.loot.maxLoot()
     c.style.height = data.loot.maxLoot() + 'px'
-  }
+  }*/
 
-  c.width = columns * dimension + noLoot()
-  c.style.width = columns * dimension + noLoot() + 'px'
+  //c.width = columns * dimension + noLoot()
+  //c.style.width = columns * dimension + noLoot() + 'px'
   
   ctx.strokeStyle = "black"
 
-  floorsFeatures(0, 1, "flooring")
-  floorsFeatures(dimension/5, 5/3, "element")
-  floorsFeatures(dimension/3, 3, "feature")
+  //floorsFeatures("flooring")
+  //floorsFeatures("element")
+  //floorsFeatures("feature")
   loot()
-  console.log(data)
 
 }
-
+  function loot(){
+    c = document.getElementById("map")
+    ctx = c.getContext("2d")
+    ctx.fillStyle = 'black';
+    ctx.strokeStyle= 'black';
+    let i = 0;
+    for (let l in data.loot){
+      if (data.loot[l].length == 0){
+        continue
+      }
+    //for(let i = 0; i < data.loot.keys.length && data.loot[data.loot.keys[i]].length > 0; i++){
+      ctx.font = "14px Arial"
+      ctx.rotate(90 * Math.PI / 180);
+      ctx.fillText(l, 0, - data.columns * dimension - 5 - i * dimension / 1.3);
+      ctx.rotate(270 * Math.PI / 180);
+      ctx.font = "14px Arial"
+      let x = 0;
+      for (let m of data.loot[l]){
+      //for (let x = 0; x < data.loot[data.loot.keys[i]].length; x++){
+        ctx.fillText(m, data.columns * dimension + 5 + i * dimension / 1.3, Math.ceil(ctx.measureText(l).width) + 23 + x * 20);
+        x++;
+      }
+      i++;
+    }
+  }
+  
+  function noLoot(){
+    let withLoot = 0
+    for (const l in data.loot){
+   // for (let i = 0; i < data.loot.keys.length; i++){
+      if (data.loot[l].length > 0){
+        withLoot++;
+      }
+    }
+    if (withLoot > 0){
+      return ((withLoot * dimension) + 5)
+    }
+    return 0;
+  }
+  
+  
 function printMap(){  
   let dataUrl = document.getElementById('map').toDataURL();  
   let windowContent = '<!DOCTYPE html>';
