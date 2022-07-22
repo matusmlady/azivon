@@ -186,107 +186,74 @@ function fileUploaded(){
 }
 
 
-//////////////?netreba function staci proste kod
-function initial(columnsArg, rowsArg){
-  count = 0
-  propertyCount = []
-  colorList = []
-  propertyList = []
-  //reset()
+count = 0
+propertyCount = []
+colorList = []
+propertyList = []
+//reset()
 
-  data = {
-    count: {},
-    instructions: {
-      left: - 1,
-      right: 1
-    },
-    layers: {
-      flooring: [],
-      element: [],
-      feature: [],
-    },
-    columns: columnsArg,
-    rows: rowsArg,
-    colors: {},
-    loot: {},
-    maxLoot: function(){
-      let tempMax = 0;
-      for(const x in data.loot){
-        if(tempMax < data.loot[x].length * dimension / 2 + 10 + Math.ceil(ctx.measureText(x).width )){
-          tempMax = data.loot[x].length * dimension / 2 + 10 + Math.ceil(ctx.measureText(x).width )
-        }
-      }
-      return tempMax + 23;
-    }
-    
-  }
-  
-  //?colors : self miesto cele meno
-  //?????pridat flooring nic = none
-  //?vlastnosti napr ze nieco v hre davam hracovi = nespawnu sa automaticky dve na rovnakom policku
-  
-  addColor("grass", "flooring", "#8BC766", 250)
-  document.getElementById("colorWidth"+(count-1)).disabled = "true"
-  document.getElementById("ratio"+(count-1)).min = "1"
-  document.getElementById("layer"+(count-1)).disabled = "true"
-  document.getElementById("name"+(count-1)).disabled = "true"
-  document.getElementById("addPropertyButton"+(count-1)).remove()
-  document.getElementById("deleteColorButton"+(count-1)).remove()
-  data.fillerFlooring = 'label'+(count-1)
-  data.fillerFlooringIndex = colorList.indexOf(data.fillerFlooring)
-    
-  addColor("desert", "flooring", "#FFFFA5", 50, [{action: 0, colors: "snow", radius: 3}, {action: 0, colors: "woods", radius: 0}, {action: 50, colors: "desert", radius: 3}])
-  addColor("snow", "flooring", "#FFFFFF", 50, [{action: 0, colors: "desert", radius: 3}, {action: 50, colors: "snow", radius: 3}], 1, false)
-  addColor("water", "flooring", "#66BBDD", 5, [{action: 80, colors: "water", radius: 3}, {action: 0, colors: "material, mountains, lake, woods, village, metal, gold, castle, castle2", radius: 0}])//#5696C0
-  
-  addColor("noElement", "element", "#000000", 100, [], 0)
-  document.getElementById("color"+(count-1)).type = "text"
-  document.getElementById("color"+(count-1)).value = "none"
-  document.getElementById("color"+(count-1)).disabled = "true"
-  document.getElementById("color"+(count-1)).size = "1"
-  document.getElementById("colorWidth"+(count-1)).disabled = "true"
-  document.getElementById("ratio"+(count-1)).min = "1"
-  document.getElementById("layer"+(count-1)).disabled = "true"
-  document.getElementById("name"+(count-1)).disabled = "true"
-  document.getElementById("addPropertyButton"+(count-1)).remove()
-  document.getElementById("deleteColorButton"+(count-1)).remove()
-  data.fillerElement = 'label'+(count-1)
-  data.fillerElementIndex = colorList.indexOf(data.fillerElement)
-   
-  addColor("mountains", "element", "#A75F49", 5, [{action: 0, colors: "water", radius: 0}, {action: 1, colors: "metal, gold, castle", radius: 0}], 3)
-  addColor("woods", "element", "#BCA26F", 7, [{action: 0, colors: "water, desert, village, metal, gold, castle, castle2", radius: 0}], 2)
-  addColor("lake", "element", "#64E1E2", 5, [{action: 0, colors: "water, village, metal, gold, castle, castle2, material", radius: 0}], 2)
-  
-  addColor("noFeature", "feature", "#000000", 200, [], 0)
-  document.getElementById("color"+(count-1)).type = "text"
-  document.getElementById("color"+(count-1)).value = "none"
-  document.getElementById("color"+(count-1)).disabled = "true"
-  document.getElementById("color"+(count-1)).size = "1"
-  document.getElementById("colorWidth"+(count-1)).disabled = "true"
-  document.getElementById("ratio"+(count-1)).min = "1"
-  document.getElementById("layer"+(count-1)).disabled = "true"
-  document.getElementById("name"+(count-1)).disabled = "true"
-  document.getElementById("addPropertyButton"+(count-1)).remove()
-  document.getElementById("deleteColorButton"+(count-1)).remove()
-  data.fillerFeature = 'label'+(count-1)
-  data.fillerFeatureIndex = colorList.indexOf(data.fillerFeature)
-  
-  addColor("village", "feature", "#FD7C7C", 6, [{action: 0, colors: "water, woods, lake", radius: 0}], 1, true)
-  addColor("metal", "feature", "#8E9ED1", 1, [{action: 0, colors: "water, lake", radius: 0}])
-  addColor("gold", "feature", "#C2AB35", 1, [{action: 0, colors: "water, woods, lake", radius: 0}])
-  addColor("castle", "feature", "#AAAAAA", 1, [{action: 0, colors: "water, woods, lake", radius: 0}])
-  addColor("castle2", "feature", "#AAAAAA", 1, [{action: 0, colors: "water, woods, lake", radius: 0}], 2)
-  addColor("material", "feature", "#D494D0", 6, [{action: 0, colors: "water, lake", radius: 0}])
+//?colors : self miesto cele meno
+//?????pridat flooring nic = none
+//?vlastnosti napr ze nieco v hre davam hracovi = nespawnu sa automaticky dve na rovnakom policku
 
-  document.getElementById("columns").value = data.columns
-  document.getElementById("rows").value = data.rows
+addColor("grass", "flooring", "#8BC766", 250)
+document.getElementById("colorWidth"+(count-1)).disabled = "true"
+document.getElementById("ratio"+(count-1)).min = "1"
+document.getElementById("layer"+(count-1)).disabled = "true"
+document.getElementById("name"+(count-1)).disabled = "true"
+document.getElementById("addPropertyButton"+(count-1)).remove()
+document.getElementById("deleteColorButton"+(count-1)).remove()
+data.fillerFlooring = 'label'+(count-1)
+data.fillerFlooringIndex = colorList.indexOf(data.fillerFlooring)
   
-  readData()
-  mapMain(columnsArg, rowsArg)
-  //draw(columnsArg, rowsArg, dimension)
-}
+addColor("desert", "flooring", "#FFFFA5", 50, [{action: 0, colors: "snow", radius: 3}, {action: 0, colors: "woods", radius: 0}, {action: 50, colors: "desert", radius: 3}])
+addColor("snow", "flooring", "#FFFFFF", 50, [{action: 0, colors: "desert", radius: 3}, {action: 50, colors: "snow", radius: 3}], 1, false)
+addColor("water", "flooring", "#66BBDD", 5, [{action: 80, colors: "water", radius: 3}, {action: 0, colors: "material, mountains, lake, woods, village, metal, gold, castle, castle2", radius: 0}])//#5696C0
 
-initial(15, 15)
+addColor("noElement", "element", "#000000", 100, [], 0)
+document.getElementById("color"+(count-1)).type = "text"
+document.getElementById("color"+(count-1)).value = "none"
+document.getElementById("color"+(count-1)).disabled = "true"
+document.getElementById("color"+(count-1)).size = "1"
+document.getElementById("colorWidth"+(count-1)).disabled = "true"
+document.getElementById("ratio"+(count-1)).min = "1"
+document.getElementById("layer"+(count-1)).disabled = "true"
+document.getElementById("name"+(count-1)).disabled = "true"
+document.getElementById("addPropertyButton"+(count-1)).remove()
+document.getElementById("deleteColorButton"+(count-1)).remove()
+data.fillerElement = 'label'+(count-1)
+data.fillerElementIndex = colorList.indexOf(data.fillerElement)
+ 
+addColor("mountains", "element", "#A75F49", 5, [{action: 0, colors: "water", radius: 0}, {action: 1, colors: "metal, gold, castle", radius: 0}], 3)
+addColor("woods", "element", "#BCA26F", 7, [{action: 0, colors: "water, desert, village, metal, gold, castle, castle2", radius: 0}], 2)
+addColor("lake", "element", "#64E1E2", 5, [{action: 0, colors: "water, village, metal, gold, castle, castle2, material", radius: 0}], 2)
+
+addColor("noFeature", "feature", "#000000", 200, [], 0)
+document.getElementById("color"+(count-1)).type = "text"
+document.getElementById("color"+(count-1)).value = "none"
+document.getElementById("color"+(count-1)).disabled = "true"
+document.getElementById("color"+(count-1)).size = "1"
+document.getElementById("colorWidth"+(count-1)).disabled = "true"
+document.getElementById("ratio"+(count-1)).min = "1"
+document.getElementById("layer"+(count-1)).disabled = "true"
+document.getElementById("name"+(count-1)).disabled = "true"
+document.getElementById("addPropertyButton"+(count-1)).remove()
+document.getElementById("deleteColorButton"+(count-1)).remove()
+data.fillerFeature = 'label'+(count-1)
+data.fillerFeatureIndex = colorList.indexOf(data.fillerFeature)
+
+addColor("village", "feature", "#FD7C7C", 6, [{action: 0, colors: "water, woods, lake", radius: 0}], 1, true)
+addColor("metal", "feature", "#8E9ED1", 1, [{action: 0, colors: "water, lake", radius: 0}])
+addColor("gold", "feature", "#C2AB35", 1, [{action: 0, colors: "water, woods, lake", radius: 0}])
+addColor("castle", "feature", "#AAAAAA", 1, [{action: 0, colors: "water, woods, lake", radius: 0}])
+addColor("castle2", "feature", "#AAAAAA", 1, [{action: 0, colors: "water, woods, lake", radius: 0}], 2)
+addColor("material", "feature", "#D494D0", 6, [{action: 0, colors: "water, lake", radius: 0}])
+
+document.getElementById("columns").value = data.columns
+document.getElementById("rows").value = data.rows
+
+readData()
+mapMain(15, 15)
 
   //vypisovat uzivatelovi ked je v js error => aby dal spat zmenu ktoru vykonal
   //desatinne cislo 0.0000000001 aby bolo mozne nemat error a zaroven plnu mapu ak to chce uzivatel -> ked chce mapu full features
@@ -305,7 +272,6 @@ initial(15, 15)
 //..way of detecting errors and telling them to the user, f.e. ..
 //..two colors with a same name error..
 
-makeColor("test", "flooring", "#333333", 250)
 
 
 
