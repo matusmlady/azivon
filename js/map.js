@@ -1,3 +1,29 @@
+data = {
+  count: {},
+  instructions: {
+    left: - 1,
+    right: 1
+  },
+  columns: 15,
+  rows: 15,
+  colors: {},
+  layers: {
+    flooring: [],
+    element: [],
+    feature: [],
+  },
+  loot: {},
+  maxLoot: function(){
+    let tempMax = 0;
+    for(const x in data.loot){
+      if(tempMax < data.loot[x].length * dimension / 2 + 10 + Math.ceil(ctx.measureText(x).width )){
+        tempMax = data.loot[x].length * dimension / 2 + 10 + Math.ceil(ctx.measureText(x).width )
+      }
+    }
+    return tempMax + 23;
+  },
+}
+
 class Color {
   //?shouldn't colorWidth = 0 mean display color = none
   //?different size of loot, probabilities, even return strings etc
