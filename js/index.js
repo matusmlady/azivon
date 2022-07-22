@@ -1,24 +1,4 @@
 dimension = 35
-data = {
-  count: {},
-  instructions: {
-    left: - 1,
-    right: 1,
-  },
-  colors: {},
-  columns: 15,
-  rows: 15,
-  loot: {},
-  maxLoot: function(){
-    let tempMax = 0;////////
-    for(const x in data.loot){
-      if(tempMax < data.loot[x].length * dimension / 2 + 10 + Math.ceil(ctx.measureText(x).width) ){
-        tempMax = data.loot[x].length * dimension / 2 + 10 + Math.ceil(ctx.measureText(x).width )
-      }
-    }
-    return tempMax + 23;/////////
-  },
-}
 
 makeColor("grass", "flooring", "#8BC766", 250)
 makeColor("desert", "flooring", "#FFFFA5", 50, [{action: 0, colors: "snow", radius: 3}, {action: 50, colors: "desert", radius: 3}, {action: 0, colors: "woods", radius: 0}])
