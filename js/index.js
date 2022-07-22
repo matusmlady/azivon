@@ -3,13 +3,13 @@ data = {
   count: {},
   instructions: {
     left: - 1,
-    right: 1
+    right: 1,
   },
   colors: {},
   columns: 15,
   rows: 15,
-  data.loot = {},
-  data.maxLoot = function(){
+  loot: {},
+  maxLoot: function(){
     let tempMax = 0;////////
     for(const x in data.loot){
       if(tempMax < data.loot[x].length * dimension / 2 + 10 + Math.ceil(ctx.measureText(x).width) ){
@@ -17,7 +17,7 @@ data = {
       }
     }
     return tempMax + 23;/////////
-  }
+  },
 }
 
 makeColor("grass", "flooring", "#8BC766", 250)
