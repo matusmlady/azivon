@@ -21,10 +21,8 @@ body {
 }
 .kecy {
       background: rgba(0, 0, 0, 0.92);
-      width: 620px;
-      padding: 10px;
-      padding-left: 30px;
-      padding-right: 30px;
+      max-width: 620px;
+      padding: 10px 30px;
       margin-bottom: 20px;
       /* offset-x, offset-y, blur-radius, spread-radius, color */
       box-shadow: 0 10px 20px rgba(0, 0, 0, 0.92), 0 6px 6px rgba(0, 0, 0, 0.80);
