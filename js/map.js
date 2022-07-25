@@ -1,8 +1,8 @@
-data = {
+const data = {//change 'data' to 'd' //added const
   count: {},
   instructions: {
     left: - 1,
-    right: 1
+    right: 1,
   },
   columns: 15,
   rows: 15,
@@ -460,6 +460,7 @@ function mapMain(columns, rows){
   )
   
 }
+
 
 
 

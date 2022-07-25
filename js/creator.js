@@ -1,4 +1,4 @@
-function addColor(name = "label"+count, layer = "flooring", color = "#8BC766", ratio = 1, properties = [], colorWidth = 1, loot = false){///?lotability object
+function addColor(name = "label"+count, layer = "flooring", color = "#8BC766", ratio = 1, properties = [], colorWidth = 1, loot = false){
   const elmnt = document.createElement("div")
   const att = document.createAttribute("id")
   att.value = "label" + count
@@ -22,22 +22,20 @@ function addColor(name = "label"+count, layer = "flooring", color = "#8BC766", r
   
   document.getElementById('label'+count).innerHTML += "<div id='properties"+count+"'></div>"
 
-  for (let x of properties){
-    addProperty(count, x.action, x.colors, x.radius)
+  for (let p of properties){
+    addProperty(count, p.action, p.colors, p.radius)
   }
-
-//input {background-color: black; color: white; border:none}
-  
+  //input {background-color: black; color: white; border:none}
   count++;
 }
 
-function addProperty(arg, action = 0, colors = document.getElementById("name"+arg).value, radius = 0){
-  if (propertyCount[arg] == undefined){
+function addProperty(arg, action = 0, colors = document.getElementById("name" + arg).value, radius = 0){
+  if (!propertyCount[arg]){//(propertyCount[arg] == undefined){
     propertyCount[arg] = 0
   } else {
     propertyCount[arg]++
   }
-  propertyList[arg].push("C"+arg+"P"+propertyCount[arg])
+  propertyList[arg].push("C" + arg + "P" + propertyCount[arg])
   
   const att = document.createAttribute("id")
   att.value = "C" + arg + "P" + propertyCount[arg]
@@ -50,10 +48,10 @@ function addProperty(arg, action = 0, colors = document.getElementById("name"+ar
   document.getElementById("C"+arg+"P"+propertyCount[arg]).innerHTML += "<label for='radiusC"+arg+"P"+propertyCount[arg]+"'>in</label><input id='radiusC"+arg+"P"+propertyCount[arg]+"' type='number' min='0' max='100' size='3' value='"+radius+"' required>"
   document.getElementById("C"+arg+"P"+propertyCount[arg]).innerHTML += "<input id='deletePropertyC"+arg+"P"+propertyCount[arg]+"' type='button' value='remove' onclick='document.getElementById(`C"+arg+"P"+propertyCount[arg]+"`).remove();propertyList["+arg+"].splice(propertyList["+arg+"].indexOf(`C"+arg+"P"+propertyCount[arg]+"`),1)'></br>"
 }
+  
+//?hory ako by generovali loot?, 1 za policko vs 1 za 1ks viac polickoveho elementu
 
-
-
-function reset(){
+function htmlToData(){
   data.count = {}
   data.layers = {
     flooring: [],
@@ -63,94 +61,101 @@ function reset(){
   data.colors = {}
   data.loot = {}
   
-  //?hory ako by generovali loot?, 1 za policko vs 1 za 1ks viac polickoveho elementu
-}
-
-
-
-function readData(){
-  for (const x of colorList){
-    const currentName = document.getElementById(x.replace("label","name")).value;
-    const currentLayer = document.getElementById(x.replace("label","layer")).value;
-    const currentColor = document.getElementById(x.replace("label","color")).value;
-    const currentRatio = document.getElementById(x.replace("label","ratio")).value;
-    const currentProperties = []
-    for (const y of propertyList[x.replace("label","")]){
-      currentProperties.push({action: Number(document.getElementById("action"+y).value), colors: document.getElementById("colors"+y).value, radius: Number(document.getElementById("radius"+y).value)})
+  for (const c of colorList){
+    const name = document.getElementById(c.replace("label","name")).value;
+    const layer = document.getElementById(c.replace("label","layer")).value;
+    const color = document.getElementById(c.replace("label","color")).value;
+    const ratio = document.getElementById(c.replace("label","ratio")).value;
+    const properties = []
+    for (const p of propertyList[c.replace("label","")]){
+      properties.push({action: Number(document.getElementById("action"+p).value), colors: document.getElementById("colors"+p).value, radius: Number(document.getElementById("radius"+p).value)})
     }
-    const currentColorWidth = document.getElementById(x.replace("label","colorWidth")).value;
-    const currentLoot = document.getElementById(x.replace("label","loot")).value;
-    makeColor(currentName, currentLayer, currentColor, Number(currentRatio), currentProperties, Number(currentColorWidth), currentLoot==="true")
+    const colorWidth = document.getElementById(c.replace("label","colorWidth")).value;
+    const loot = document.getElementById(c.replace("label","loot")).value;
+    makeColor(name, layer, color, Number(ratio), properties, Number(colorWidth), loot==="true")//== vs ===
   }
-  
   data.columns = Number(document.getElementById("columns").value)
   data.rows = Number(document.getElementById("rows").value)
 }
 
-
-
-
-function creatorMain(){
-  reset()
-  readData()
-  mapMain(data.columns, data.rows)
-}
-
-
 function exportSetup(){
-  reset()
-  readData()
+  /*data.count = {}
+  data.layers = {
+    flooring: [],
+    element: [],
+    feature: [],
+  }
+  data.colors = {}
+  data.loot = {}*/
+  htmlToData()
+  data.fillerFlooringIndex = colorList.indexOf("label0")
   data.fillerElementIndex = colorList.indexOf("label4")
   data.fillerFeatureIndex = colorList.indexOf("label8")
-  data.fillerFlooringIndex = colorList.indexOf("label0")
   if (typeof url !== 'undefined'){
     window.URL.revokeObjectURL(url);
   }
-  let json = JSON.stringify(data)
+  let json = JSON.stringify(data)//const
   
   let exportJson = new Blob([json], {type: 'text/json'});
   url = window.URL.createObjectURL(exportJson);
   document.getElementById('fileExport1').href = url;
-    document.getElementById('fileExport2').href = url;
+  document.getElementById('fileExport2').href = url;
   //document.getElementById('fileExport2').setAttribute('href', 'data:text/plain;charset=utf-8, '+ encodeURIComponent(json))
 
-  let tdy = new Date()
-  let nameString = 'azivon-'+tdy.getFullYear()+'-'+(tdy.getMonth()+1)+'-'+tdy.getDate()+'-'+tdy.getHours()+'-'+tdy.getMinutes()+'-'+tdy.getSeconds()+'.json'
-  document.getElementById('fileExport1').download = nameString;
-    document.getElementById('fileExport2').download = nameString;
+  let d = new Date()
+  const n = 'azivon-'+d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()+'-'+d.getHours()+'-'+d.getMinutes()+'-'+d.getSeconds()+'.json'
+  document.getElementById('fileExport1').download = n;
+  document.getElementById('fileExport2').download = n;
 }
 
+function creatorMain(){/////////////obsolete
+  /*data.count = {}
+  data.layers = {
+    flooring: [],
+    element: [],
+    feature: [],
+  }
+  data.colors = {}
+  data.loot = {}*/
+  htmlToData()
+  mapMain(data.columns, data.rows)
+}
 
-function importSetup(){
+function importSetup(){//?only import and export function names
     document.getElementById("fileInput").files[0].text().then(function(value){
-      try{
+      try {
         data = JSON.parse(value);
-        //document.getElementById('colorList').innerHTML = ''
-      }catch (e){
-          console.log("double parse error", e)
+      } catch (e){
+        console.log("double parse error", e)
       } finally {
-        fileUploaded()
+        dataToHtml()
         document.getElementById("columns").value = data.columns;
         document.getElementById("rows").value = data.rows;
-        creatorMain()
+        /*data.count = {}
+        data.layers = {
+          flooring: [],
+          element: [],
+          feature: [],
+        }
+        data.colors = {}
+        data.loot = {}*/
+        htmlToData()
+        mapMain(data.columns, data.rows)
       }
     }
   )
 }
 
-
-function fileUploaded(){
-  /////////////////////?try catch error handling when importing invalid file
-  data.loot = {}
-  
+function dataToHtml(){//?only export html instead of js data object
+  //?try catch error handling when importing invalid file
   count = 0
   propertyCount = []
   colorList = []
   propertyList = []
   
   document.getElementById('colorList').innerHTML = ''
-  for (const x in data.colors){
-    const temp = data.colors[x]
+  for (const c in data.colors){//
+    const temp = data.colors[c]
     addColor(temp.label, temp.layer, temp.color, temp.ratio, temp.properties, temp.colorWidth, temp.loot)
   }
   
@@ -182,7 +187,6 @@ function fileUploaded(){
   document.getElementById("name"+(data.fillerFeatureIndex)).disabled = "true"
   document.getElementById("addPropertyButton"+(data.fillerFeatureIndex)).remove()
   document.getElementById("deleteColorButton"+(data.fillerFeatureIndex)).remove()
-  
 }
 
 
@@ -190,11 +194,6 @@ count = 0
 propertyCount = []
 colorList = []
 propertyList = []
-//reset()
-
-//?colors : self miesto cele meno
-//?????pridat flooring nic = none
-//?vlastnosti napr ze nieco v hre davam hracovi = nespawnu sa automaticky dve na rovnakom policku
 
 addColor("grass", "flooring", "#8BC766", 250)
 document.getElementById("colorWidth"+(count-1)).disabled = "true"
@@ -252,11 +251,15 @@ addColor("material", "feature", "#D494D0", 6, [{action: 0, colors: "water, lake"
 document.getElementById("columns").value = data.columns
 document.getElementById("rows").value = data.rows
 
-readData()
-mapMain(15, 15)
+htmlToData()
+mapMain(data.columns, data.rows)
 
-  //vypisovat uzivatelovi ked je v js error => aby dal spat zmenu ktoru vykonal
-  //desatinne cislo 0.0000000001 aby bolo mozne nemat error a zaroven plnu mapu ak to chce uzivatel -> ked chce mapu full features
+//?colors : self miesto cele meno
+//?pridat flooring nic = none
+//?vlastnosti napr ze nieco v hre davam hracovi = nespawnu sa automaticky dve na rovnakom policku
+
+//vypisovat uzivatelovi ked je v js error => aby dal spat zmenu ktoru vykonal
+//desatinne cislo 0.0000000001 aby bolo mozne nemat error a zaroven plnu mapu ak to chce uzivatel -> ked chce mapu full features
   
 //heck ci nie su dvojmo a ci vobec existuju take farby ktore tu napisem vo vlastnostiach; zdoraznit ze aby sa dalo s nimi pracovat treba ich najprv zadefinovat aspon s pomerom 0/?upravit aby sa sami vygenerovali taketo farby-->
 
@@ -271,6 +274,7 @@ mapMain(15, 15)
 
 //..way of detecting errors and telling them to the user, f.e. ..
 //..two colors with a same name error..
+
 
 
 
