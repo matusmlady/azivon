@@ -10,7 +10,10 @@ body {
 }
 .menu {
       margin: auto;
-      top: 0px;    
+      top: 0px;
+}
+.container {
+
 }
 .generator {   
       padding-left: 45px;
