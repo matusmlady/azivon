@@ -62,14 +62,14 @@ function mapMain(columns, rows){
         negative: {},
         banned: {}
       }
-      for (const x in data.colors){
-        this.colors.positive[x] = data.colors[x].ratio
+      for (const c in data.colors){
+        this.colors.positive[c] = data.colors[c].ratio
       }
-      for (const x in data.colors){
-        this.colors.negative[x] = 0
+      for (const c in data.colors){
+        this.colors.negative[c] = 0
       }
-      for (const x in data.colors){
-        this.colors.banned[x] = 0
+      for (const c in data.colors){
+        this.colors.banned[c] = 0
       }
       
       this.left = this.index % columns
@@ -179,10 +179,10 @@ function mapMain(columns, rows){
     choose(arg){
       let random = Math.floor(Math.random() * this.ratioSum(arg))
       let counter = 0
-      for (const x of data.layers[arg]){
-        counter += this.colors.positive[x]
+      for (const c of data.layers[arg]){
+        counter += this.colors.positive[c]
         if (random < counter){
-          return data.colors[x].label
+          return data.colors[c].label
         }
       }
       //?poistka nejaka ak dlzka je 0; vpodstate uz mam poistku niekde v kode
@@ -191,24 +191,24 @@ function mapMain(columns, rows){
     
     ratioSum(arg){
       let counter = 0
-      for (const x of data.layers[arg]){
-        counter += this.colors.positive[x]
+      for (const c of data.layers[arg]){
+        counter += this.colors.positive[c]
       }
       return counter
     }
     
     ban(arg){
-      for (const x of data.layers[arg]){
-        if (this.colors.banned[x] == 1){
-          this.colors.positive[x] = 0
+      for (const c of data.layers[arg]){
+        if (this.colors.banned[c] == 1){
+          this.colors.positive[c] = 0
         }
       }
     }
     
     restrict(arg){
-      for (const x of data.layers[arg]){
-        if (this.colors.negative[x] != 0){
-          this.colors.positive[x] > this.colors.negative[x] ? this.colors.positive[x] -= this.colors.negative[x] : this.colors.positive[x] = 0
+      for (const c of data.layers[arg]){
+        if (this.colors.negative[c] != 0){
+          this.colors.positive[c] > this.colors.negative[c] ? this.colors.positive[c] -= this.colors.negative[c] : this.colors.positive[c] = 0
         }
       }
     }
@@ -266,8 +266,8 @@ function mapMain(columns, rows){
             }
           }
           //nakresli priebezne celu danu farbu na tom (prip viacerych) polickach po definitivnom vygenerovani       
-          for (const x of this[data.colors[color].layer].dimensions){
-            tiles[x].drawYourself()
+          for (const t of this[data.colors[color].layer].dimensions){
+            tiles[t].drawYourself()
           }
           if (data.loot[color]){
             data.loot[color].push(Math.floor(Math.random() * 2 + 1))
@@ -310,30 +310,29 @@ function mapMain(columns, rows){
           return 0
         }
         coordinates.push(pseudo)
-        
       }
 
-      for (const x of coordinates){
-        tiles[x][data.colors[color].layer].chosen = color
-        tiles[x][data.colors[color].layer].dimensions = coordinates
+      for (const t of coordinates){
+        tiles[t][data.colors[color].layer].chosen = color
+        tiles[t][data.colors[color].layer].dimensions = coordinates
       }
       
       return 1
     }
     
     edit(arg = [], action = 0, colors = ""){
-      for (let x of arg){
+      for (let t of arg){
         if (action == 0){
           for (const z of colors.split(", ")){
-            tiles[x].colors.banned[z] = 1
+            tiles[t].colors.banned[z] = 1
           }
         } else if (action < 0) {
           for (const z of colors.split(", ")){
-            tiles[x].colors.negative[z] += action
+            tiles[t].colors.negative[z] += action
           }
         } else {// if (action > 0) {
           for (const z of colors.split(", ")){
-            tiles[x].colors.positive[z] += action
+            tiles[t].colors.positive[z] += action
           }
         }
       }
@@ -342,20 +341,20 @@ function mapMain(columns, rows){
     drawYourself(){
       if (this.flooring.chosen){
         this.drawUniversal("flooring")
-        for (const x of this.flooring.dimensions){
-          tiles[x].redrawYourself()
+        for (const t of this.flooring.dimensions){
+          tiles[t].redrawYourself()
         }
       }
       if (this.element.chosen){
         this.drawUniversal("element")
-        for (const x of this.element.dimensions){
-          tiles[x].redrawYourself()
+        for (const t of this.element.dimensions){
+          tiles[t].redrawYourself()
         }
       }
       if (this.feature.chosen){
         this.drawUniversal("feature")
-        for (const x of this.feature.dimensions){
-          tiles[x].redrawYourself()
+        for (const t of this.feature.dimensions){
+          tiles[t].redrawYourself()
         }
       }
     }
@@ -400,7 +399,7 @@ function mapMain(columns, rows){
   
   ctx.strokeStyle = "black"
   
-  if (rows * dimension >= data.maxLoot()){
+  if (rows * dimension >= data.maxLoot()){/////
     c.height = rows * dimension
     c.style.height = rows * dimension + 'px'
   } else {

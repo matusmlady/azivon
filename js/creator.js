@@ -30,7 +30,8 @@ function addColor(name = "label"+count, layer = "flooring", color = "#8BC766", r
 }
 
 function addProperty(arg, action = 0, colors = document.getElementById("name" + arg).value, radius = 0){
-  if (!propertyCount[arg]){//(propertyCount[arg] == undefined){
+  console.log(propertyCount[arg])
+  if (propertyCount[arg] == undefined){//(!propertyCount[arg]){//
     propertyCount[arg] = 0
   } else {
     propertyCount[arg]++
@@ -69,6 +70,7 @@ function htmlToData(){
     const properties = []
     for (const p of propertyList[c.replace("label","")]){
       properties.push({action: Number(document.getElementById("action"+p).value), colors: document.getElementById("colors"+p).value, radius: Number(document.getElementById("radius"+p).value)})
+      console.log(properties, p, propertyList[c.replace("label","")])
     }
     const colorWidth = document.getElementById(c.replace("label","colorWidth")).value;
     const loot = document.getElementById(c.replace("label","loot")).value;
@@ -106,19 +108,6 @@ function exportSetup(){
   const n = 'azivon-'+d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()+'-'+d.getHours()+'-'+d.getMinutes()+'-'+d.getSeconds()+'.json'
   document.getElementById('fileExport1').download = n;
   document.getElementById('fileExport2').download = n;
-}
-
-function creatorMain(){/////////////obsolete
-  /*data.count = {}
-  data.layers = {
-    flooring: [],
-    element: [],
-    feature: [],
-  }
-  data.colors = {}
-  data.loot = {}*/
-  htmlToData()
-  mapMain(data.columns, data.rows)
 }
 
 function importSetup(){//?only import and export function names
