@@ -35,7 +35,7 @@
   <div class="generator" id="canvasMain"><canvas id="map"></canvas></div>
 
   <div class='tlacitka_generator'>
-    <a href='html/generator.html'><input type="button" value='Create your own map!'/></a><input type="button" value="Print this map" onclick="printMap()"/><input type="button" onclick="mapMain(15,15);draw(15,15,35)" value="generate"/>
+    <a href='html/generator.html'><input type="button" value='Create your own map!'/></a><input type="button" value="Print this map" onclick="printMap()"/><input type="button" onclick="for (const l in data.loot){data.loot[l] = []}; for (const c in data.count){data.count[c] = 0};mapMain(15,15);" value="generate"/>
   </div>
 
  </div></p>
@@ -57,11 +57,6 @@
    <li>You don't move your teritory, you only expand - conquer other tiles.</li>
    <li>Later in the game you will be able to fight for the territory with other players.</li>
   </ol>
-   
-   <!-- <video width="620" height="400" controls> 
-        <source src="animacia1.mp4" type="video/mp4"> 
-        Your browser does not support the video tag.
-        </video> -->
    
   <div><canvas id="Expansion1" style="margin-bottom: 20px; margin-top: 20px;"></canvas></div>
   <a href='html/rules.html'><input type='button' value='More rules'></a>
