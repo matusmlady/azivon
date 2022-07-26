@@ -1,7 +1,7 @@
 dimension = 35
 
 makeColor('grass', 'flooring', '#8BC766', 250)
-makeColor('desert', 'flooring', '#FFFFA5', 50, [{action: 0, colors: 'snow', radius: 3}, {action: 50, colors: 'desert', radius: 3}, {action: 0, colors: 'woods', radius: 0}], undefined, true)
+makeColor('desert', 'flooring', '#FFFFA5', 50, [{action: 0, colors: 'snow', radius: 3}, {action: 50, colors: 'desert', radius: 3}, {action: 0, colors: 'woods', radius: 0}])
 makeColor('snow', 'flooring', '#FFFFFF', 50, [{action: 0, colors: 'desert, sahara', radius: 3}, {action: 50, colors: 'snow', radius: 3}])
 makeColor('water', 'flooring', '#66BBDD', 5, [{action: 80, colors: 'water', radius: 3}, {action: 0, colors: 'material, mountains, lake, woods, village, metal, gold, castle, castle2', radius: 0}])
 
