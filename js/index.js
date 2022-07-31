@@ -18,4 +18,4 @@ makeColor('castle', 'feature', '#AAAAAA', 1, [{action: 0, colors: 'water, woods,
 makeColor('castle2', 'feature', '#AAAAAA', 1, [{action: 0, colors: 'water, woods, lake', radius: 0}], 2)
 makeColor('material', 'feature', '#D494D0', 5, [{action: 0, colors: 'water, lake', radius: 0}])
   
-mapMain(data.columns, data.rows)
+mapMain(d.columns, d.rows)

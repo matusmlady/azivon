@@ -1,6 +1,6 @@
-const data = {//change 'data' to 'd' //added const
+const d = {//added const
   count: {},
-  instructions: {
+  go: {
     left: - 1,
     right: 1,
   },
@@ -15,13 +15,14 @@ const data = {//change 'data' to 'd' //added const
   loot: {},
   maxLoot: function(){//todo
     let max = 0
-    for(const l in data.loot){
-      if(max < data.loot[l].length * dimension / 2 + Math.ceil(ctx.measureText(l).width)){
-        max = data.loot[l].length * dimension / 2 + Math.ceil(ctx.measureText(l).width)
+    for (const l in d.loot){
+      if (max < d.loot[l].length * dimension / 2 + Math.ceil(ctx.measureText(l).width)){
+        max = d.loot[l].length * dimension / 2 + Math.ceil(ctx.measureText(l).width)
       }
     }
-    return max + dimension / 1.9 //needed because of some error when writing vertical text
+    return max + dimension / 1.9 //needed because of some error when writing vertical text; previous const was 23pixels
   },
+  timers: [],
 }
 
 class Color {
@@ -30,15 +31,15 @@ class Color {
   constructor(label, layer, color, ratio = 0, properties = [], colorWidth = 1, loot = false){//default properties add/remove
     this.label = label
     this.layer = layer
-    data.layers[layer].push(label)
+    d.layers[layer].push(label)
     this.color = color
     this.ratio = ratio
     this.properties = properties
     this.colorWidth = colorWidth
-    data.count[label] = 0
+    d.count[label] = 0
     this.loot = loot
     if (loot){
-      data.loot[label] = []
+      d.loot[label] = []
     }
 
   }
@@ -46,30 +47,30 @@ class Color {
 }
 
 function makeColor(...rest) {
-  data.colors[rest[0]] = new Color(...rest)
+  d.colors[rest[0]] = new Color(...rest)
 }
 
 function mapMain(columns, rows){
-  tiles = []//?move to data
-  data.instructions['up'] = - columns
-  data.instructions['down'] = columns
+  tiles = []//?move to d
+  d.go['up'] = - columns
+  d.go['down'] = columns
 
-  class tile {
+  class Tile {
     constructor(arg){
       this.index = arg
-      this.colors = {//////
+      this.colors = {
         positive: {},
-        negative: {},////unused
+        negative: {},//unused
         banned: {},
       }
-      for (const c in data.colors){
-        this.colors.positive[c] = data.colors[c].ratio
+      for (const c in d.colors){
+        this.colors.positive[c] = d.colors[c].ratio
       }
-      for (const c in data.colors){
+      for (const c in d.colors){//unused
         this.colors.negative[c] = 0
       }
-      for (const c in data.colors){
-        this.colors.banned[c] = 0
+      for (const c in d.colors){
+        this.colors.banned[c] = false
       }
       
       this.left = this.index % columns
@@ -117,28 +118,28 @@ function mapMain(columns, rows){
     }
     
     tileMain(arg){
-      if (this[arg].chosen != ''){
+      if (this[arg].chosen){// != ''){
         return
       }
       this.ban(arg)
-      this.restrict(arg)////unused
+      this.restrict(arg)//unused
       
       do {
-        this[arg].chosen = this.choose(arg)
-        /*if (this.ratioSum(arg) == 0){
+        this.choose(arg)//this[arg].chosen = 
+        /*if (!this.ratioSum(arg)){
           this.chosen = 'none'
           console.log('Error: nothing to choose from')
           break
         }*/
       }
-      while (this.direction(this[arg].chosen))
-      data.count[this[arg].chosen] += 1
+      while (this.fits(this[arg].chosen))
+      d.count[this[arg].chosen] += 1
       
-      for (const p of data.colors[this[arg].chosen].properties){
+      for (const p of d.colors[this[arg].chosen].properties){
         let todo = []
         for (let y = 0; y <= p.radius; y++){
           for (const z of this[arg].dimensions){
-            todo = [...tiles[z].square(todo, y)]//...todo, huge bug 
+            todo = [...tiles[z].square(todo, y)]//...todo, huge bug
           }
         }
         this.edit(todo, p.action, p.colors)
@@ -170,19 +171,20 @@ function mapMain(columns, rows){
         let y
         this[direction2] >= radiusArg ? y = tiles[bod].index + udaj0 : y = tiles[bod].index + udaj2
         for ( ; x <= y; x += increase){
-          todo.includes(x) ? undefined : todo.push(x)//////
+          todo.includes(x) ? undefined : todo.push(x)
         }
       }
       return todo
     }
     
     choose(arg){
-      let random = Math.floor(Math.random() * this.ratioSum(arg))
+      const random = Math.floor(Math.random() * this.ratioSum(arg))
       let counter = 0
-      for (const c of data.layers[arg]){
+      for (const c of d.layers[arg]){
         counter += this.colors.positive[c]
         if (random < counter){
-          return data.colors[c].label
+          this[arg].chosen = d.colors[c].label
+          return 0
         }
       }
       //?poistka nejaka ak dlzka je 0; vpodstate uz mam poistku niekde v kode
@@ -191,130 +193,129 @@ function mapMain(columns, rows){
     
     ratioSum(arg){
       let counter = 0
-      for (const c of data.layers[arg]){
+      for (const c of d.layers[arg]){
         counter += this.colors.positive[c]
       }
       return counter
     }
     
     ban(arg){
-      for (const c of data.layers[arg]){
-        if (this.colors.banned[c] == 1){
+      for (const c of d.layers[arg]){
+        if (this.colors.banned[c]){// == 1){
           this.colors.positive[c] = 0
         }
       }
     }
     
     restrict(arg){
-      for (const c of data.layers[arg]){
-        if (this.colors.negative[c] != 0){
+      for (const c of d.layers[arg]){
+        if (this.colors.negative[c]){// != 0){
           this.colors.positive[c] > this.colors.negative[c] ? this.colors.positive[c] -= this.colors.negative[c] : this.colors.positive[c] = 0
         }
       }
     }
     
-    direction(color){
-      let directions = [['left'], ['right'], ['up'], ['down'], ['left', 'up'], ['left', 'down'], ['right', 'up'], ['right', 'down']]
-      let which = ''
+    fits(color){//
+      const directions = [['left'], ['right'], ['up'], ['down'], ['left', 'up'], ['left', 'down'], ['right', 'up'], ['right', 'down']]
+      let way = ''
       for (let x = 0; x < 8; x++){
-        which = directions[Math.floor(Math.random() * directions.length)]
-        if (this.check(which, color)){
-          for (let z = 0; z < this[data.colors[color].layer].dimensions.length - 1; z++){
-            let tileLocal = tiles[this[data.colors[color].layer].dimensions[z]]
-            for (let y = 0; y < this[data.colors[color].layer][which].length; y++){//pre kazdu suradnicu (x, y) vybraneho pomocneho bodu
-              if (this[data.colors[color].layer][which][y] != 0.5){//ak nie je stredova ta konkretna suradnica (bud x alebo y)
-                tileLocal[data.colors[color].layer][which][y] = Math.round(this[data.colors[color].layer][which][y])//tak ju zaokruhli == posun z vnutra na okraj
+        way = directions[Math.floor(Math.random() * directions.length)]
+        if (this.check(way, color)){
+          const l = d.colors[color].layer;
+          for (const t of this[l].dimensions.slice(0, - 1)){//pre kazdu dimension tohoto pola okrem poslednej
+            for (let y = 0; y < 2; y++){//pre kazdu suradnicu (x, y) vybraneho pomocneho bodu
+              if (this[l][way][y] != 0.5){//ak nie je stredova ta konkretna suradnica (bud x alebo y)
+                tiles[t][l][way][y] = Math.round(this[l][way][y])//tak ju zaokruhli == posun z vnutra na okraj
               }
             }
-            
-            if (which.length == 2){//ak riesim diagonalne smery
+            if (way.length == 2){//ak riesim diagonalne smery
               for (let y = 0; y < 2; y++){//okrem rohoveho bodu posuniem aj stredove okolo rohoveho bodu
-                tileLocal[data.colors[color].layer][which[y]] = this[data.colors[color].layer][which]//na suradnice rohoveho aby nerobili problem pri zobrazovani
+                tiles[t][l][way[y]] = this[l][way]//na suradnice rohoveho aby nerobili problem pri zobrazovani
               }
             }
           }
           
-          if (which == 'right'){
-            which = ['left']
-          } else if (which == 'left'){
-            which = ['right']
-          } else if (which == 'up'){
-            which = ['down']
-          } else if (which == 'down'){
-            which = ['up']
-          } else if (which.toString() == 'left,up'){
-            which = ['right', 'down']
-          } else if (which.toString() == 'left,down'){
-            which = ['right', 'up']
-          } else if (which.toString() == 'right,up'){
-            which = ['left', 'down']
-          } else if (which.toString() == 'right,down'){
-            which = ['left', 'up']
+          if (way == 'right'){//converting way to opposite
+            way = ['left']
+          } else if (way == 'left'){
+            way = ['right']
+          } else if (way == 'up'){
+            way = ['down']
+          } else if (way == 'down'){
+            way = ['up']
+          } else if (way.toString() == 'left,up'){
+            way = ['right', 'down']
+          } else if (way.toString() == 'left,down'){
+            way = ['right', 'up']
+          } else if (way.toString() == 'right,up'){
+            way = ['left', 'down']
+          } else {
+            way = ['left', 'up']
           }
           
-          for (let z = 1; z < this[data.colors[color].layer].dimensions.length; z++){
-            let tileLocal = tiles[this[data.colors[color].layer].dimensions[z]]
-            for (let y = 0; y < this[data.colors[color].layer][which].length; y++){
-              if (this[data.colors[color].layer][which][y] != 0.5){
-                tileLocal[data.colors[color].layer][which][y] = Math.round(this[data.colors[color].layer][which][y])
+          for (const t of this[l].dimensions.slice(1)){//for all dimensions except this tile
+            for (let y = 0; y < 2; y++){
+              if (this[l][way][y] != 0.5){
+                tiles[t][l][way][y] = Math.round(this[l][way][y])
               }
             }
-            if (which.length == 2){
+            if (way.length == 2){
               for (let y = 0; y < 2; y++){
-                tileLocal[data.colors[color].layer][which[y]] = tileLocal[data.colors[color].layer][which]
+                tiles[t][l][way[y]] = tiles[t][l][way]
               }
             }
           }
           //nakresli priebezne celu danu farbu na tom (prip viacerych) polickach po definitivnom vygenerovani       
-          for (const t of this[data.colors[color].layer].dimensions){
+          for (const t of this[l].dimensions){
             tiles[t].drawYourself()
           }
-          if (data.loot[color]){
-            data.loot[color].push(Math.floor(Math.random() * 2 + 1))
+          if (d.loot[color]){
+            d.loot[color].push(Math.floor(Math.random() * 2 + 1))
           }
           return 0
         } else {
-          directions.splice(which, 1)
+          directions.splice(way, 1)
         }
       }
       this.colors.positive[color] = 0
       return 1
     }
 
-    check(which, color){
-      for (const x of which){
-        if (this[x] < data.colors[color].colorWidth - 1){
+    check(way, color){
+      for (const x of way){
+        if (this[x] < d.colors[color].colorWidth - 1){
           return 0
         }
       }
-      let coordinates = [this.index]
-      let pseudo = this.index;
-      for (let x = 0; x < data.colors[color].colorWidth - 1; x++){
-        if (which.length == 2){
-          /*if (tiles[pseudo + data.instructions[which[0]]][data.colors[color].layer].dimensions.some(y => tiles[pseudo + data.instructions[which[1]]][data.colors[color].layer].dimensions.includes(y))){
-            return 0
-          }*///////////////////////////////////////
-          for (const y of tiles[pseudo + data.instructions[which[0]]][data.colors[color].layer].dimensions){
-            if (tiles[pseudo + data.instructions[which[1]]][data.colors[color].layer].dimensions.includes(y)){
+      const dimensions = [this.index]
+      let scout = this.index;
+      const l = d.colors[color].layer;
+      for (let x = 1; x < d.colors[color].colorWidth; x++){
+        /*if (tiles == 2 && tiles[scout + d.go[way[0]]][l].dimensions.some(t => tiles[scout + d.go[way[1]]][l].dimensions.includes(t))){
+          return 0
+        }*/
+        if (way.length == 2){
+          for (const t of tiles[scout + d.go[way[0]]][l].dimensions){
+            if (tiles[scout + d.go[way[1]]][l].dimensions.includes(t)){
               return 0
             }
           }
         }
-        for (const y of which){
-          pseudo += data.instructions[y]
+        for (const w of way){
+          scout += d.go[w]
         }
-        if (tiles[pseudo][data.colors[color].layer].chosen != ''){
+        if (tiles[scout][l].chosen){// != ''){
           return 0
         }
-        if (tiles[pseudo].colors.banned[color] == 1){
+        if (tiles[scout].colors.banned[color]){// == 1){
           return 0
         }
-        coordinates.push(pseudo)
+        dimensions.push(scout)
       }
 
-      for (const t of coordinates){
-        tiles[t][data.colors[color].layer].chosen = color
-        tiles[t][data.colors[color].layer].dimensions = coordinates
+      for (const t of dimensions){
+        tiles[t][l].chosen = color
+        tiles[t][l].dimensions = dimensions
       }
       
       return 1
@@ -322,9 +323,9 @@ function mapMain(columns, rows){
     
     edit(arg = [], action = 0, colors = ''){
       for (const t of arg){
-        if (action == 0){
+        if (!action){// == 0){
           for (const c of colors.split(', ')){
-            tiles[t].colors.banned[c] = 1
+            tiles[t].colors.banned[c] = true//
           }
         } else if (action > 0) {
           for (const c of colors.split(', ')){
@@ -371,18 +372,18 @@ function mapMain(columns, rows){
       }
     }
     
-    drawUniversal(arg1){
-      if (data.colors[this[arg1].chosen].color != 'none'){
-        ctx.fillStyle = data.colors[this[arg1].chosen].color
+    drawUniversal(arg){
+      if (d.colors[this[arg].chosen].color != 'none'){
+        ctx.fillStyle = d.colors[this[arg].chosen].color
         ctx.beginPath()
-        ctx.moveTo(this.left * dimension + tiles[this.up*columns+this.left][arg1].right[0] * dimension, this.up * dimension + tiles[this.up*columns+this.left][arg1].right[1] * dimension)
-        ctx.lineTo(this.left * dimension + tiles[this.up*columns+this.left][arg1]['right,down'][0] * dimension, this.up * dimension + tiles[this.up*columns+this.left][arg1]['right,down'][1] * dimension)
-        ctx.lineTo(this.left * dimension + tiles[this.up*columns+this.left][arg1].down[0] * dimension, this.up * dimension + tiles[this.up*columns+this.left][arg1].down[1] * dimension)
-        ctx.lineTo(this.left * dimension + tiles[this.up*columns+this.left][arg1]['left,down'][0] * dimension, this.up * dimension + tiles[this.up*columns+this.left][arg1]['left,down'][1] * dimension)
-        ctx.lineTo(this.left * dimension + tiles[this.up*columns+this.left][arg1].left[0] * dimension, this.up * dimension + tiles[this.up*columns+this.left][arg1].left[1] * dimension)
-        ctx.lineTo(this.left * dimension + tiles[this.up*columns+this.left][arg1]['left,up'][0] * dimension, this.up * dimension + tiles[this.up*columns+this.left][arg1]['left,up'][1] * dimension)
-        ctx.lineTo(this.left * dimension + tiles[this.up*columns+this.left][arg1].up[0] * dimension, this.up * dimension + tiles[this.up*columns+this.left][arg1].up[1] * dimension)
-        ctx.lineTo(this.left * dimension + tiles[this.up*columns+this.left][arg1]['right,up'][0] * dimension, this.up * dimension + tiles[this.up*columns+this.left][arg1]['right,up'][1] * dimension)
+        ctx.moveTo(this.left * dimension + tiles[this.up * columns + this.left][arg].right[0] * dimension, this.up * dimension + tiles[this.up * columns + this.left][arg].right[1] * dimension)
+        ctx.lineTo(this.left * dimension + tiles[this.up * columns + this.left][arg]['right,down'][0] * dimension, this.up * dimension + tiles[this.up * columns + this.left][arg]['right,down'][1] * dimension)
+        ctx.lineTo(this.left * dimension + tiles[this.up * columns + this.left][arg].down[0] * dimension, this.up * dimension + tiles[this.up * columns + this.left][arg].down[1] * dimension)
+        ctx.lineTo(this.left * dimension + tiles[this.up * columns + this.left][arg]['left,down'][0] * dimension, this.up * dimension + tiles[this.up * columns + this.left][arg]['left,down'][1] * dimension)
+        ctx.lineTo(this.left * dimension + tiles[this.up * columns + this.left][arg].left[0] * dimension, this.up * dimension + tiles[this.up * columns + this.left][arg].left[1] * dimension)
+        ctx.lineTo(this.left * dimension + tiles[this.up * columns + this.left][arg]['left,up'][0] * dimension, this.up * dimension + tiles[this.up * columns + this.left][arg]['left,up'][1] * dimension)
+        ctx.lineTo(this.left * dimension + tiles[this.up * columns + this.left][arg].up[0] * dimension, this.up * dimension + tiles[this.up * columns  + this.left][arg].up[1] * dimension)
+        ctx.lineTo(this.left * dimension + tiles[this.up * columns + this.left][arg]['right,up'][0] * dimension, this.up * dimension + tiles[this.up * columns + this.left][arg]['right,up'][1] * dimension)
         ctx.closePath()
         ctx.fill()
         ctx.stroke()
@@ -390,7 +391,7 @@ function mapMain(columns, rows){
     }
   }
 
-  let tilesRaw = []
+  const tilesRaw = []
   c = document.getElementById('map')
   ctx = c.getContext('2d')
   
@@ -402,45 +403,42 @@ function mapMain(columns, rows){
   
   for (let i = 0; i < rows * columns; i++){
     tilesRaw.push([i, 'flooring', 'element', 'feature'])
-    tiles.push(new tile(i))
+    tiles.push(new Tile(i))
   }
   
-  for (let m = 0; m < rows * columns * 3; m++){
-    setTimeout(function(){
-      let number1 = Math.floor(Math.random() * tilesRaw.length)
-      let number2 = Math.floor(Math.random() * (tilesRaw[number1].length - 1)) + 1
-      tiles[tilesRaw[number1][0]].tileMain(tilesRaw[number1][number2])
-  //////////    if (data.loot.list.includes(tiles[tilesRaw[number1][0]][tilesRaw[number1][number2]].chosen)){
-  //        data.loot[tiles[tilesRaw[number1][0]][tilesRaw[number1][number2]].chosen].push(Math.floor(Math.random() * 2 + 1))
-    //  }
-      tilesRaw[number1].splice(number2, 1)
-      tilesRaw[number1].length == 1 ? tilesRaw.splice(number1, 1) : undefined
-    }, m * 10)
-    /*let number1 = Math.floor(Math.random() * tilesRaw.length);
-    let number2 = Math.floor(Math.random() * (tilesRaw[number1].length - 1)) + 1;
-    tiles[tilesRaw[number1][0]].tileMain(tilesRaw[number1][number2]);
-//////////    if (data.loot.list.includes(tiles[tilesRaw[number1][0]][tilesRaw[number1][number2]].chosen)){
-//        data.loot[tiles[tilesRaw[number1][0]][tilesRaw[number1][number2]].chosen].push(Math.floor(Math.random() * 2 + 1))
-  //  }
-    tilesRaw[number1].splice(number2, 1);
-    tilesRaw[number1].length == 1 ? tilesRaw.splice(number1, 1) : undefined*/
-
+  for (const t of d.timers){
+    clearTimeout(t)
   }
-
-  setTimeout(
+  d.timers = []
+  for (let i = 0; i < rows * columns * 3; i++){
+    d.timers.push(setTimeout(
+      function(){
+        const m = Math.floor(Math.random() * tilesRaw.length)
+        const n = Math.floor(Math.random() * (tilesRaw[m].length - 1)) + 1
+        tiles[tilesRaw[m][0]].tileMain(tilesRaw[m][n])
+    //////////    if (d.loot.includes(tiles[tilesRaw[m][0]][tilesRaw[m][n]].chosen)){
+    //        d.loot[tiles[tilesRaw[m][0]][tilesRaw[m][n]].chosen].push(Math.floor(Math.random() * 2 + 1))
+      //  }
+        tilesRaw[m].splice(n, 1)
+        tilesRaw[m].length == 1 ? tilesRaw.splice(m, 1) : undefined
+      }, i * 10)
+    )
+      //todo option to skip animation
+  }
+  d.timers.push(setTimeout(
     function(){
       let saved = new Image()
       saved = ctx.getImageData(0, 0, c.width, c.height)//c.toDataURL('image/png');//.src
       c.width = columns * dimension + noLoot()
       c.style.width = c.width + 'px'
-      if (c.height < data.maxLoot()){
-        c.height =  data.maxLoot()
+      if (c.height < d.maxLoot()){
+        c.height = d.maxLoot()
         c.style.height = c.height + 'px'
       }
       ctx.putImageData(saved, 0, 0)
       loot()
     }, (rows * columns * 3 * 10) + 50
-  )
+  ))
   
 }
 

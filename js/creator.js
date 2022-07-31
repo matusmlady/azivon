@@ -8,17 +8,17 @@ function addColor(name = 'label' + count, layer = 'flooring', color = '#8BC766',
   colorList.push('label' + count)
   propertyList[count] = []
   
-  document.getElementById('label' + count).innerHTML += '</br></br><label for="ratio'+count+'"></label><input id="ratio'+count+'" type="number" min="0" max="10000" value="'+ratio+'" size="3" required>'
+  document.getElementById('label' + count).innerHTML += '</br></br><label for="ratio' + count + '"></label><input id="ratio' + count + '" type="number" min="0" max="10000" value="'+ratio+'" size="3" required>'
   
-  document.getElementById('label' + count).innerHTML += '<label for="color'+count+'"></label><input id="color'+count+'" type="color" value="'+color+'" required>'
-  document.getElementById("label"+count).innerHTML += '<label for="name'+count+'"></label><input id="name'+count+'" type="text" pattern="(?:[A-Za-z][A-Za-z0-9]*)(?<!noFeature|grass|noElement)" maxlength="20" minlength="1" value="'+name+'" size="15" required>'
-  document.getElementById('label' + count).innerHTML += '<label for="layer'+count+'"></label><select id="layer'+count+'"><option value="'+layer+'" selected hidden>'+layer+'</option><option value="flooring">flooring</option><option value="element">element</option><option value="feature">feature</option></select>'
+  document.getElementById('label' + count).innerHTML += '<label for="color' + count + '"></label><input id="color' + count + '" type="color" value="' + color + '" required>'
+  document.getElementById("label"+count).innerHTML += '<label for="name' + count + '"></label><input id="name' + count + '" type="text" pattern="(?:[A-Za-z][A-Za-z0-9]*)(?<!noFeature|grass|noElement)" maxlength="20" minlength="1" value="' + name + '" size="15" required>'
+  document.getElementById('label' + count).innerHTML += '<label for="layer' + count + '"></label><select id="layer' + count + '"><option value="' + layer + '" selected hidden>' + layer + '</option><option value="flooring">flooring</option><option value="element">element</option><option value="feature">feature</option></select>'
   
-  document.getElementById('label' + count).innerHTML += '<label for="colorWidth'+count+'">width:</label><input id="colorWidth'+count+'" type="number" min="0" max="100" value="'+colorWidth+'"  size="2" required>'
-  document.getElementById('label' + count).innerHTML += '<label for="loot'+count+'"></label><select id="loot'+count+'"><option value="'+loot+'" selected hidden>'+ (loot?"loot":"nothing")+'</option><option value="false">nothing</option><option value="true">loot</option></select></br>'
+  document.getElementById('label' + count).innerHTML += '<label for="colorWidth' + count + '">width:</label><input id="colorWidth' + count + '" type="number" min="0" max="100" value="' + colorWidth + '"  size="2" required>'
+  document.getElementById('label' + count).innerHTML += '<label for="loot' + count + '"></label><select id="loot'  + count + '"><option value="' + loot + '" selected hidden>' + (loot ? "loot" : "nothing") + '</option><option value="false">nothing</option><option value="true">loot</option></select></br>'
   
-    document.getElementById('label' + count).innerHTML += '<input id="addPropertyButton'+count+'" type="button" value="add property" onclick="addProperty('+count+')" onfocus="this.blur()">'
-  document.getElementById('label' + count).innerHTML += '<input id="deleteColorButton'+count+'" type="button" value="delete color" onclick="document.getElementById(`label'+count+'`).remove();colorList.splice(colorList.indexOf(`label'+count+'`),1);propertyList['+count+'] = []">'
+  document.getElementById('label' + count).innerHTML += '<input id="addPropertyButton' + count + '" type="button" value="add property" onclick="addProperty(' + count + ')" onfocus="this.blur()">'
+  document.getElementById('label' + count).innerHTML += '<input id="deleteColorButton' + count + '" type="button" value="delete color" onclick="document.getElementById(`label' + count + '`).remove();colorList.splice(colorList.indexOf(`label' + count + '`),1);propertyList[' + count + '] = []">'
   
   document.getElementById('label' + count).innerHTML += '<div id="properties' + count + '"></div>'
 
@@ -29,7 +29,7 @@ function addColor(name = 'label' + count, layer = 'flooring', color = '#8BC766',
   count++
 }
 
-function addProperty(arg, action = 0, colors = document.getElementById('name'  + arg).value, radius = 0){
+function addProperty(arg, action = 0, colors = document.getElementById('name' + arg).value, radius = 0){
   if (propertyCount[arg] == undefined){//(!propertyCount[arg]){//
     propertyCount[arg] = 0
   } else {
@@ -52,14 +52,14 @@ function addProperty(arg, action = 0, colors = document.getElementById('name'  +
 //?hory ako by generovali loot?, 1 za policko vs 1 za 1ks viac polickoveho elementu
 
 function htmlToData(){
-  data.count = {}
-  data.layers = {
+  d.count = {}
+  d.layers = {
     flooring: [],
     element: [],
     feature: [],
   }
-  data.colors = {}
-  data.loot = {}
+  d.colors = {}
+  d.loot = {}
   
   for (const c of colorList){
     const name = document.getElementById(c.replace('label', 'name')).value;
@@ -74,25 +74,25 @@ function htmlToData(){
     const loot = document.getElementById(c.replace('label', 'loot')).value
     makeColor(name, layer, color, Number(ratio), properties, Number(colorWidth), loot==='true')//== vs ===
   }
-  data.columns = Number(document.getElementById('columns').value)
-  data.rows = Number(document.getElementById('rows').value)
+  d.columns = Number(document.getElementById('columns').value)
+  d.rows = Number(document.getElementById('rows').value)
 }
 
 function exportSetup(){
   htmlToData()
-  data.fillerFlooringIndex = colorList.indexOf('label0')
-  data.fillerElementIndex = colorList.indexOf('label4')
-  data.fillerFeatureIndex = colorList.indexOf('label8')
+  d.fillerFlooringIndex = colorList.indexOf('label0')
+  d.fillerElementIndex = colorList.indexOf('label4')
+  d.fillerFeatureIndex = colorList.indexOf('label8')
   if (typeof url !== 'undefined'){
     window.URL.revokeObjectURL(url)
   }
-  const json = JSON.stringify(data)//let
+  const json = JSON.stringify(d)//let
   
   let exportJson = new Blob([json], {type: 'text/json'})
   url = window.URL.createObjectURL(exportJson)
   document.getElementById('fileExport1').href = url
   document.getElementById('fileExport2').href = url
-  //document.getElementById('fileExport2').setAttribute('href', 'data:text/plain;charset=utf-8, '+ encodeURIComponent(json))
+  //document.getElementById('fileExport2').setAttribute('href', 'd:text/plain;charset=utf-8, ' + encodeURIComponent(json))
 
   const d = new Date()
   const n = 'azivon-' + d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + '-' + d.getHours() + '-' + d.getMinutes() + '-' + d.getSeconds() + '.json'
@@ -103,21 +103,21 @@ function exportSetup(){
 function importSetup(){//?only import and export function names
     document.getElementById('fileInput').files[0].text().then(function(value){
       try {
-        data = JSON.parse(value)
+        d = JSON.parse(value)
       } catch (e){
         console.log('double parse error', e)
       } finally {
         dataToHtml()
-        document.getElementById('columns').value = data.columns
-        document.getElementById('rows').value = data.rows
+        document.getElementById('columns').value = d.columns
+        document.getElementById('rows').value = d.rows
         htmlToData()
-        mapMain(data.columns, data.rows)
+        mapMain(d.columns, d.rows)
       }
     }
   )
 }
 
-function dataToHtml(){//?only export html instead of js data object
+function dataToHtml(){//?only export html instead of js d object
   //?try catch error handling when importing invalid file
   count = 0
   propertyCount = []
@@ -125,39 +125,39 @@ function dataToHtml(){//?only export html instead of js data object
   propertyList = []
   
   document.getElementById('colorList').innerHTML = ''
-  for (const c in data.colors){//
-    const temp = data.colors[c]
+  for (const c in d.colors){//
+    const temp = d.colors[c]
     addColor(temp.label, temp.layer, temp.color, temp.ratio, temp.properties, temp.colorWidth, temp.loot)
   }
   
-  document.getElementById('colorWidth'+ (data.fillerFlooringIndex)).disabled = 'true'
-  document.getElementById('ratio' + (data.fillerFlooringIndex)).min = '1'
-  document.getElementById('layer' + (data.fillerFlooringIndex)).disabled = 'true'
-  document.getElementById('name' + (data.fillerFlooringIndex)).disabled = 'true'
-  document.getElementById('addPropertyButton' +  (data.fillerFlooringIndex)).remove()
-  document.getElementById('deleteColorButton' + (data.fillerFlooringIndex)).remove()
+  document.getElementById('colorWidth' + (d.fillerFlooringIndex)).disabled = 'true'
+  document.getElementById('ratio' + (d.fillerFlooringIndex)).min = '1'
+  document.getElementById('layer' + (d.fillerFlooringIndex)).disabled = 'true'
+  document.getElementById('name' + (d.fillerFlooringIndex)).disabled = 'true'
+  document.getElementById('addPropertyButton' +  (d.fillerFlooringIndex)).remove()
+  document.getElementById('deleteColorButton' + (d.fillerFlooringIndex)).remove()
   
-  document.getElementById('color' + (data.fillerElementIndex)).type = 'text'
-  document.getElementById('color' + (data.fillerElementIndex)).value = 'none'
-  document.getElementById('color' + (data.fillerElementIndex)).disabled = 'true'
-  document.getElementById('color' + (data.fillerElementIndex)).size = '1'
-  document.getElementById('colorWidth' + (data.fillerElementIndex)).disabled = 'true'
-  document.getElementById('ratio' + (data.fillerElementIndex)).min = '1'
-  document.getElementById('layer' + (data.fillerElementIndex)).disabled = 'true'
-  document.getElementById('name' + (data.fillerElementIndex)).disabled = 'true'
-  document.getElementById('addPropertyButton' + (data.fillerElementIndex)).remove()
-  document.getElementById('deleteColorButton' + (data.fillerElementIndex)).remove()
+  document.getElementById('color' + (d.fillerElementIndex)).type = 'text'
+  document.getElementById('color' + (d.fillerElementIndex)).value = 'none'
+  document.getElementById('color' + (d.fillerElementIndex)).disabled = 'true'
+  document.getElementById('color' + (d.fillerElementIndex)).size = '1'
+  document.getElementById('colorWidth' + (d.fillerElementIndex)).disabled = 'true'
+  document.getElementById('ratio' + (d.fillerElementIndex)).min = '1'
+  document.getElementById('layer' + (d.fillerElementIndex)).disabled = 'true'
+  document.getElementById('name' + (d.fillerElementIndex)).disabled = 'true'
+  document.getElementById('addPropertyButton' + (d.fillerElementIndex)).remove()
+  document.getElementById('deleteColorButton' + (d.fillerElementIndex)).remove()
   
-  document.getElementById('color' + (data.fillerFeatureIndex)).type = 'text'
-  document.getElementById('color' + (data.fillerFeatureIndex)).value = 'none'
-  document.getElementById('color' + (data.fillerFeatureIndex)).disabled = 'true'
-  document.getElementById('color' + (data.fillerFeatureIndex)).size = '1'
-  document.getElementById('colorWidth' + (data.fillerFeatureIndex)).disabled = 'true'
-  document.getElementById('ratio' + (data.fillerFeatureIndex)).min = '1'
-  document.getElementById('layer' + (data.fillerFeatureIndex)).disabled = 'true'
-  document.getElementById('name' + (data.fillerFeatureIndex)).disabled = 'true'
-  document.getElementById('addPropertyButton' + (data.fillerFeatureIndex)).remove()
-  document.getElementById('deleteColorButton' + (data.fillerFeatureIndex)).remove()
+  document.getElementById('color' + (d.fillerFeatureIndex)).type = 'text'
+  document.getElementById('color' + (d.fillerFeatureIndex)).value = 'none'
+  document.getElementById('color' + (d.fillerFeatureIndex)).disabled = 'true'
+  document.getElementById('color' + (d.fillerFeatureIndex)).size = '1'
+  document.getElementById('colorWidth' + (d.fillerFeatureIndex)).disabled = 'true'
+  document.getElementById('ratio' + (d.fillerFeatureIndex)).min = '1'
+  document.getElementById('layer' + (d.fillerFeatureIndex)).disabled = 'true'
+  document.getElementById('name' + (d.fillerFeatureIndex)).disabled = 'true'
+  document.getElementById('addPropertyButton' + (d.fillerFeatureIndex)).remove()
+  document.getElementById('deleteColorButton' + (d.fillerFeatureIndex)).remove()
 }
 
 
@@ -173,8 +173,8 @@ document.getElementById('layer' + (count - 1)).disabled = 'true'
 document.getElementById('name' + (count - 1)).disabled = 'true'
 document.getElementById('addPropertyButton' + (count - 1)).remove()
 document.getElementById('deleteColorButton' + (count - 1)).remove()
-data.fillerFlooring = 'label' + (count - 1)
-data.fillerFlooringIndex = colorList.indexOf(data.fillerFlooring)
+d.fillerFlooring = 'label' + (count - 1)
+d.fillerFlooringIndex = colorList.indexOf(d.fillerFlooring)
   
 addColor('desert', 'flooring', '#FFFFA5', 50, [{action: 0, colors: 'snow', radius: 3}, {action: 0, colors: 'woods', radius: 0}, {action: 50, colors: 'desert', radius: 3}])
 addColor('snow', 'flooring', '#FFFFFF', 50, [{action: 0, colors: 'desert', radius: 3}, {action: 50, colors: 'snow', radius: 3}], 1, false)
@@ -191,8 +191,8 @@ document.getElementById('layer' + (count - 1)).disabled = 'true'
 document.getElementById('name' + (count - 1)).disabled = 'true'
 document.getElementById('addPropertyButton'+ (count - 1)).remove()
 document.getElementById('deleteColorButton'+ (count - 1)).remove()
-data.fillerElement = 'label'+ (count - 1)
-data.fillerElementIndex = colorList.indexOf(data.fillerElement)
+d.fillerElement = 'label'+ (count - 1)
+d.fillerElementIndex = colorList.indexOf(d.fillerElement)
  
 addColor('mountains', 'element', '#A75F49', 5, [{action: 0, colors: 'water', radius: 0}, {action: 1, colors: 'metal, gold, castle', radius: 0}], 3)
 addColor('woods', 'element', '#BCA26F', 7, [{action: 0, colors: 'water, desert, village, metal, gold, castle, castle2', radius: 0}], 2)
@@ -209,8 +209,8 @@ document.getElementById('layer' + (count - 1)).disabled = 'true'
 document.getElementById('name' + (count - 1)).disabled = 'true'
 document.getElementById('addPropertyButton'+ (count - 1)).remove()
 document.getElementById('deleteColorButton'+ (count - 1)).remove()
-data.fillerFeature = 'label' + (count - 1)
-data.fillerFeatureIndex = colorList.indexOf(data.fillerFeature)
+d.fillerFeature = 'label' + (count - 1)
+d.fillerFeatureIndex = colorList.indexOf(d.fillerFeature)
 
 addColor('village', 'feature', '#FD7C7C', 6, [{action: 0, colors: 'water, woods, lake', radius: 0}], 1, true)
 addColor('metal', 'feature', '#8E9ED1', 1, [{action: 0, colors: 'water, lake', radius: 0}])
@@ -219,11 +219,11 @@ addColor('castle', 'feature', '#AAAAAA', 1, [{action: 0, colors: 'water, woods, 
 addColor('castle2', 'feature', '#AAAAAA', 1, [{action: 0, colors: 'water, woods, lake', radius: 0}], 2)
 addColor('material', 'feature', '#D494D0', 6, [{action: 0, colors: 'water, lake', radius: 0}])
 
-document.getElementById('columns').value = data.columns
-document.getElementById('rows').value = data.rows
+document.getElementById('columns').value = d.columns
+document.getElementById('rows').value = d.rows
 
 htmlToData()
-mapMain(data.columns, data.rows)
+mapMain(d.columns, d.rows)
 
 //?colors : self miesto celeho mena v properties
 //?pridat flooring nic = none; cierna farba znamena no display; v takom pripade treba potencialne upozornit ze o jedno svetlejsia cierna uz bude aj zobrazena; riesit nezobrazovanie radsej sirka = 0 to je intuitivnejsie

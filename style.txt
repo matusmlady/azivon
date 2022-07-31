@@ -1,0 +1,18 @@
+This is a document about our style of coding.
+
+Universal:
+- single quotes
+- english language
+- indentation
+- spaces
+- descriptive camelCase names (variables, functions,...)
+
+JS:
+- whenever possible don't use semi-colons ';'
+- 'const' whenever possible, don't use 'var'
+- class names start with a capital letter
+
+Recommended:
+- hex color definitions
+- don't use global variables in JS
+- comment your code
