@@ -88,16 +88,16 @@ function exportSetup(){
   }
   const json = JSON.stringify(d)//let
   
-  let exportJson = new Blob([json], {type: 'text/json'})
-  url = window.URL.createObjectURL(exportJson)
-  document.getElementById('fileExport1').href = url
-  document.getElementById('fileExport2').href = url
-  //document.getElementById('fileExport2').setAttribute('href', 'd:text/plain;charset=utf-8, ' + encodeURIComponent(json))
+  let exportJson = new Blob([json], {type: 'text/json'});
+  url = window.URL.createObjectURL(exportJson);
+  document.getElementById('fileExport').href = url;
 
-  const d = new Date()
-  const n = 'azivon-' + d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + '-' + d.getHours() + '-' + d.getMinutes() + '-' + d.getSeconds() + '.json'
-  document.getElementById('fileExport1').download = n
-  document.getElementById('fileExport2').download = n
+  //document.getElementById('fileExport').setAttribute('href', 'data:text/plain;charset=utf-8, '+ encodeURIComponent(json))
+
+  let tdy = new Date()
+  let nameString = 'azivon-'+tdy.getFullYear()+'-'+(tdy.getMonth()+1)+'-'+tdy.getDate()+'-'+tdy.getHours()+'-'+tdy.getMinutes()+'-'+tdy.getSeconds()+'.json'
+  document.getElementById('fileExport').download = nameString;
+
 }
 
 function importSetup(){//?only import and export function names

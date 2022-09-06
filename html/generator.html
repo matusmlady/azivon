@@ -6,23 +6,29 @@
   <meta name='viewport' content='width = device-width, initial-scale=1.0'>
   <title>Generator</title>
 </head>
-<body>
 
-<a href='../index.html'><input id='button_mainpage' type='button' value='Back to the main page'></a>
+<body>
+  <header>
+    <div class="main-menu">
+        <a href="rules.html"><input id='rules-button' type="button" value='Advanced Rules'/></a><a href='about.html'><input id='about-button' type="button" value='About us' /></a><a href='../index.html'><input id='main-button' type="button" value='Main Page' /></a>
+    </div>
+  </header>
 
 <div><form id='mainForm' action='javascript:htmlToData();mapMain(d.columns,d.rows)'>
 <label for='columns'>columns:</label><input id='columns' type='number' min='2' max='100' size='3' required>
 <label for='rows'>rows:</label><input id='rows' type="number" min='2' max='100' size='3' required></br></br>
 
-<input id='addColorButton' type='button' value='add color' onclick='addColor()'></br>
-<div id='colorList'></div></br></br>
-<input id='addColorButton' type='button' value='add color' onclick='addColor()'></br>
-
-<input type='submit' value='generate'><input type="button" value="Print this map" onclick="printMap()"><a id='fileExport1' href='' download=''><input id='expButton1' type="button" value="Export setup" onclick='exportSetup();this.disabled = true; setTimeout(function(){document.getElementById("expButton1").disabled = false}, 1500)'></a><input id='fileInput' type='file' accept='.json' style='display:none' onchange='importSetup()'><input type='button' value='Import setup' onclick='document.getElementById("fileInput").click()'>
-
 <div id="canvasMain"><canvas id="map"></canvas></div>
+<input type='submit' value='Generate'><input type="button" value="Print this map" onclick="printMap()"><a id='fileExport' href='' download=''><input id='expButton' type="button" value="Export setup" onclick='exportSetup();this.disabled = true; setTimeout(function(){document.getElementById("expButton").disabled = false}, 1500)'></a><input id='fileInput' type='file' accept='.json'  style='display: none;'onchange='importSetup()'><input type='button' value='Import setup' onclick='document.getElementById("fileInput").click()'>
 
-<input type='submit' value='generate'><input type="button" value="Print this map" onclick="printMap()"><a id='fileExport2' href='' download=''><input id="expButton2" type="button" value="Export setup" onclick='exportSetup();this.disabled = true; setTimeout(function(){document.getElementById("expButton2").disabled = false}, 1500)'></a><input type='button' value='Import setup' onclick='document.getElementById("fileInput").click()'></form></div>
+<div id="bottom-bar">
+  <input class='bottombuttons'id='addColorButton' type='button' value='Add Color' onclick='addColor();document.documentElement.scrollTop = document.getElementById("colorList").scrollHeight;' >
+  <input class='bottombuttons' type='button' value='Back to Top' onclick='addColor();document.documentElement.scrollTop = 0' >
+</div>
+
+<div id='colorList'></div></br></br>
+
+</form></div>
 
 <script src='../js/draw.js'></script>
 <script src='../js/map.js'></script>

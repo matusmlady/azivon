@@ -1,34 +1,64 @@
 input {
-      margin: 3px;
+    border-radius: 2px;
+    margin: 3px;
 }
 body {
       background: rgba(0, 0, 0, 0.91);
       color: white;
       font-family: Calibri, sans-serif;
       font-size: 1.15em;
-      text-align:center;     
+      text-align:center;
 }
-.menu {
-      margin: auto;
-      top: 0px;
+.main-menu {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin: 20px 0;
 }
-.container {
+
+.main-menu * {
+    box-sizing: border-box;
+    margin: 0;
+}
+
+#main-button {
+      background-color: #431717 ;
+      color: #F5E8E8 ;
+      padding: 12px;
+      font-size: 17px;
+}
+#generator-button {
+      background-color: #431717 ;
+      color: #F5E8E8 ;
+      padding: 12px;
+      font-size: 17px;
+}
+#rules-button{
+      background-color: #431717 ;
+      color: #F5E8E8 ;
+      padding: 12px;
+      font-size: 17px;
 
 }
-.generator {   
+#about-button{
+      background-color: #431717 ;
+      color: #F5E8E8 ;
+      padding: 12px;
+      font-size: 17px;
+}
+.generator {
       padding-left: 45px;
       padding-top: 30px;
 }
 .kecy {
       background: rgba(0, 0, 0, 0.92);
-      max-width: 620px;
+      width: min(90%, 620px);
       padding: 10px 30px;
       margin-bottom: 20px;
-      /* offset-x, offset-y, blur-radius, spread-radius, color */
       box-shadow: 0 10px 20px rgba(0, 0, 0, 0.92), 0 6px 6px rgba(0, 0, 0, 0.80);
       margin: auto;
       text-align: justify;
-}  
+}
 .tlacitka_generator {
       width: 500px;
       margin: auto;
@@ -44,13 +74,13 @@ body {
 input[type='button'],input[type='submit']{
       background: hsl(0, 0%, 100%);
       border-radius: 8px;
-      border:none;
+    border:none;
+    cursor: pointer;
 }
 input[type='button']:hover ,input[type='submit']:hover {
       animation-name: background-color-2;
-      animation-duration: 500ms;
+      animation-duration: 200ms;
       animation-fill-mode: forwards;
-}
 }
 @keyframes background-color-2 {
                    100% {
@@ -58,5 +88,38 @@ input[type='button']:hover ,input[type='submit']:hover {
                          }
 }
 
+#bottom-bar {
+      background-color: #060606;
+      position: fixed;
+      bottom: 0px;
+      left: 37%;
+      width: 26%;
+      padding: 5px;
+      border-radius: 2px;
 
-      
+
+}
+#bottom-bar .bottombuttons {
+      background-color: #060606;
+      color: white;
+      border: none;
+      height: 100%;
+      border-radius: 0%;
+      display: inline-block;
+}
+.parent {
+      position: relative;
+      width: min(90%, 620px);
+      padding: 50px 0px;
+
+      margin: auto;
+}
+.child{
+      position: absolute;
+      left: 0;
+      top: 0;
+}
+h1,h2{
+      margin-top: 0;
+      margin-bottom: 24px;
+}
