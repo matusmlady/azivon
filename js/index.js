@@ -17,5 +17,7 @@ makeColor('gold', 'feature', '#C2AB35', 1, [{action: 0, colors: 'water, woods, l
 makeColor('castle', 'feature', '#AAAAAA', 1, [{action: 0, colors: 'water, woods, lake', radius: 0}])
 makeColor('castle2', 'feature', '#AAAAAA', 1, [{action: 0, colors: 'water, woods, lake', radius: 0}], 2)
 makeColor('material', 'feature', '#D494D0', 5, [{action: 0, colors: 'water, lake', radius: 0}])
-  
-mapMain(d.columns, d.rows)
+
+generateMap(d.columns, d.rows)
+
+//todo add automatic changing to ?580px of map canvas - universla size even with loot c = document.getElementById("map"); c.style.width = dimension * 15 + 'px'; ??sometimes canvas size 580px psosibly

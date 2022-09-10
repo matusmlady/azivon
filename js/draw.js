@@ -46,12 +46,12 @@ dimension = 40
 //  c = document.getElementById("map")
   //ctx = c.getContext("2d")
 
-  if (rows*dimension > d.loot.maxLoot()){
+  if (rows*dimension > d.loot.maxLootAmmount()){
     c.height = rows * dimension
     c.style.height = rows * dimension + 'px'
   } else {
-    c.height =  d.loot.maxLoot()
-    c.style.height = d.loot.maxLoot() + 'px'
+    c.height =  d.loot.maxLootAmmount()
+    c.style.height = d.loot.maxLootAmmount() + 'px'
   }
 
   //c.width = columns * dimension + noLoot()
@@ -66,11 +66,11 @@ dimension = 40
 
 }*/
   
-function loot(){//todo
+function loot(){//todo//one loot column is dimension / 1.3 wide
   c = document.getElementById('map')
   ctx = c.getContext('2d')
   ctx.fillStyle = 'gray'
-  ctx.strokeStyle= 'gray'
+  ctx.strokeStyle = 'gray'
   ctx.font = 0.35 * dimension + 'px Arial'//aj do max lootu implemoentovat neskor podla potreby
   let i = 0
   for (const l in d.loot){
@@ -93,6 +93,7 @@ function loot(){//todo
     ctx.stroke()
     i++
   }
+  d.timers = []
 }
 
 function noLoot(){

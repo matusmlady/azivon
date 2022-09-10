@@ -35,7 +35,7 @@
   <div class="generator" id="canvasMain"><canvas id="map"></canvas></div>
 
   <div class='tlacitka_generator'>
-    <a href='html/generator.html'><input type="button" value='Create your own map!'/></a><input type="button" value="Print this map" onclick="printMap()"/><input type="button" onclick="for (const l in d.loot){d.loot[l] = []}; for (const c in d.count){d.count[c] = 0};mapMain(15,15);" value="generate"/>
+    <a href='html/generator.html'><input type="button" value='Create your own map!'/></a><input type="button" value="Print this map" onclick="printMap()"/><input type="button" onclick="for (const l in d.loot){d.loot[l] = []}; for (const c in d.count){d.count[c] = 0};generateMap(15,15);" value="generate"/>
   </div>
 
  </div></p>
@@ -62,9 +62,9 @@
   <a href='html/rules.html'><input type='button' value='More rules'></a>
    
   </div>
- <script src='js/draw.js'></script>
-<script src='js/map.js'></script>
-<script src='js/animacie.js'></script>
+  <script src='js/draw.js'></script>
+  <script src='js/map.js'></script>
+  <script src='js/animacie.js'></script>
   <script src='js/index.js'></script>
 </main>  
 </body>
