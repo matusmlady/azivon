@@ -21,9 +21,9 @@ function loot(d){
     }
     row--
     ctx.beginPath()
-    ctx.lineTo(d.columns * dim + col * lootColumn + shift, textWidth + row * lootRow + textWidthError + dim / 10)
-    ctx.lineTo(d.columns * dim + col * lootColumn + shift + dim / 2, textWidth + row * lootRow + textWidthError + dim / 10)
-    ctx.lineTo(d.columns * dim + col * lootColumn + shift + dim / 2, textWidth + (row - 2) * lootRow + textWidthError + dim / 10)
+    ctx.lineTo(d.columns * dim + col * lootColumn + shift + dim / 4, textWidth + row * lootRow + textWidthError)
+    ctx.lineTo(d.columns * dim + col * lootColumn + shift + dim / 2, textWidth + row * lootRow + textWidthError)
+    ctx.lineTo(d.columns * dim + col * lootColumn + shift + dim / 2, textWidth + (row - 2) * lootRow + textWidthError)
     ctx.stroke()
     col++
   }
