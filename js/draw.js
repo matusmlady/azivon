@@ -1,160 +1,95 @@
-dimension = 40
-
-/*function draw(columns, rows, dimension){
-  function floorsFeatures(arg1){//change function name//arg1,arg2 useless
-    for (r = 0; r < rows; r++){
-      for (c = 0; c < columns; c++){
-        if (d[tiles[r * columns + c][arg1].chosen].color != "none"){
-          ctx.fillStyle = d[tiles[r*columns+c][arg1].chosen].color
-          ctx.beginPath()
-          ctx.moveTo(c * dimension + tiles[r*columns+c][arg1].right[0] * dimension, r * dimension + tiles[r*columns+c][arg1].right[1] * dimension)
-          ctx.lineTo(c * dimension + tiles[r*columns+c][arg1]["right,down"][0] * dimension, r * dimension + tiles[r*columns+c][arg1]["right,down"][1] * dimension)
-          ctx.lineTo(c * dimension + tiles[r*columns+c][arg1].down[0] * dimension, r * dimension + tiles[r*columns+c][arg1].down[1] * dimension)
-          ctx.lineTo(c * dimension + tiles[r*columns+c][arg1]["left,down"][0] * dimension, r * dimension + tiles[r*columns+c][arg1]["left,down"][1] * dimension)
-          ctx.lineTo(c * dimension + tiles[r*columns+c][arg1].left[0] * dimension, r * dimension + tiles[r*columns+c][arg1].left[1] * dimension)
-          ctx.lineTo(c * dimension + tiles[r*columns+c][arg1]["left,up"][0] * dimension, r * dimension + tiles[r*columns+c][arg1]["left,up"][1] * dimension)
-          ctx.lineTo(c * dimension + tiles[r*columns+c][arg1].up[0] * dimension, r * dimension + tiles[r*columns+c][arg1].up[1] * dimension)
-          ctx.lineTo(c * dimension + tiles[r*columns+c][arg1]["right,up"][0] * dimension, r * dimension + tiles[r*columns+c][arg1]["right,up"][1] * dimension)
-          ctx.closePath()
-          ctx.fill()
-          ctx.stroke()
-        }
-      }
-    }
-  }
-  function loot(){
-    ctx.fillStyle = 'black';
-    ctx.strokeStyle= 'black';
-    for(let i = 0; i < d.loot.keys.length && d.loot[d.loot.keys[i]].length > 0; i++){
-      ctx.font = "14px Arial"
-      ctx.rotate(90 * Math.PI / 180);
-      ctx.fillText(d.loot.keys[i],0,-columns*dimension-5-i*dimension);
-      ctx.rotate(270 * Math.PI / 180);
-      ctx.font = "14px Arial"
-    
-      for (let x = 0; x < d.loot[d.loot.keys[i]].length; x++){
-        ctx.fillText(d.loot[d.loot.keys[i]][x],columns*dimension+i*dimension+5, Math.ceil(ctx.measureText(d.loot.keys[i]).width)+23+x*20);
-      }
-    }
-  }
-  function noLoot(){
-    for(let i = 0; i < d.loot.keys.length && d.loot[d.loot.keys[i]].length>0; i++){
-        return d.loot.keys.length*dimension + 10;
-    }
-      return Number(0);
-  }
-//  c = document.getElementById("map")
-  //ctx = c.getContext("2d")
-
-  if (rows*dimension > d.loot.maxLootAmmount()){
-    c.height = rows * dimension
-    c.style.height = rows * dimension + 'px'
-  } else {
-    c.height =  d.loot.maxLootAmmount()
-    c.style.height = d.loot.maxLootAmmount() + 'px'
-  }
-
-  //c.width = columns * dimension + noLoot()
-  //c.style.width = columns * dimension + noLoot() + 'px'
-  
-  ctx.strokeStyle = "black"
-
-  //floorsFeatures("flooring")
-  //floorsFeatures("element")
-  //floorsFeatures("feature")
-  loot()
-
-}*/
-  
-function loot(){//todo//one loot column is dimension / 1.3 wide
-  c = document.getElementById('map')
-  ctx = c.getContext('2d')
+function loot(d){
+  const dim = getDimension(d)
+  const lootColumn = dim / 1.3
+  const shift = dim / 8
+  const textWidthError = dim / 1.8
+  const lootRow = dim / 2
   ctx.fillStyle = 'gray'
   ctx.strokeStyle = 'gray'
-  ctx.font = 0.35 * dimension + 'px Arial'//aj do max lootu implemoentovat neskor podla potreby
-  let i = 0
+  ctx.font = 0.35 * dim + 'px Arial'
+  let col = 0
   for (const l in d.loot){
-    if (!d.loot[l].length){//(d.loot[l].length == 0){
-      continue
-    }
-    ctx.rotate(90 * Math.PI / 180)
-    ctx.fillText(l, 0, - d.columns * dimension - i * dimension / 1.3 - dimension / 8)
-    ctx.rotate(270 * Math.PI / 180)
-    let x = 0
+    if (!d.loot[l].length) continue
+    const textWidth = Math.ceil(ctx.measureText(l).width)
+    ctx.rotate(0.5 * Math.PI)
+    ctx.fillText(l, 0, - (d.columns * dim + col * lootColumn + shift))
+    ctx.rotate(1.5 * Math.PI)
+    let row = 0
     for (const ll of d.loot[l]){
-      ctx.fillText(ll, d.columns * dimension + i * dimension / 1.3 + dimension / 8, Math.ceil(ctx.measureText(l).width) + x * dimension / 2 +  dimension / 2)
-      x++
+      ctx.fillText(ll, d.columns * dim + col * lootColumn + shift, textWidth + row * lootRow + textWidthError)
+      row++
     }
-    x--
+    row--
     ctx.beginPath()
-    ctx.moveTo(d.columns * dimension + i * dimension / 1.3 + dimension / 8, Math.ceil(ctx.measureText(l).width) + x * dimension / 2 + dimension / 1.8)
-    ctx.lineTo(d.columns * dimension + i * dimension / 1.3 + dimension / 8 + dimension / 2, Math.ceil(ctx.measureText(l).width) + x * dimension / 2 + dimension / 1.8)
-    ctx.lineTo(d.columns * dimension + i * dimension / 1.3 + dimension / 8 + dimension / 2, Math.ceil(ctx.measureText(l).width) + x * dimension / 2 - dimension + dimension / 1.8)
+    ctx.lineTo(d.columns * dim + col * lootColumn + shift, textWidth + row * lootRow + textWidthError + dim / 10)
+    ctx.lineTo(d.columns * dim + col * lootColumn + shift + dim / 2, textWidth + row * lootRow + textWidthError + dim / 10)
+    ctx.lineTo(d.columns * dim + col * lootColumn + shift + dim / 2, textWidth + (row - 2) * lootRow + textWidthError + dim / 10)
     ctx.stroke()
-    i++
+    col++
   }
-  d.timers = []
 }
 
-function noLoot(){
+function withLoot(d){
   let withLoot = 0
   for (const l in d.loot){
-    if (d.loot[l].length > 0){
-      withLoot++;
+    if (d.loot[l].length) withLoot++
+  }
+  return withLoot
+}
+
+function maxLootAmmount(d, dim) {
+  ctx.font = 0.35 * dim + 'px Arial'
+  let max = 0
+  for (const l in d.loot){
+    if (max < d.loot[l].length * dim / 2 + Math.ceil(ctx.measureText(l).width)){
+      max = d.loot[l].length * dim / 2 + Math.ceil(ctx.measureText(l).width)
     }
   }
-  if (withLoot > 0){
-    return (withLoot * dimension)
-  }
-  return 0;
+  return max + dim / 1.8 //needed because of some error when writing vertical text; previous const was 23pixels
 }
-  
-function printMap(){  
-  let dataUrl = document.getElementById('map').toDataURL();  
-  let windowContent = '<!DOCTYPE html>';
+
+function printMap(){
+  const dataUrl = document.getElementById('mapCanvas').toDataURL()
+  let windowContent = '<!DOCTYPE html>'
   windowContent += '<html>'
-  windowContent += '<head><title>Azivon-THE MAP</title></head>';
+  windowContent += '<head><title>AZIVON</title></head>'
   windowContent += '<body>'
-  windowContent += '<img src="'+dataUrl+'">';
-  windowContent += '</body>';
-  windowContent += '</html>';
-  let printWin = window.open('','','width=500,height=300');
-  printWin.document.open();
-  printWin.document.write(windowContent);
-  printWin.document.close();
-  printWin.focus();
-  printWin.print();
-  printWin.close();
+  windowContent += '<img src="' + dataUrl + '">'
+  windowContent += '</body>'
+  windowContent += '</html>'
+  const printWin = window.open('', '', 'width = 500, height = 300')
+  printWin.document.open()
+  printWin.document.write(windowContent)
+  printWin.document.close()
+  printWin.focus()
+  printWin.print()
+  printWin.close()
 }
 
+function getDimension(d){
+  let maxDim = 45
+  //viewport < current canvas size -> decrease dim
+  while (((document.documentElement.clientWidth * 0.9 < maxDim * d.columns + withLoot(d) * (maxDim / 1.3)) || (document.documentElement.clientHeight * 0.9 < maxDim * d.rows)) && maxDim > 5){
+    maxDim -= 0.1
+  }
+  /*TODO if dimensions smaller than 30 fit to the whole page
+  if dimensions larger no need to fit in the whole height of the map
+  this means width is more important
+  the viewport height affcts the dim however it doesn't try to fit the canvas all in, only two thirds, hence the multiplyer 1.5 for the current viewport height*/
+  return maxDim
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+function instantRepaint(d, tiles){
+  const dim = getDimension(d)
+  c.width = d.columns * dim + withLoot(d) * (dim / 1.3)
+  c.style.width = c.width + 'px'
+  c.height = d.rows * dim
+  if (!d.timers.length){
+    if (c.height < maxLootAmmount(d, dim)) c.height = maxLootAmmount(d, dim)
+    loot(d)
+  }
+  c.style.height = c.height + 'px'
+  ctx.strokeStyle = 'black'
+  for (let t of tiles) t.drawChosen()
+  window.onresize = () => instantRepaint(d, tiles)
+}

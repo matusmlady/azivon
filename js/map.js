@@ -1,487 +1,313 @@
-const d = {//added const
-  count: {},
-  go: {
-    left: - 1,
-    right: 1,
-  },
-  columns: 15,
-  rows: 15,
-  colors: {},
-  layers: {
-    flooring: [],
-    element: [],
-    feature: [],
-  },
-  loot: {},
-  maxLootAmmount: function(){//todo
-    let max = 0
-    for (const l in d.loot){
-      if (max < d.loot[l].length * dimension / 2 + Math.ceil(ctx.measureText(l).width)){
-        max = d.loot[l].length * dimension / 2 + Math.ceil(ctx.measureText(l).width)
-      }
-    }
-    return max + dimension / 1.9 //needed because of some error when writing vertical text; previous const was 23pixels
-  },
-  timers: [],
-}
-
-class Color {
-  //?shouldn't colorWidth = 0 mean display color = none
-  //?different size of loot, probabilities, even return strings etc custom loot
-  constructor(label, layer, color, ratio = 0, properties = [], colorWidth = 1, loot = false){
-    this.label = label
-    this.layer = layer
-    d.layers[layer].push(label)
-    this.color = color
-    this.ratio = ratio
-    this.properties = properties
-    this.colorWidth = colorWidth
-    d.count[label] = 0
-    this.loot = loot
-    if (loot){
-      d.loot[label] = []
-    }
-  }
-}
-
-function makeColor(...rest) {
-  d.colors[rest[0]] = new Color(...rest)
-}
-
-tiles = []
-
-function generateMap(columns, rows){
-  while (((document.documentElement.clientWidth * 0.9 > dimension * d.columns + Object.keys(d.loot).length * (dimension / 1.3)) || (document.documentElement.clientHeight * 0.9 > dimension * d.rows)) && dimension < 45){
-    dimension += 0.1
-  }
-  while (((document.documentElement.clientWidth * 0.9 < dimension * d.columns + Object.keys(d.loot).length * (dimension / 1.3)) || (document.documentElement.clientHeight * 0.9 < dimension * d.rows)) && dimension > 20){
-    dimension -= 0.1
-  }
-  tiles = []//?move to d
-  d.go['up'] = - columns
-  d.go['down'] = columns
-
+function generateMap(d, columns, rows){
+  d.go.up = - columns
+  d.go.down = columns
   class Tile {
-    constructor(arg){
-      this.index = arg
-      this.colors = {
-        positive: {},
-        negative: {},//unused
-        banned: {},
-      }
-      for (const c in d.colors){
-        this.colors.positive[c] = d.colors[c].ratio
-      }
-      for (const c in d.colors){//unused
-        this.colors.negative[c] = 0
-      }
-      for (const c in d.colors){
-        this.colors.banned[c] = false
-      }
+    constructor(index){
+      this.index = index
+      this.positive = {}
+      this.banned = {}
+      for (const c in d.colors) this.positive[c] = d.colors[c].ratio;
+      for (const c in d.colors) this.banned[c] = false
 
-      this.left = this.index % columns
+      this.left = index % columns
       this.right = columns - this.left - 1
       this.up = Math.floor(this.index / columns)
       this.down = rows - this.up - 1
 
-      this.flooring = {
-        chosen: '',
-        dimensions: [this.index],
-        'left,up': [0, 0],
-        'left': [0, 0.5],
-        'left,down': [0, 1],
-        'down': [0.5, 1],
-        'right,down': [1, 1],
-        'right': [1, 0.5],
-        'right,up': [1, 0],
-        'up': [0.5, 0],
-      }
-      this.element = {
-        chosen: '',
-        dimensions: [this.index],
-        'left,up': [33/100/2, 33/100/2],
-        'left': [33/100/2, 0.5],
-        'left,down': [33/100/2, 1-33/100/2],
-        'down': [0.5, 1-33/100/2],
-        'right,down': [1-33/100/2, 1-33/100/2],
-        'right': [1-33/100/2, 0.5],
-        'right,up': [1-33/100/2, 33/100/2],
-        'up': [0.5, 33/100/2],
-      }
-      this.feature = {
-        chosen: '',
-        dimensions: [this.index],
-        'left,up': [66/100/2, 66/100/2],
-        'left': [66/100/2, 0.5],
-        'left,down': [66/100/2, 1-66/100/2],
-        'down': [0.5, 1-66/100/2],
-        'right,down': [1-66/100/2, 1-66/100/2],
-        'right': [1-66/100/2, 0.5],
-        'right,up': [1-66/100/2, 66/100/2],
-        'up': [0.5, 66/100/2],
-      }
-
-    }
-
-    tileMain(arg){
-      if (this[arg].chosen){// != ''){
-        return
-      }
-      this.ban(arg)
-      this.restrict(arg)//unused
-
-      do {
-        this.choose(arg)//this[arg].chosen =
-        /*if (!this.ratioSum(arg)){
-          this.chosen = 'none'
-          console.log('Error: nothing to choose from')
-          break
-        }*/
-      }
-      while (this.fits(this[arg].chosen))
-      d.count[this[arg].chosen]++
-
-      for (const p of d.colors[this[arg].chosen].properties){
-        let todo = []
-        for (let y = 0; y <= p.radius; y++){
-          for (const z of this[arg].dimensions){
-            todo = [...tiles[z].square(todo, y)]//...todo, huge bug
-          }
-        }
-        this.edit(todo, p.action, p.colors)
-      }
-    }
-
-    //adds to given array of tiles with tiles of given radius from current tile if not already included
-    square(todoArg, radiusArg){
-      if (!radiusArg){//(radiusArg == 0){
-        return [...todoArg, this.index]
-      }
-      if (radiusArg == - 1){
-        return todoArg
-      }
-      let todo = todoArg
-      todo = this.edge(todo, radiusArg, 1, this.up, this.index - radiusArg * columns, 'left', radiusArg, this.left, 'right', this.right)
-      todo = this.edge(todo, radiusArg, 1, this.down, this.index + radiusArg * columns, 'left', radiusArg, this.left, 'right', this.right)
-      todo = this.edge(todo, radiusArg, columns, this.left, this.index - radiusArg, 'up', radiusArg * columns - columns, this.up * columns, 'down', this.down * columns)
-      todo = this.edge(todo, radiusArg, columns, this.right, this.index + radiusArg, 'up', radiusArg * columns - columns, this.up * columns, 'down', this.down * columns)
-      return todo
-    }
-
-    //adds one edge of the square in the required radius depending on the arg
-    edge(todoArg = [], radiusArg = 0, increase = 0, miesto = 0, bod = 0, direction1 = '', udaj0 = 0, udaj1 = 0, direction2 = '', udaj2 = 0){
-      const todo = todoArg
-      if (miesto >= radiusArg){
-        let x
-        this[direction1] >= radiusArg ? x = tiles[bod].index - udaj0 : x = tiles[bod].index - udaj1
-        let y
-        this[direction2] >= radiusArg ? y = tiles[bod].index + udaj0 : y = tiles[bod].index + udaj2
-        for ( ; x <= y; x += increase){
-          todo.includes(x) ? undefined : todo.push(x)
+      class Layer {
+        constructor(size, index){
+          this.chosen = ''
+          this.dimensions = [index]
+          this['left'] = [size/200, 0.5]
+          this['right'] = [1 - size/200, 0.5]
+          this['up'] = [0.5, size/200]
+          this['down'] = [0.5, 1 - size/200]
+          this['left,up'] = [size/200, size/200]
+          this['right,down'] = [1 - size/200, 1 - size/200]
+          this['left,down'] = [size/200, 1 - size/200]
+          this['right,up'] = [1 - size/200, size/200]
         }
       }
-      return todo
+
+      this.flooring = new Layer(0, index)
+      this.element = new Layer(33, index)
+      this.feature = new Layer(66, index)
     }
 
-    choose(arg){
-      const random = Math.floor(Math.random() * this.ratioSum(arg))
+    generate(layer){
+      if (this[layer].chosen) return
+      this.ban(layer)
+
+      do this.choose(layer)
+      while (!this.isPossible(this[layer].chosen))
+      d.count[this[layer].chosen]++
+      if (d.loot[this[layer].chosen]){
+        d.loot[this[layer].chosen].push(Math.floor(Math.random() * 2 + 1))
+      }
+
+      for (const p of d.colors[this[layer].chosen].properties){
+        const toEdit = new Set()
+        for (const z of this[layer].dimensions) tiles[z].findAffected(toEdit, p.radius)
+        this.editSurroundings(toEdit, p.action, p.colors)
+      }
+    }
+
+    ban(layer){
+      for (const c of d.layers[layer]) if (this.banned[c] || this.positive[c] < 0) this.positive[c] = 0
+    }
+
+    choose(layer){
+      const random = Math.floor(Math.random() * this.ratioSum(layer))
       let counter = 0
-      for (const c of d.layers[arg]){
-        counter += this.colors.positive[c]
+      for (const c of d.layers[layer]){
+        counter += this.positive[c]
         if (random < counter){
-          this[arg].chosen = d.colors[c].label
+          this[layer].chosen = c
           return 0
         }
       }
-      //?poistka nejaka ak dlzka je 0; vpodstate uz mam poistku niekde v kode
-      //?dlzka 0 nepovolit
     }
 
-    ratioSum(arg){
+    ratioSum(layer){
       let counter = 0
-      for (const c of d.layers[arg]){
-        counter += this.colors.positive[c]
-      }
+      for (const c of d.layers[layer]) counter += this.positive[c]
       return counter
     }
 
-    ban(arg){
-      for (const c of d.layers[arg]){
-        if (this.colors.banned[c]){// == 1){
-          this.colors.positive[c] = 0
-        }
-      }
-    }
-
-    restrict(arg){
-      for (const c of d.layers[arg]){
-        if (this.colors.negative[c]){// != 0){
-          this.colors.positive[c] > this.colors.negative[c] ? this.colors.positive[c] -= this.colors.negative[c] : this.colors.positive[c] = 0
-        }
-      }
-    }
-
-    fits(color){//
-      const directions = [['left'], ['right'], ['up'], ['down'], ['left', 'up'], ['left', 'down'], ['right', 'up'], ['right', 'down']]
-      let way = ''
+    isPossible(color){
+      const dirs = [['left'], ['right'], ['up'], ['down'], ['left', 'up'], ['right', 'down'], ['left', 'down'], ['right', 'up']]
       for (let x = 0; x < 8; x++){
-        way = directions[Math.floor(Math.random() * directions.length)]
-        if (this.check(way, color)){
-          const l = d.colors[color].layer;
-          for (const t of this[l].dimensions.slice(0, - 1)){//pre kazdu dimension tohoto pola okrem poslednej
-            for (let y = 0; y < 2; y++){//pre kazdu suradnicu (x, y) vybraneho pomocneho bodu
-              if (this[l][way][y] != 0.5){//ak nie je stredova ta konkretna suradnica (bud x alebo y)
-                tiles[t][l][way][y] = Math.round(this[l][way][y])//tak ju zaokruhli == posun z vnutra na okraj
-              }
-            }
-            if (way.length == 2){//ak riesim diagonalne smery
-              for (let y = 0; y < 2; y++){//okrem rohoveho bodu posuniem aj stredove okolo rohoveho bodu
-                tiles[t][l][way[y]] = this[l][way]//na suradnice rohoveho aby nerobili problem pri zobrazovani
-              }
-            }
-          }
-
-          if (way == 'right'){//converting way to opposite
-            way = ['left']
-          } else if (way == 'left'){
-            way = ['right']
-          } else if (way == 'up'){
-            way = ['down']
-          } else if (way == 'down'){
-            way = ['up']
-          } else if (way.toString() == 'left,up'){
-            way = ['right', 'down']
-          } else if (way.toString() == 'left,down'){
-            way = ['right', 'up']
-          } else if (way.toString() == 'right,up'){
-            way = ['left', 'down']
-          } else {
-            way = ['left', 'up']
-          }
-
-          for (const t of this[l].dimensions.slice(1)){//for all dimensions except this tile
-            for (let y = 0; y < 2; y++){
-              if (this[l][way][y] != 0.5){
-                tiles[t][l][way][y] = Math.round(this[l][way][y])
-              }
-            }
-            if (way.length == 2){
-              for (let y = 0; y < 2; y++){
-                tiles[t][l][way[y]] = tiles[t][l][way]
-              }
-            }
-          }
-          //nakresli priebezne celu danu farbu na tom (prip viacerych) polickach po definitivnom vygenerovani
-          for (const t of this[l].dimensions){
-            tiles[t].drawYourself()
-          }
-          if (d.loot[color]){
-            d.loot[color].push(Math.floor(Math.random() * 2 + 1))
-          }
-          return 0
-        } else {
-          directions.splice(way, 1)
-        }
+        const dir = dirs[Math.floor(Math.random() * dirs.length)]
+        if (!this.fits(dir, color)) dirs.splice(dirs.indexOf(dir), 1)
+        else return 1
       }
-      this.colors.positive[color] = 0
+      this.positive[color] = 0
+      return 0
+    }
+
+    fits(dir, color){
+      const dimensions = [this.index]
+      const l = d.colors[color].layer;
+      for (const direction of dir) if (this[direction] < d.colors[color].colorWidth - 1) return 0
+      for (let x = 1, dim = this.index; x < d.colors[color].colorWidth; x++){
+        if (dir.length == 2){
+          for (const t of tiles[dim + d.go[dir[0]]][l].dimensions) if (tiles[dim + d.go[dir[1]]][l].dimensions.includes(t)) return 0//if color would cross a same layered color diagonally abort
+        }
+        for (const direction of dir) dim += d.go[direction]
+        if (tiles[dim][l].chosen) return 0
+        if (tiles[dim].banned[color]) return 0
+        dimensions.push(dim)
+      }
+      this.setDimensions(dimensions, color, dir)
       return 1
     }
 
-    check(way, color){
-      for (const x of way){
-        if (this[x] < d.colors[color].colorWidth - 1){
-          return 0
-        }
-      }
-      const dimensions = [this.index]
-      let scout = this.index;
+    setDimensions(dimensions, color, dir){
       const l = d.colors[color].layer;
-      for (let x = 1; x < d.colors[color].colorWidth; x++){
-        /*if (tiles == 2 && tiles[scout + d.go[way[0]]][l].dimensions.some(t => tiles[scout + d.go[way[1]]][l].dimensions.includes(t))){
-          return 0
-        }*/
-        if (way.length == 2){
-          for (const t of tiles[scout + d.go[way[0]]][l].dimensions){
-            if (tiles[scout + d.go[way[1]]][l].dimensions.includes(t)){
-              return 0
-            }
-          }
-        }
-        for (const w of way){
-          scout += d.go[w]
-        }
-        if (tiles[scout][l].chosen){// != ''){
-          return 0
-        }
-        if (tiles[scout].colors.banned[color]){// == 1){
-          return 0
-        }
-        dimensions.push(scout)
-      }
-
       for (const t of dimensions){
         tiles[t][l].chosen = color
         tiles[t][l].dimensions = dimensions
       }
-
-      return 1
-    }
-
-    edit(arg = [], action = 0, colors = ''){
-      for (const t of arg){
-        if (!action){// == 0){
-          for (const c of colors.split(', ')){
-            tiles[t].colors.banned[c] = true//
-          }
-        } else if (action > 0) {
-          for (const c of colors.split(', ')){
-            tiles[t].colors.positive[c] += action
-          }
-        } else {
-          for (const c of colors.split(', ')){
-            tiles[t].colors.negative[c] += action
-          }
-        }
+      for (const t of this[l].dimensions){
+        //if not the last tile draw the original direction part of the tile
+        if (this[l].dimensions.indexOf(t) + 1 != this[l].dimensions.length) this.concentrateEdgePoints(tiles[t][l], dir)
+        dir = this.reverseDir(dir)
+        //if not the first tile draw the reversed original direction part
+        if (t != this.index) this.concentrateEdgePoints(tiles[t][l], dir)
+        dir = this.reverseDir(dir)
+        tiles[t].drawChosen()
       }
     }
 
-    drawYourself(){
-      if (this.flooring.chosen){
-        this.drawUniversal('flooring')
-        for (const t of this.flooring.dimensions){
-          tiles[t].redrawYourself()
-        }
-      }
-      if (this.element.chosen){
-        this.drawUniversal('element')
-        for (const t of this.element.dimensions){
-          tiles[t].redrawYourself()
-        }
-      }
-      if (this.feature.chosen){
-        this.drawUniversal('feature')
-        for (const t of this.feature.dimensions){
-          tiles[t].redrawYourself()
-        }
+    concentrateEdgePoints(tl, dir){
+      for (let y = 0; y < 2; y++){//for both coordinates of the chosen edge point
+        if (tl[dir][y] != 0.5) tl[dir][y] = Math.round(tl[dir][y])//round them unless in middle -> move to the edge ready to be drawn
+        if (dir.length == 2) tl[dir[y]] = tl[dir]//if diagonal color also concentrate middle edge points to the corner edge point
       }
     }
 
-    redrawYourself(){
-      if (this.flooring.chosen){
-        this.drawUniversal('flooring')
+    reverseDir(dir){
+      for (let x of dir){
+        if (x == 'left') dir[dir.indexOf(x)] = 'right'
+        else if (x == 'right') dir[dir.indexOf(x)] = 'left'
+        else if (x == 'up') dir[dir.indexOf(x)] = 'down'
+        else dir[dir.indexOf(x)] = 'up'
       }
-      if (this.element.chosen){
-        this.drawUniversal('element')
-      }
-      if (this.feature.chosen){
-        this.drawUniversal('feature')
+      return dir
+    }
+
+    //adds to given Set of tiles with tiles in the given radius from current tile
+    findAffected(toEdit, radius){
+      let movingTile = this.index, endTile = this.index;
+      this.left >= radius ? movingTile -= radius : movingTile -= this.left
+      this.up >= radius ? movingTile -= radius * columns : movingTile -= this.up * columns
+      this.right >= radius ? endTile += radius : endTile += this.right
+      this.down >= radius ? endTile += radius * columns : endTile += this.down * columns
+      for ( ; ; ){
+        toEdit.add(movingTile)
+        if (movingTile == endTile) break
+        if (tiles[movingTile].right == tiles[endTile].right) movingTile += columns - radius * 2
+        else movingTile++
       }
     }
 
-    drawUniversal(arg){
-      if (d.colors[this[arg].chosen].color != 'none'){
-        ctx.fillStyle = d.colors[this[arg].chosen].color
+    editSurroundings(surroundings, action = 0, colors){
+      for (const t of surroundings){
+        if (!action) for (const c of colors) tiles[t].banned[c] = true
+        else for (const c of colors) tiles[t].positive[c] += action
+      }
+    }
+
+    drawChosen(){
+      for (const l in d.layers) if (this[l].chosen) this.drawLayer(l)
+    }
+
+    drawLayer(l){
+      const dimension = getDimension(d)
+      if (d.colors[this[l].chosen].color != 'none'){
+        ctx.fillStyle = d.colors[this[l].chosen].color
         ctx.beginPath()
-        ctx.moveTo(this.left * dimension + tiles[this.up * columns + this.left][arg].right[0] * dimension, this.up * dimension + tiles[this.up * columns + this.left][arg].right[1] * dimension)
-        ctx.lineTo(this.left * dimension + tiles[this.up * columns + this.left][arg]['right,down'][0] * dimension, this.up * dimension + tiles[this.up * columns + this.left][arg]['right,down'][1] * dimension)
-        ctx.lineTo(this.left * dimension + tiles[this.up * columns + this.left][arg].down[0] * dimension, this.up * dimension + tiles[this.up * columns + this.left][arg].down[1] * dimension)
-        ctx.lineTo(this.left * dimension + tiles[this.up * columns + this.left][arg]['left,down'][0] * dimension, this.up * dimension + tiles[this.up * columns + this.left][arg]['left,down'][1] * dimension)
-        ctx.lineTo(this.left * dimension + tiles[this.up * columns + this.left][arg].left[0] * dimension, this.up * dimension + tiles[this.up * columns + this.left][arg].left[1] * dimension)
-        ctx.lineTo(this.left * dimension + tiles[this.up * columns + this.left][arg]['left,up'][0] * dimension, this.up * dimension + tiles[this.up * columns + this.left][arg]['left,up'][1] * dimension)
-        ctx.lineTo(this.left * dimension + tiles[this.up * columns + this.left][arg].up[0] * dimension, this.up * dimension + tiles[this.up * columns  + this.left][arg].up[1] * dimension)
-        ctx.lineTo(this.left * dimension + tiles[this.up * columns + this.left][arg]['right,up'][0] * dimension, this.up * dimension + tiles[this.up * columns + this.left][arg]['right,up'][1] * dimension)
+        this.drawLine('right', l, dimension)
+        this.drawLine('right,down', l, dimension)
+        this.drawLine('down', l, dimension)
+        this.drawLine('left,down', l, dimension)
+        this.drawLine('left', l, dimension)
+        this.drawLine('left,up', l, dimension)
+        this.drawLine('up', l, dimension)
+        this.drawLine('right,up', l, dimension)
         ctx.closePath()
         ctx.fill()
         ctx.stroke()
       }
     }
+
+    drawLine(dir, l, dim){
+      const edgePointCoordinates = tiles[this.up * columns + this.left][l][dir]
+      ctx.lineTo(dim * (this.left + edgePointCoordinates[0]), dim * (this.up + edgePointCoordinates[1]))
+    }
   }
 
-
-  const tilesRaw = []
-  c = document.getElementById('map')
+  c = document.getElementById('mapCanvas')
   ctx = c.getContext('2d')
 
-  c.width = columns * dimension + Object.keys(d.loot).length * (dimension / 1.3)
+  const dimension = getDimension(d)
+  c.width = columns * dimension + withLoot(d) * (dimension / 1.3)
   c.style.width = c.width + 'px'
   c.height = rows * dimension
   c.style.height = c.height + 'px'
   ctx.strokeStyle = 'black'
 
+  const tilesRaw = []
+  const tiles = []
   for (let i = 0; i < rows * columns; i++){
-    tilesRaw.push([i, 'flooring', 'element', 'feature'])
+    tilesRaw.push([i, 'flooring'], [i, 'element'], [i, 'feature'])
     tiles.push(new Tile(i))
   }
 
-  for (const t of d.timers){
-    clearTimeout(t)
-  }
+  for (const t of d.timers) clearTimeout(t)
   d.timers = []
+
   for (let i = 0; i < rows * columns * 3; i++){
     d.timers.push(setTimeout(
-      function(){
-        const m = Math.floor(Math.random() * tilesRaw.length)
-        const n = Math.floor(Math.random() * (tilesRaw[m].length - 1)) + 1
-        tiles[tilesRaw[m][0]].tileMain(tilesRaw[m][n])
-    //////////    if (d.loot.includes(tiles[tilesRaw[m][0]][tilesRaw[m][n]].chosen)){
-    //        d.loot[tiles[tilesRaw[m][0]][tilesRaw[m][n]].chosen].push(Math.floor(Math.random() * 2 + 1))
-      //  }
-        tilesRaw[m].splice(n, 1)
-        tilesRaw[m].length == 1 ? tilesRaw.splice(m, 1) : undefined
+      () => {
+        const tileAndLayer = tilesRaw.splice(Math.floor(Math.random() * tilesRaw.length), 1)[0]
+        tiles[tileAndLayer[0]].generate(tileAndLayer[1])
       }, i * 10)
     )
-      //todo option to skip animation
   }
   d.timers.push(setTimeout(
-    function(){
-      let saved = new Image()
-      saved = ctx.getImageData(0, 0, c.width, c.height)//c.toDataURL('image/png');//.src
-        //c.width = columns * dimension + Object.keys(d.loot).length * dimension//c.width = columns * dimension + noLoot()//noLoot useless
-      //c.style.width = c.width + 'px'
-      if (c.height < d.maxLootAmmount()){
-        c.height = d.maxLootAmmount()
-        c.style.height = c.height + 'px'
-      }
-      ctx.putImageData(saved, 0, 0)
-      loot()
-    }, (rows * columns * 3 * 10) + 50)
+    () => {
+      d.timers = []
+      instantRepaint(d, m)
+    }, (rows * columns * 3 * 10) + 10)
   )
-  window.onresize = instantRepaint
+  window.onresize = () => instantRepaint(d, m)
+
+  return tiles
 }
 
-//haprovanie na hlavnej stranke
-//?telefon ma rovnako px ako pc ale meneej cm => test after push
-function instantRepaint(){
-  ctx.clearRect(0, 0, c.width, c.height)
-  while (((document.documentElement.clientWidth * 0.9 > dimension * d.columns + Object.keys(d.loot).length * (dimension / 1.3)) || (document.documentElement.clientHeight * 0.9 > dimension * d.rows)) && dimension < 45){
-    dimension += 0.1
-  }
-  /*if dimensions smaller than 30 fit to the whole page
-  if dimensions larger no need to fit in the whole height of the map
-  this means width is more important
-  //the viewport height affcts the dimension however it doesn't try to fit the canvas all in, only two thirds, hence the multiplyer 1.5 for the current viewport height*/
-  while (((document.documentElement.clientWidth * 0.9 < dimension * d.columns + Object.keys(d.loot).length * (dimension / 1.3)) || (document.documentElement.clientHeight * 0.9 < dimension * d.rows)) && dimension > 20){
-    dimension -= 0.1
-  }//the viewport being too small for one or both dimension overwrites the larger one
 
+function createDefaultDeck(){
+  const d = {
+    count: {},
+    columns: 15,
+    rows: 15,
+    go: {
+      left: - 1,
+      right: 1,
+    },
+    colors: {},
+    layers: {
+      flooring: [],
+      element: [],
+      feature: [],
+    },
+    loot: {},
+    timers: [],
+    fillerFlooring: 'grass',
+    fillerFlooringIndex: 0,
+    fillerElement: 'noElement',
+    fillerElementIndex: 4,
+    fillerFeature: 'noFeature',
+    fillerFeatureIndex: 8,
+  }
+  d.go.up = () => - d.columns
+  d.go.down = () => d.columns
 
-  c.width = d.columns * dimension + Object.keys(d.loot).length * (dimension / 1.3)
-  c.style.width = c.width + 'px'
-  c.height = d.rows * dimension
-  c.style.height = c.height + 'px'
-  ctx.strokeStyle = 'black'
-  for (let t of tiles){
-    t.drawYourself()
+  function addColorD(label, layer, color, ratio, properties, colorWidth, loot) {
+    d.colors[label] = new Color(label, layer, color, ratio, properties, colorWidth, loot)
+    d.layers[layer].push(label)
+    d.count[label] = 0
+    if (loot) d.loot[label] = []
   }
-  if (!d.timers.length){
-    let saved = new Image()
-    saved = ctx.getImageData(0, 0, c.width, c.height)
-    if (c.height < d.maxLootAmmount()){
-      c.height = d.maxLootAmmount()
-      c.style.height = c.height + 'px'
-    }
-    ctx.putImageData(saved, 0, 0)
-    loot()
+
+  addColorD('grass', 'flooring', '#8BC766', 250)
+  addColorD('desert', 'flooring', '#FFFFA5', 50, [new Property(0, ['snow'], 3), new Property(50, ['desert'], 3), new Property(0, ['woods'], 0)])
+  addColorD('snow', 'flooring', '#FFFFFF', 50, [new Property(0, ['desert'], 3), new Property(50, ['snow'], 3)])
+  addColorD('water', 'flooring', '#66BBDD', 5, [new Property(80, ['water'], 3), new Property(0, ['material', 'mountains', 'lake', 'woods', 'village', 'metal', 'gold', 'castle', 'castle2'], 0)])
+
+  addColorD('noElement', 'element', 'none', 100, [], 0)
+  addColorD('mountains', 'element', '#A75F49', 5, [new Property(0, ['water'], 0), new Property(1, ['gold', 'castle', 'castle2', 'metal'], 0)], 3)
+  addColorD('woods', 'element', '#BCA26F', 7, [new Property(0, ['water', 'desert', 'village', 'metal', 'gold', 'castle', 'castle2'], 0), new Property(1, ['metal', 'gold', 'castle'], 0)], 2)
+  addColorD('lake', 'element', '#64E1E2', 5, [new Property(0, ['water', 'village', 'metal', 'gold', 'castle', 'castle2', 'material'], 0)], 2)
+
+  addColorD('noFeature', 'feature', 'none', 200, [], 0)
+  addColorD('village', 'feature', '#FD7C7C', 5, [new Property(0, ['water', 'lake', 'woods'], 0)], 1, true)
+  addColorD('metal', 'feature', '#8E9EA5', 1, [new Property(0, ['water', 'lake'], 0)])
+  addColorD('gold', 'feature', '#C2AB35', 1, [new Property(0, ['water', 'lake', 'woods'], 0)])
+  addColorD('castle', 'feature', '#AAAAAA', 1, [new Property(0, ['water', 'lake', 'woods'], 0)])
+  addColorD('castle2', 'feature', '#AAAAAA', 1, [new Property(0, ['water', 'lake', 'woods'], 0)], 2)
+  addColorD('material', 'feature', '#D494D0', 6, [new Property(0, ['water', 'lake'], 0)])
+
+  return d
+}
+
+class Color {
+  constructor(label, layer, color, ratio = 0, properties = [], colorWidth = 1, loot = false){
+    if (typeof label != 'string') console.log('Color.label shouldn\'t be a ' + typeof label)
+    if (typeof layer != 'string') console.log('Color.layer shouldn\'t be a ' + typeof layer)
+    if (typeof color != 'string') console.log('Color.color shouldn\'t be a ' + typeof color)
+    if (typeof ratio != 'number') console.log('Color.ratio shouldn\'t be a ' + typeof ratio)
+    if (typeof properties != 'object') console.log('Color.properties shouldn\'t be a ' + typeof properties)
+    if (typeof colorWidth != 'number') console.log('Color.colorWidth shouldn\'t be a ' + typeof colorWidth)
+    if (typeof loot != 'boolean') console.log('Color.loot shouldn\'t be a ' + typeof loot)
+    this.label = label
+    this.layer = layer
+    this.color = color
+    this.ratio = ratio
+    this.properties = properties
+    this.colorWidth = colorWidth
+    this.loot = loot
   }
-  window.onresize = instantRepaint
+}
+
+class Property {
+  constructor(action, colors, radius){
+    if (typeof action != 'number') console.log('Property.action shouldn\'t be a ' + typeof action)
+    if (typeof colors != 'object') console.log('Property.colors shouldn\'t be a ' + typeof colors)
+    if (typeof radius != 'number') console.log('Property.radius shouldn\'t be a ' + typeof radius)
+    this.action = action
+    this.colors = colors
+    this.radius = radius
+  }
 }

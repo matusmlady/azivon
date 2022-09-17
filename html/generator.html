@@ -14,15 +14,15 @@
     </div>
   </header>
 
-<div><form id='mainForm' action='javascript:htmlToData();generateMap(d.columns,d.rows)'>
+<div><form id='mainForm' action="javascript: generateMapCreatorHtml()">
 <label for='columns'>columns:</label><input id='columns' type='number' min='2' max='100' size='3' required>
 <label for='rows'>rows:</label><input id='rows' type="number" min='2' max='100' size='3' required></br></br>
 
 <div id="canvasMain"><canvas id="mapCanvas"></canvas></div>
-<input type='submit' value='Generate'><input type="button" value="Print this map" onclick="printMap()"><a id='fileExport' href='' download=''><input id='expButton' type="button" value="Export setup" onclick='exportSetup();this.disabled = true; setTimeout(function(){document.getElementById("expButton").disabled = false}, 1500)'></a><input id='fileInput' type='file' accept='.json'  style='display: none;'onchange='importSetup()'><input type='button' value='Import setup' onclick='document.getElementById("fileInput").click()'>
+<input type='submit' value='Generate'><input type="button" value="Print this map" onclick="printMap()"><a id='fileExport' href='' download=''><input id='expButton' type="button" value="Export setup" onclick='exportData(d)'></a><input id='fileInput' type='file' accept='.json'  style='display: none;' onchange='importData(d)'><input type='button' value='Import setup' onclick='document.getElementById("fileInput").click()'>
 
 <div id="bottom-bar">
-  <input class="bottombuttons" id="addColorButton" type="button" value="Add Color" onclick="addColor();document.documentElement.scrollTop = document.getElementById('mainForm').scrollHeight;">
+  <input class="bottombuttons" id="addColorButton" type="button" value="Add Color" onclick="addColorHtml(); document.documentElement.scrollTop = document.getElementById('mainForm').scrollHeight;">
   <input class="bottombuttons" type="button" value="Back to Top" onclick="document.documentElement.scrollTop = 0">
 </div>
 
@@ -33,6 +33,19 @@
 <script src='../js/draw.js'></script>
 <script src='../js/map.js'></script>
 <script src='../js/creator.js'></script>
+<script>
+  const d = createDefaultDeck()
+  colorList = []
+  propertyList = []
+  dataToHtml(d)
+  m = generateMap(d, d.columns, d.rows)
+
+  function generateMapCreatorHtml(){
+    htmlToData(d)
+    m = generateMap(d, d.columns, d.rows)
+    return//return undefined necessary in html form action js othewwise nasty stuff happens
+  }
+</script>
 
 </body>
 </html>

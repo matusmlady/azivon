@@ -10,16 +10,16 @@
   <title>Azivon</title>
 </head>
 <body>
-  
+
 <header>
   <div class="main-menu">
     <a href='html/generator.html'><input id='generator-button' type="button" value='Create your own map!'/></a><a href="html/rules.html"><input id='rules-button' type="button" value='Advanced Rules'/></a><a href='html/about.html'><input id='about-button' type="button" value='About us' /></a>
   </div>
-  
-  <h1 id='Azivon'>Azivon</h1>  
+
+  <h1 id='Azivon'>Azivon</h1>
 </header>
- 
-<main>  
+
+<main>
  <div class ="kecy">
   <article>
    <p>
@@ -27,45 +27,55 @@
     with your friends, for example if you are extremely bored in school or want to spend some quality time together! All you need to have for playing this game is <b>pencil</b> or<b> pen</b>, <b>friends</b> and <b>game map</b> of course.
    </p>
    <p>
-        &emsp;Unfortunately, you can find only one of these things on our website, yet.  
+        &emsp;Unfortunately, you can find only one of these things on our website, yet.
    </p>
-   </article>  
+   </article>
  </div>
-  
-  <div class="generator" id="canvasMain"><canvas id="map"></canvas></div>
+
+  <div class="generator" id="canvasMain"><canvas id="mapCanvas"></canvas></div>
 
   <div class='tlacitka_generator'>
-    <a href='html/generator.html'><input type="button" value='Create your own map!'/></a><input type="button" value="Print this map" onclick="printMap()"/><input type="button" onclick="for (const l in d.loot){d.loot[l] = []}; for (const c in d.count){d.count[c] = 0};generateMap(15,15);" value="generate"/>
+    <a href='html/generator.html'><input type="button" value='Create your own map!'/></a><input type="button" value="Print this map" onclick="printMap()"/><input type="button" onclick="generateMapIndexHtml()" value="generate"/>
   </div>
 
  </div></p>
-  
+
  <div class="kecy">
-  
+
   <h4 id="setup">Setup</h4>
    <ul>
     <li>The number of players is unlimited.</li>
     <li>Players spawn in corners, and/or they should be evenly placed. They start with this first tile as their only teritory.</li>
     <li>Every turn you receive <b>2</b> actions.</li>
   </ul>
-  
+
   <h4 id = "expansion">Expansion</h4>
   <ul>
-   <li>You expand by counquering tiles.</li> 
+   <li>You expand by counquering tiles.</li>
    <li>For 1 action you can conquer exactly 1 <b>empty</b> tile.</li>
    <li>You can conquer any tile, that is at maximum 2 tiles (vertically, horizontally, diagonally or these ways combined...) away from your current territory.</li>
    <li>You don't move your teritory, you only expand - conquer other tiles.</li>
    <li>Later in the game you will be able to fight for the territory with other players.</li>
   </ul>
-   
+
   <div><canvas id="Expansion1" style="margin-bottom: 20px; margin-top: 20px;"></canvas></div>
   <a href='html/rules.html'><input type='button' value='More rules'></a>
-   
+
   </div>
   <script src='js/draw.js'></script>
   <script src='js/map.js'></script>
   <script src='js/animacie.js'></script>
-  <script src='js/index.js'></script>
-</main>  
+  <script>
+    const d = createDefaultDeck()
+    m = generateMap(d, d.columns, d.rows)
+
+    function generateMapIndexHtml(){
+      for (const l in d.loot) d.loot[l] = []
+      for (const c in d.count) d.count[c] = 0
+      m = generateMap(d, 15, 15)
+    }
+  </script>
+
+</main>
 </body>
 </html>
