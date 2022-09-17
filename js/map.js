@@ -207,19 +207,21 @@ function generateMap(d, columns, rows){
   for (const t of d.timers) clearTimeout(t)
   d.timers = []
 
+  let timeUnit
+  rows * columns < 225 ? timeUnit = 8 : timeUnit = 4000 / (rows * columns * 3)
   for (let i = 0; i < rows * columns * 3; i++){//TODO separate generation and animation for more flexibility, functions returning inconsistent results when asking about loot, weird behaviour if tons of stuff has loot
     d.timers.push(setTimeout(
       () => {
         const tileAndLayer = tilesRaw.splice(Math.floor(Math.random() * tilesRaw.length), 1)[0]
         tiles[tileAndLayer[0]].generate(tileAndLayer[1])
-      }, i * 10)
+      }, i * timeUnit)
     )
   }
   d.timers.push(setTimeout(
     () => {
       d.timers = []
       instantRepaint(d, m)
-    }, (rows * columns * 3 * 10) + 10)
+    }, (rows * columns * 3 * timeUnit) + 100)
   )
   window.onresize = () => instantRepaint(d, m)
 
