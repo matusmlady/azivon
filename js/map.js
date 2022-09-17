@@ -191,7 +191,7 @@ function generateMap(d, columns, rows){
   ctx = c.getContext('2d')
 
   const dimension = getDimension(d)
-  c.width = columns * dimension + withLoot(d) * (dimension / 1.3)
+  c.width = columns * dimension
   c.style.width = c.width + 'px'
   c.height = rows * dimension
   c.style.height = c.height + 'px'
@@ -207,7 +207,7 @@ function generateMap(d, columns, rows){
   for (const t of d.timers) clearTimeout(t)
   d.timers = []
 
-  for (let i = 0; i < rows * columns * 3; i++){
+  for (let i = 0; i < rows * columns * 3; i++){//TODO separate generation and animation for more flexibility, functions returning inconsistent results when asking about loot, weird behaviour if tons of stuff has loot
     d.timers.push(setTimeout(
       () => {
         const tileAndLayer = tilesRaw.splice(Math.floor(Math.random() * tilesRaw.length), 1)[0]

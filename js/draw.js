@@ -66,11 +66,19 @@ function printMap(){
   printWin.close()
 }
 
+
 function getDimension(d){
-  let maxDim = 45
   //viewport < current canvas size -> decrease dim
-  while (((document.documentElement.clientWidth * 0.9 < maxDim * d.columns + withLoot(d) * (maxDim / 1.3)) || (document.documentElement.clientHeight * 0.9 < maxDim * d.rows)) && maxDim > 5){
-    maxDim -= 0.1
+  let maxDim = 45
+  if (d.timers.length){
+    while (((document.documentElement.clientWidth * 0.9 < maxDim * d.columns) || (document.documentElement.clientHeight * 0.9 < maxDim * d.rows)) && maxDim > 5){
+      maxDim -= 0.1
+    }
+  }
+  else {
+    while (((document.documentElement.clientWidth * 0.9 < maxDim * d.columns + withLoot(d) * (maxDim / 1.3)) || (document.documentElement.clientHeight * 0.9 < maxDim * d.rows)) && maxDim > 5){
+      maxDim -= 0.1
+    }
   }
   /*TODO if dimensions smaller than 30 fit to the whole page
   if dimensions larger no need to fit in the whole height of the map
@@ -81,13 +89,14 @@ function getDimension(d){
 
 function instantRepaint(d, tiles){
   const dim = getDimension(d)
-  c.width = d.columns * dim + withLoot(d) * (dim / 1.3)
-  c.style.width = c.width + 'px'
+  c.width = d.columns * dim
   c.height = d.rows * dim
   if (!d.timers.length){
     if (c.height < maxLootAmmount(d, dim)) c.height = maxLootAmmount(d, dim)
+    c.width = d.columns * dim + withLoot(d) * (dim / 1.3)
     loot(d)
   }
+  c.style.width = c.width + 'px'
   c.style.height = c.height + 'px'
   ctx.strokeStyle = 'black'
   for (let t of tiles) t.drawChosen()
