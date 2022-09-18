@@ -89,14 +89,14 @@ function generateMap(d, columns, rows){
       const dimensions = [this.index]
       const l = d.colors[color].layer;
       for (const direction of dir) if (this[direction] < d.colors[color].colorWidth - 1) return 0
-      for (let x = 1, dim = this.index; x < d.colors[color].colorWidth; x++){
+      for (let x = 1, dimension = this.index; x < d.colors[color].colorWidth; x++){
         if (dir.length == 2){
-          for (const t of tiles[dim + d.go[dir[0]]][l].dimensions) if (tiles[dim + d.go[dir[1]]][l].dimensions.includes(t)) return 0//if color would cross a same layered color diagonally abort
+          for (const t of tiles[dimension + d.go[dir[0]]][l].dimensions) if (tiles[dimension + d.go[dir[1]]][l].dimensions.includes(t)) return 0//if color would cross a same layered color diagonally abort
         }
-        for (const direction of dir) dim += d.go[direction]
-        if (tiles[dim][l].chosen) return 0
-        if (tiles[dim].banned[color]) return 0
-        dimensions.push(dim)
+        for (const direction of dir) dimension += d.go[direction]
+        if (tiles[dimension][l].chosen) return 0
+        if (tiles[dimension].banned[color]) return 0
+        dimensions.push(dimension)
       }
       this.setDimensions(dimensions, color, dir)
       return 1
@@ -167,18 +167,18 @@ function generateMap(d, columns, rows){
     }
 
     drawLayer(l){
-      const dimension = getDimension(d)
+      const dim = getDimension(d)
       if (d.colors[this[l].chosen].color != 'none'){
         ctx.fillStyle = d.colors[this[l].chosen].color
         ctx.beginPath()
-        this.drawLine('right', l, dimension)
-        this.drawLine('right,down', l, dimension)
-        this.drawLine('down', l, dimension)
-        this.drawLine('left,down', l, dimension)
-        this.drawLine('left', l, dimension)
-        this.drawLine('left,up', l, dimension)
-        this.drawLine('up', l, dimension)
-        this.drawLine('right,up', l, dimension)
+        this.drawLine('right', l, dim)
+        this.drawLine('right,down', l, dim)
+        this.drawLine('down', l, dim)
+        this.drawLine('left,down', l, dim)
+        this.drawLine('left', l, dim)
+        this.drawLine('left,up', l, dim)
+        this.drawLine('up', l, dim)
+        this.drawLine('right,up', l, dim)
         ctx.closePath()
         ctx.fill()
         ctx.stroke()
@@ -194,10 +194,13 @@ function generateMap(d, columns, rows){
   c = document.getElementById('mapCanvas')
   ctx = c.getContext('2d')
 
-  const dimension = getDimension(d)
-  c.width = columns * dimension
+  for (const t of d.timers) clearTimeout(t)
+  d.timers = []
+
+  const dim = getDimension(d)
+  c.width = columns * dim
   c.style.width = c.width + 'px'
-  c.height = rows * dimension
+  c.height = rows * dim
   c.style.height = c.height + 'px'
   ctx.strokeStyle = 'black'
 
@@ -207,9 +210,6 @@ function generateMap(d, columns, rows){
     tilesRaw.push([i, 'flooring'], [i, 'element'], [i, 'feature'])
     tiles.push(new Tile(i))
   }
-
-  for (const t of d.timers) clearTimeout(t)
-  d.timers = []
 
   let timeUnit
   rows * columns < 225 ? timeUnit = 8 : timeUnit = 4000 / (rows * columns * 3)

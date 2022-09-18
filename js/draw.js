@@ -1,5 +1,4 @@
-function loot(d){
-  const dim = getDimension(d)
+function loot(d, dim){
   const lootColumn = dim / 1.3
   const shift = dim / 8
   const textWidthError = dim / 1.8
@@ -48,7 +47,7 @@ function maxLootAmmount(d, dim) {
   return max + dim / 1.8 //needed because of some error when writing vertical text; previous const was 23pixels
 }
 
-function printMap(){
+function printMap(){//TODO remake, use document.documentElement. to get dimensions of the opened window, print pregenerated animated map, customize printed
   const dataUrl = document.getElementById('mapCanvas').toDataURL()
   let windowContent = '<!DOCTYPE html>'
   windowContent += '<html>'
@@ -70,20 +69,10 @@ function printMap(){
 function getDimension(d){
   //viewport < current canvas size -> decrease dim
   let maxDim = 45
-  if (d.timers.length){
-    while (((document.documentElement.clientWidth * 0.9 < maxDim * d.columns) || (document.documentElement.clientHeight * 0.9 < maxDim * d.rows)) && maxDim > 5){
-      maxDim -= 0.1
-    }
+  while (((document.documentElement.clientWidth * 0.9 < maxDim * d.columns + Object.keys(d.loot).length * (maxDim / 1.3)) || (document.documentElement.clientHeight * 0.9 < maxDim * d.rows)) && maxDim > 1){
+    maxDim -= 0.1
   }
-  else {
-    while (((document.documentElement.clientWidth * 0.9 < maxDim * d.columns + withLoot(d) * (maxDim / 1.3)) || (document.documentElement.clientHeight * 0.9 < maxDim * d.rows)) && maxDim > 5){
-      maxDim -= 0.1
-    }
-  }
-  /*TODO if dimensions smaller than 30 fit to the whole page
-  if dimensions larger no need to fit in the whole height of the map
-  this means width is more important
-  the viewport height affcts the dim however it doesn't try to fit the canvas all in, only two thirds, hence the multiplyer 1.5 for the current viewport height*/
+  /*TODO display map behaviour, how much should be visible and/or not fit the screen, map viewer on top of the web page, browsing easily with arrows and zoomable, minimap, solve together with printing*/
   return maxDim
 }
 
@@ -93,8 +82,8 @@ function instantRepaint(d, tiles){
   c.height = d.rows * dim
   if (!d.timers.length){
     if (c.height < maxLootAmmount(d, dim)) c.height = maxLootAmmount(d, dim)
-    c.width = d.columns * dim + withLoot(d) * (dim / 1.3)
-    loot(d)
+    c.width += withLoot(d) * (dim / 1.3)
+    loot(d, dim)
   }
   c.style.width = c.width + 'px'
   c.style.height = c.height + 'px'
