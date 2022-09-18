@@ -146,7 +146,11 @@ function generateMap(d, columns, rows){
       for ( ; ; ){
         toEdit.add(movingTile)
         if (movingTile == endTile) break
-        if (tiles[movingTile].right == tiles[endTile].right) movingTile += columns - radius * 2
+        if (tiles[movingTile].right == tiles[endTile].right) {
+          movingTile += d.columns
+          if (tiles[movingTile].left >= radius * 2) movingTile -= radius * 2
+          else movingTile -= tiles[movingTile].left
+        }
         else movingTile++
       }
     }
@@ -209,6 +213,7 @@ function generateMap(d, columns, rows){
 
   let timeUnit
   rows * columns < 225 ? timeUnit = 8 : timeUnit = 4000 / (rows * columns * 3)
+
   for (let i = 0; i < rows * columns * 3; i++){//TODO separate generation and animation for more flexibility, functions returning inconsistent results when asking about loot, weird behaviour if tons of stuff has loot
     d.timers.push(setTimeout(
       () => {
