@@ -8,43 +8,70 @@
 </head>
 
 <body>
-  <header>
-    <div class="main-menu">
-        <a href="rules.html"><input id='rules-button' type="button" value='Advanced Rules'/></a><a href='about.html'><input id='about-button' type="button" value='About us' /></a><a href='../index.html'><input id='main-button' type="button" value='Main Page' /></a>
-    </div>
-  </header>
+<header>
+  <div class="main-menu">
+    <a href="rules.html"><input id='rules-button' type="button" value='Advanced Rules'/></a><a href='about.html'><input id='about-button' type="button" value='About us' /></a><a href='../index.html'><input id='main-button' type="button" value='Main Page'/></a>
+  </div>
+</header>
 
 <div><form id='mainForm' action="javascript: generateMapCreatorHtml()">
-<label for='columns'>columns:</label><input id='columns' type='number' min='2' max='100' size='3' required>
-<label for='rows'>rows:</label><input id='rows' type="number" min='2' max='100' size='3' required></br></br>
 
 <div id="canvasMain"><canvas id="mapCanvas"></canvas></div>
-<input type='submit' value='Generate'><input type="button" value="Print this map" onclick="printMap()"><a id='fileExport' href='' download=''><input id='expButton' type="button" value="Export setup" onclick='exportData(d)'></a><input id='fileInput' type='file' accept='.json'  style='display: none;' onchange='importData(d)'><input type='button' value='Import setup' onclick='document.getElementById("fileInput").click()'>
+<!--<input type="button" value="Print" onclick="printMap()"><input type='submit' value='Generate'>-->
+
+<input id='columns' type='number' min='5' max='100' size='1' required> x <input id='rows' type="number" min='5' max='100' size='1' required>
+
+<div id='announcements'></div><!--</br> TODO-->
+
+
+
+<div id='floorings'></div>
+<div id='elements'></div>
+<div id='features'></div>
+
+</br><div id='flooringsMinimized' class='minimized'></div></br>
+<div id='elementsMinimized' class='minimized'></div></br>
+<div id='featuresMinimized' class='minimized'></div></br>
+
+<!--<div id='colorList'></div></br>
+
+<div id='colorListMinimized'></div></br>
+
+</br></br>-->
 
 <div id="bottom-bar">
-  <input class="bottombuttons" id="addColorButton" type="button" value="Add Color" onclick="addColorHtml(); document.documentElement.scrollTop = document.getElementById('mainForm').scrollHeight;">
-  <input class="bottombuttons" type="button" value="Back to Top" onclick="document.documentElement.scrollTop = 0">
+  add:<input class="bottombuttons" id="addFlooring" type="button" value="Flooring"><input class="bottombuttons" id="addElement" type="button" value="Element"><input class="bottombuttons" id="addFeature" type="button" value="Feature">colors:<input class="bottombuttons" id='fileInput' type='file' accept='.json'  style='display: none' onchange='importData(d)'><input class="bottombuttons" type='button' value='Import' onclick='document.getElementById("fileInput").click()'><a id='fileExport' href='' download=''><input class="bottombuttons" id='expButton' type="button" value="Export" onclick='exportData(d)'></a>map:<input class="bottombuttons" type="button" value="Print" onclick="printMap()"><input class="bottombuttons" type="submit" value="Generate"><!-- a href = '#'--><!--TODO on submit takes you to the top even when invalid submit-->
 </div>
 
-<div id='colorList'></div></br></br>
-
 </form></div>
+
+
 
 <script src='../js/draw.js'></script>
 <script src='../js/map.js'></script>
 <script src='../js/creator.js'></script>
 <script>
-  const d = createDefaultDeck()
+  d = createDefaultDeck()
   colorList = []
   propertyList = []
   dataToHtml(d)
   m = generateMap(d, d.columns, d.rows)
 
+  document.getElementById('rows').addEventListener('input', checkValidity, false)
+  document.getElementById('columns').addEventListener('input', checkValidity, false)
+  document.getElementById('rows').addEventListener('focus', checkValidity, false)
+  document.getElementById('columns').addEventListener('focus', checkValidity, false)
+
   function generateMapCreatorHtml(){
     htmlToData(d)
     m = generateMap(d, d.columns, d.rows)
-    return//return undefined necessary in html form action js othewwise nasty stuff happens
+    document.documentElement.scrollTop = 0
+    return//return undefined necessary in html form action js otherwise nasty stuff happens
   }
+
+  document.getElementById('addFlooring').addEventListener('click', function() {let id = addColorHtml(undefined, 'flooring', '#8bc766'); document.getElementById(id + 'Minimized').click(); document.getElementById(id).scrollIntoView({behavior: 'smooth'})}, false)// document.documentElement.scrollTop = document.documentElement.scrollTopMax;
+  document.getElementById('addElement').addEventListener('click', function() {let id = addColorHtml(undefined, 'element', '#a75f49'); document.getElementById(id + 'Minimized').click(); document.getElementById(id).scrollIntoView({behavior: 'smooth'})}, false)
+  document.getElementById('addFeature').addEventListener('click', function() {let id = addColorHtml(undefined, 'feature', '#fd7c7c'); document.getElementById(id + 'Minimized').click(); document.getElementById(id).scrollIntoView({behavior: 'smooth'})}, false)
 </script>
 
 </body>

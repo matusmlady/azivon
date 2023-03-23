@@ -1,6 +1,4 @@
 function generateMap(d, columns, rows){
-  d.go.up = - columns
-  d.go.down = columns
   class Tile {
     constructor(index){
       this.index = index
@@ -26,7 +24,16 @@ function generateMap(d, columns, rows){
           this['right,down'] = [1 - size/200, 1 - size/200]
           this['left,down'] = [size/200, 1 - size/200]
           this['right,up'] = [1 - size/200, size/200]
+
+          const parent = this
+          this.columns = 20
+          this.go = {
+            get a() {return parent.columns},
+            get b() {return 'here2'}
+          }
+
         }
+
       }
 
       this.flooring = new Layer(0, index)
@@ -38,7 +45,7 @@ function generateMap(d, columns, rows){
       if (this[layer].chosen) return
       this.ban(layer)
 
-      do this.choose(layer)
+      do (this[layer].chosen = this.choose(layer))
       while (!this.isPossible(this[layer].chosen))
       d.count[this[layer].chosen]++
       if (d.loot[this[layer].chosen]){
@@ -57,21 +64,21 @@ function generateMap(d, columns, rows){
     }
 
     choose(layer){
-      const random = Math.floor(Math.random() * this.ratioSum(layer))
       let counter = 0
+      for (const c of d.layers[layer]) counter += this.positive[c]
+      if (!counter){
+        if (layer == 'flooring') return d.fillerFlooring
+        if (layer == 'element') return d.fillerElement
+        return d.fillerFeature
+      }
+      const random = Math.floor(Math.random() * counter)
+      counter = 0
       for (const c of d.layers[layer]){
         counter += this.positive[c]
         if (random < counter){
-          this[layer].chosen = c
-          return 0
+          return c
         }
       }
-    }
-
-    ratioSum(layer){
-      let counter = 0
-      for (const c of d.layers[layer]) counter += this.positive[c]
-      return counter
     }
 
     isPossible(color){
@@ -88,8 +95,8 @@ function generateMap(d, columns, rows){
     fits(dir, color){
       const dimensions = [this.index]
       const l = d.colors[color].layer;
-      for (const direction of dir) if (this[direction] < d.colors[color].colorWidth - 1) return 0
-      for (let x = 1, dimension = this.index; x < d.colors[color].colorWidth; x++){
+      for (const direction of dir) if (this[direction] <= d.colors[color].width) return 0
+      for (let x = 1, dimension = this.index; x < d.colors[color].width; x++){
         if (dir.length == 2){
           for (const t of tiles[dimension + d.go[dir[0]]][l].dimensions) if (tiles[dimension + d.go[dir[1]]][l].dimensions.includes(t)) return 0//if color would cross a same layered color diagonally abort
         }
@@ -126,32 +133,32 @@ function generateMap(d, columns, rows){
       }
     }
 
-    reverseDir(dir){
-      for (let x of dir){
-        if (x == 'left') dir[dir.indexOf(x)] = 'right'
-        else if (x == 'right') dir[dir.indexOf(x)] = 'left'
-        else if (x == 'up') dir[dir.indexOf(x)] = 'down'
-        else dir[dir.indexOf(x)] = 'up'
+    reverseDir(dirs){
+      for (let dir of dirs){
+        if (dir == 'left') dirs[dirs.indexOf(dir)] = 'right'
+        else if (dir == 'right') dirs[dirs.indexOf(dir)] = 'left'
+        else if (dir == 'up') dirs[dirs.indexOf(dir)] = 'down'
+        else dirs[dirs.indexOf(dir)] = 'up'
       }
-      return dir
+      return dirs
     }
 
     //adds to given Set of tiles with tiles in the given radius from current tile
     findAffected(toEdit, radius){
-      let movingTile = this.index, endTile = this.index;
+      let movingTile = this.index, endTile = this.index
       this.left >= radius ? movingTile -= radius : movingTile -= this.left
       this.up >= radius ? movingTile -= radius * columns : movingTile -= this.up * columns
+      toEdit.add(movingTile)
       this.right >= radius ? endTile += radius : endTile += this.right
       this.down >= radius ? endTile += radius * columns : endTile += this.down * columns
-      for ( ; ; ){
-        toEdit.add(movingTile)
-        if (movingTile == endTile) break
+      while (movingTile != endTile){
         if (tiles[movingTile].right == tiles[endTile].right) {
           movingTile += d.columns
           if (tiles[movingTile].left >= radius * 2) movingTile -= radius * 2
           else movingTile -= tiles[movingTile].left
         }
         else movingTile++
+        toEdit.add(movingTile)
       }
     }
 
@@ -168,7 +175,9 @@ function generateMap(d, columns, rows){
 
     drawLayer(l){
       const dim = getDimension(d)
-      if (d.colors[this[l].chosen].color != 'none'){
+      if (d.colors[this[l].chosen].width != 0 ? true : (d.colors[this[l].chosen].layer == 'flooring' ? true : false)){
+      //if (d.colors[this[l].chosen].width == 0 ? (d.colors[this[l].chosen].layer == 'flooring' ? true : false) : true){
+      //if (d.colors[this[l].chosen].layer == 'flooring' ? true : (d.colors[this[l].chosen].width == 0 ? false : true)){
         ctx.fillStyle = d.colors[this[l].chosen].color
         ctx.beginPath()
         this.drawLine('right', l, dim)
@@ -242,6 +251,12 @@ function createDefaultDeck(){
     go: {
       left: - 1,
       right: 1,
+      get up(){
+        return - d.columns
+      },
+      get down(){
+        return d.columns
+      }
     },
     colors: {},
     layers: {
@@ -251,70 +266,71 @@ function createDefaultDeck(){
     },
     loot: {},
     timers: [],
-    fillerFlooring: 'grass',
+    fillerFlooring: 'noFlooring',
     fillerFlooringIndex: 0,
     fillerElement: 'noElement',
-    fillerElementIndex: 4,
+    fillerElementIndex: 1,
     fillerFeature: 'noFeature',
-    fillerFeatureIndex: 8,
+    fillerFeatureIndex: 2,
   }
-  d.go.up = () => - d.columns
-  d.go.down = () => d.columns
 
-  function addColorD(label, layer, color, ratio, properties, colorWidth, loot) {
-    d.colors[label] = new Color(label, layer, color, ratio, properties, colorWidth, loot)
+  function addColorD(label, layer, color, ratio, properties, width, loot) {
+    d.colors[label] = new Color(label, layer, color, ratio, properties, width, loot)
     d.layers[layer].push(label)
     d.count[label] = 0
     if (loot) d.loot[label] = []
   }
 
-  addColorD('grass', 'flooring', '#8BC766', 250)
-  addColorD('desert', 'flooring', '#FFFFA5', 50, [new Property(0, ['snow'], 3), new Property(50, ['desert'], 3), new Property(0, ['woods'], 0)])
-  addColorD('snow', 'flooring', '#FFFFFF', 50, [new Property(0, ['desert'], 3), new Property(50, ['snow'], 3)])
-  addColorD('water', 'flooring', '#66BBDD', 5, [new Property(80, ['water'], 3), new Property(0, ['material', 'mountains', 'lake', 'woods', 'village', 'metal', 'gold', 'castle', 'castle2'], 0)])
+  addColorD('noFlooring', 'flooring', '#efefef', 0)//#efefef similar to background of color
+  addColorD('noElement', 'element', '#efefef', 100, [], 0)
+  addColorD('noFeature', 'feature', '#efefef', 200, [], 0)
 
-  addColorD('noElement', 'element', 'none', 100, [], 0)
-  addColorD('mountains', 'element', '#A75F49', 5, [new Property(0, ['water'], 0), new Property(1, ['gold', 'castle', 'castle2', 'metal'], 0)], 3)
-  addColorD('woods', 'element', '#BCA26F', 7, [new Property(0, ['water', 'desert', 'village', 'metal', 'gold', 'castle', 'castle2'], 0), new Property(1, ['metal', 'gold', 'castle'], 0)], 2)
-  addColorD('lake', 'element', '#64E1E2', 5, [new Property(0, ['water', 'village', 'metal', 'gold', 'castle', 'castle2', 'material'], 0)], 2)
+  addColorD('grassland', 'flooring', '#8bc766', 50, [new Property(50, ['grassland'], 3)])
+  addColorD('desert', 'flooring', '#ffffa5', 50, [new Property(0, ['snow'], 3), new Property(50, ['desert'], 3), new Property(0, ['woods'], 0)])
+  addColorD('snow', 'flooring', '#ffffff', 50, [new Property(0, ['desert'], 3), new Property(50, ['snow'], 3)])
+  addColorD('water', 'flooring', '#66bbdd', 5, [new Property(80, ['water'], 3), new Property(0, ['material', 'mountains', 'lake', 'woods', 'village', 'metal', 'gold', 'castle', 'castle2'], 0)])
 
-  addColorD('noFeature', 'feature', 'none', 200, [], 0)
-  addColorD('village', 'feature', '#FD7C7C', 5, [new Property(0, ['water', 'lake', 'woods'], 0)], 1, true)
-  addColorD('metal', 'feature', '#8E9EA5', 1, [new Property(0, ['water', 'lake'], 0)])
-  addColorD('gold', 'feature', '#C2AB35', 1, [new Property(0, ['water', 'lake', 'woods'], 0)])
-  addColorD('castle', 'feature', '#AAAAAA', 1, [new Property(0, ['water', 'lake', 'woods'], 0)])
-  addColorD('castle2', 'feature', '#AAAAAA', 1, [new Property(0, ['water', 'lake', 'woods'], 0)], 2)
-  addColorD('material', 'feature', '#D494D0', 6, [new Property(0, ['water', 'lake'], 0)])
+  addColorD('mountains', 'element', '#a75f49', 5, [new Property(0, ['water'], 0), new Property(1, ['gold', 'castle', 'castle2', 'metal'], 0)], 3)
+  addColorD('woods', 'element', '#bca26f', 7, [new Property(0, ['water', 'desert', 'village', 'metal', 'gold', 'castle', 'castle2'], 0), new Property(1, ['metal', 'gold', 'castle'], 0)], 2)
+  addColorD('lake', 'element', '#64e1e2', 5, [new Property(0, ['water', 'village', 'metal', 'gold', 'castle', 'castle2', 'material'], 0)], 2)
+
+  addColorD('village', 'feature', '#fd7c7c', 5, [new Property(0, ['water', 'lake', 'woods'], 0)], 1, true)
+  addColorD('metal', 'feature', '#8e9ea5', 1, [new Property(0, ['water', 'lake'], 0)])
+  addColorD('gold', 'feature', '#c2ab35', 1, [new Property(0, ['water', 'lake', 'woods'], 0)])
+  addColorD('castle', 'feature', '#aaaaaa', 1, [new Property(0, ['water', 'lake', 'woods'], 0)])
+  addColorD('castle2', 'feature', '#aaaaaa', 1, [new Property(0, ['water', 'lake', 'woods'], 0)], 2)
+  addColorD('material', 'feature', '#d494d0', 6, [new Property(0, ['water', 'lake'], 0)])
 
   return d
 }
 
 class Color {
-  constructor(label, layer, color, ratio = 0, properties = [], colorWidth = 1, loot = false){
+  constructor(label, layer, color, ratio = 0, properties = [], width = 1, loot = false){
     if (typeof label != 'string') console.log('Color.label shouldn\'t be a ' + typeof label)
     if (typeof layer != 'string') console.log('Color.layer shouldn\'t be a ' + typeof layer)
     if (typeof color != 'string') console.log('Color.color shouldn\'t be a ' + typeof color)
     if (typeof ratio != 'number') console.log('Color.ratio shouldn\'t be a ' + typeof ratio)
     if (typeof properties != 'object') console.log('Color.properties shouldn\'t be a ' + typeof properties)
-    if (typeof colorWidth != 'number') console.log('Color.colorWidth shouldn\'t be a ' + typeof colorWidth)
+    if (typeof width != 'number') console.log('Color.width shouldn\'t be a ' + typeof width)
     if (typeof loot != 'boolean') console.log('Color.loot shouldn\'t be a ' + typeof loot)
     this.label = label
     this.layer = layer
     this.color = color
     this.ratio = ratio
     this.properties = properties
-    this.colorWidth = colorWidth
+    this.width = width
     this.loot = loot
   }
 }
 
 class Property {
-  constructor(action, colors, radius){
+  constructor(action = 0, colors = [], radius = 0){
     if (typeof action != 'number') console.log('Property.action shouldn\'t be a ' + typeof action)
     if (typeof colors != 'object') console.log('Property.colors shouldn\'t be a ' + typeof colors)
     if (typeof radius != 'number') console.log('Property.radius shouldn\'t be a ' + typeof radius)
     this.action = action
     this.colors = colors
     this.radius = radius
+    //this.tst = () => console.log('hello')
   }
 }

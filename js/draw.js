@@ -76,7 +76,7 @@ function getDimension(d){
   return maxDim
 }
 
-function instantRepaint(d, tiles){
+function instantRepaint(d, tiles){//TODO use canvas rescale
   const dim = getDimension(d)
   c.width = d.columns * dim
   c.height = d.rows * dim

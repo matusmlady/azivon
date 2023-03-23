@@ -1,3 +1,4 @@
+//TODO remove this file
 const d = createDefaultDeck()
 m = generateMap(d, d.columns, d.rows)
 

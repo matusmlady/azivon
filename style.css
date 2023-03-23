@@ -92,8 +92,8 @@ input[type='button']:hover ,input[type='submit']:hover {
       background-color: #060606;
       position: fixed;
       bottom: 0px;
-      left: 37%;
-      width: 26%;
+      left: 30%;/*37%*/
+      width: 40%;/*26%*/
       padding: 5px;
       border-radius: 2px;
 
@@ -122,4 +122,43 @@ input[type='button']:hover ,input[type='submit']:hover {
 h1,h2{
       margin-top: 0;
       margin-bottom: 24px;
+}
+
+/*hides spinners on number type inputs*/
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0; /* <-- Some margins still there even though hidden */
+}
+input[type=number] {
+    -moz-appearance:textfield;
+}
+
+input:invalid {
+      /*background-color: #8bc766;TODO*/
+}
+
+#mainForm {
+      margin-bottom: 40px;
+      /*TODO when narrow window the bottom of minimized colors is affected by bottom menu expanding; also mobile phones*/
+}
+
+input:disabled{
+
+}
+
+select {
+      /* for Firefox */
+      -moz-appearance: none;
+      /* for Chrome */
+      -webkit-appearance: none;
+}
+
+input[type='color'].color-filler {
+      background-color: #000000;
+}
+
+.minimized {
+      width: min(98%, 650px);/*sync with map and especially colorsMain; ?mobile tests*/
+      margin: 0 auto;
 }
