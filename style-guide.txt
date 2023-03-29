@@ -1,0 +1,19 @@
+This is a document about OUR style of coding.
+
+types: PascalCase
+function: camelCase
+variables: snake_case
+constant variables: SCREAMING_SNAKE_CASE
+
+Universal:
+- strings: single quote when chars, double quotes otherwise
+- use english
+- 4 spaces indentation
+
+JS/TS:
+- whenever possible don't use semi-colons ';'
+- 'const' whenever possible, use 'let' instead of 'var'
+- don't use global variables
+
+Other:
+- hex color definitions
