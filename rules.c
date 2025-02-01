@@ -1,3 +1,6 @@
+//to use enter the following
+//./a.out < rules.txt
+
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
