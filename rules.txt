@@ -1,64 +1,66 @@
 Setup
 
-You will need a pencil.
-Spawns should be evenly placed.
-Each turn you receive 2 actions.
-
-Warehouse
-
-Each player has a warehouse the size of actions per turn times 10.
-You use the warehouse to store actions by taking notes.
-The limit of actions you can spend per turn is 10 actions.
-Used actions are crossed off.
+Print the map and get a pencil.
+Place your spawns evenly and randomly (turn the page upside down).
+If there are more players than corners, choose spawns equidistantly.
 
 Expansion
 
-You expand by counquering tiles.
-For 1 action you can conquer 1 empty tile.
-You can conquer any tile at maximum 2 tiles away from your territory.
+Each turn a player receives 2 actions.
+They then expand by taking tiles.
+Expanding to 1 empty tile costs you 1 action.
+You can expand at maximum 2 tiles away from your territory.
 You don't move, you expand.
 
 Conquering
 
-Each tile has the power of 1 by default.
-To capture a tile your attack has to be stronger than it's defence.
-Neutral tiles require atleast the same power.
+The default power of each tile is 1.
+To conquer an opponent's tile your attack has to be higher than the opponent's defence.
+Neutral tiles require the same attack as is the tile's defence.
 You attack and defend with all adjacent tiles.
 The cost of conquering equals the cost of expansion.
 
 Elements
 
 The second layer.
-They all have power.
-It affects their size and required actions to conquer it.
-You can't jump over elements unless you own them.
+They all have power - it affects their size and the required actions to conquer them.
 Mountains (brown, power 3).
 Lakes (blue, power 2).
-Castle (blackish, power 4) It's size is 1 or 2. Spawns in the feature layer.
-Sweet woods (beige, power 2) Chopping down (crossing out) one tile provides one log and removes the element's power.
+Castle (blackish, power 4). It's size varies (1 or 2). Spawns in the feature layer.
+Sweet woods (beige, power 2). Chopping down (=crossing out) one tile provides one log and removes the element's power.
+You can't jump over elements when expanding.
+You however can go around them.
 
 Features
 
-Features are the top layer.
+Features are the top and third layer (the smallest).
 They don't cost anything.
-Gold (gold) - Grants you an adjacent neutral feature- and elemenent-less tile.
-Village (red) - Gives you loot in the form of actions.
-Iron (gray).
-Material (pink).
+Gold (gold). People gather around. Grants you an adjacent neutral feature/elemenent-less tile.
+Village (red). Gives you loot in the form of actions. Loot by crossing out loot next to the map.
+Iron (gray). Resource.
+Material (pink). Resource.
 
 Resources
-Can be saved in the warehouse taking up 5 spaces.
-Log - from sweet woods. Used to build buildings.
-Material - used to build a soldier.
-Iron - Reinforces buildings providing them +1 power. Max one per building. Highlight the tile's edges to use.
+
+Log. Comes from sweet woods. Used to build buildings.
+Material. Used to train soldiers.
+Iron. Reinforces buildings providing them +1 power. Max one per building. To use highlight the tile's edges.
+They can be saved in the warehouse taking up 5 spaces.
+
+Warehouse
+
+Each player has one the size of (actions per turn * 10).
+It is used to store actions by taking notes.
+At most 10 actions can be spent per turn.
+Used actions are to be crossed off.
 
 Floorings
 
 The first layer below everything.
-Grass - filler flooring.
-Desert - tile doesn't defend itself.
-Snow - when used, expansion range is 1.
-Water - Ports can be built there. Ships have +1 expansion range. Only ranged weapons can attack them from mainland. Attacking the coastline deals -1 attack.
+Grass. Just a filler flooring.
+Desert. Water is scarce. Tile doesn't defend itself.
+Snow. The temperatures are freezing and you can't exist here normally. When used during movement, expansion range is 1. Even when only starting there and moving on other terrain.
+Water. Ports can be built here. Ships have +1 expansion range. Only ranged weapons can attack them from mainland. Attacking the coastline deals -1 attack.
 
 Soldiers
 
@@ -74,12 +76,10 @@ Buildings
 Built using resources.
 Provide extra power and abilities.
 You can't stack them.
-Cottage (3) - Requires 2 logs. Must be placed on your territory.
-Port (2) - One per sea per player. Allows you to enter water.
+Fortification (3). Requires 2 logs. Must be placed on your territory.
+Port (2). One per sea per player. Allows you to enter water.
 
 Other
 
 Loosing your spawn means losing the game as well.
 The game ends, when someone can't do anything anymore.
-Spawns are random, without seeing the map first (turn the page upside down).
-If there are more players than corners, choose spawns equidistant from each others.
