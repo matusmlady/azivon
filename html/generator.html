@@ -69,6 +69,9 @@
     return//return undefined necessary in html form action js otherwise nasty stuff happens
   }
 
+  instantRepaint(d, m);
+  window.onresize = () => instantRepaint(d, m);
+
   document.getElementById('addFlooring').addEventListener('click', function() {let id = addColorHtml(undefined, 'flooring', '#8bc766'); document.getElementById(id + 'Minimized').click(); document.getElementById(id).scrollIntoView({behavior: 'smooth'})}, false)// document.documentElement.scrollTop = document.documentElement.scrollTopMax;
   document.getElementById('addElement').addEventListener('click', function() {let id = addColorHtml(undefined, 'element', '#a75f49'); document.getElementById(id + 'Minimized').click(); document.getElementById(id).scrollIntoView({behavior: 'smooth'})}, false)
   document.getElementById('addFeature').addEventListener('click', function() {let id = addColorHtml(undefined, 'feature', '#fd7c7c'); document.getElementById(id + 'Minimized').click(); document.getElementById(id).scrollIntoView({behavior: 'smooth'})}, false)

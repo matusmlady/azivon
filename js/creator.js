@@ -236,7 +236,6 @@ function dataToHtml(d){
 
 function exportData(d){//TODO add menu to customize name or cancel the export
   htmlToData(d)
-  //TODO timers not cleaned, separate timers from d object unclean, separate generation and animation
   if (typeof url !== 'undefined') window.URL.revokeObjectURL(url)
   const json = JSON.stringify(d)
 
@@ -256,7 +255,6 @@ function importData(d){//TODO add menu and warning before import deletes current
     (value) => {
       let dParsed = {}
       try {
-        for (const t of d.timers) clearTimeout(t)  //TODO timers not cleaned, separate timers from d object unclean, separate generation and animation
         //const dParsed = JSON.parse(value)
         //for (const dParsedProp in dParsed) d[dParsedProp] = dParsed[dParsedProp]
         dParsed = JSON.parse(value)

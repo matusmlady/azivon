@@ -80,11 +80,11 @@ function instantRepaint(d, tiles){//TODO use canvas rescale
   const dim = getDimension(d)
   c.width = d.columns * dim
   c.height = d.rows * dim
-  if (!d.timers.length){
-    if (c.height < maxLootAmmount(d, dim)) c.height = maxLootAmmount(d, dim)
-    c.width += withLoot(d) * (dim / 1.3)
-    loot(d, dim)
+  if (c.height < maxLootAmmount(d, dim)) {
+    c.height = maxLootAmmount(d, dim);
   }
+  c.width += withLoot(d) * (dim / 1.3);
+  loot(d, dim);
   c.style.width = c.width + 'px'
   c.style.height = c.height + 'px'
   ctx.strokeStyle = 'black'

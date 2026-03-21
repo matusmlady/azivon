@@ -203,9 +203,6 @@ function generateMap(d, columns, rows){
   c = document.getElementById('mapCanvas')
   ctx = c.getContext('2d')
 
-  for (const t of d.timers) clearTimeout(t)
-  d.timers = []
-
   const dim = getDimension(d)
   c.width = columns * dim
   c.style.width = c.width + 'px'
@@ -220,24 +217,10 @@ function generateMap(d, columns, rows){
     tiles.push(new Tile(i))
   }
 
-  let timeUnit
-  rows * columns < 225 ? timeUnit = 8 : timeUnit = 4000 / (rows * columns * 3)
-
   for (let i = 0; i < rows * columns * 3; i++){//TODO separate generation and animation for more flexibility, functions returning inconsistent results when asking about loot, weird behaviour if tons of stuff has loot
-    d.timers.push(setTimeout(
-      () => {
-        const tileAndLayer = tilesRaw.splice(Math.floor(Math.random() * tilesRaw.length), 1)[0]
-        tiles[tileAndLayer[0]].generate(tileAndLayer[1])
-      }, i * timeUnit)
-    )
+    const tileAndLayer = tilesRaw.splice(Math.floor(Math.random() * tilesRaw.length), 1)[0];
+    tiles[tileAndLayer[0]].generate(tileAndLayer[1]);
   }
-  d.timers.push(setTimeout(
-    () => {
-      d.timers = []
-      instantRepaint(d, m)
-    }, (rows * columns * 3 * timeUnit) + 100)
-  )
-  window.onresize = () => instantRepaint(d, m)
 
   return tiles
 }
@@ -265,7 +248,6 @@ function createDefaultDeck(){
       feature: [],
     },
     loot: {},
-    timers: [],
     fillerFlooring: 'noFlooring',
     fillerFlooringIndex: 0,
     fillerElement: 'noElement',
