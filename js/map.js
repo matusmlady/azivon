@@ -281,6 +281,7 @@ function createDefaultDeck(){
   addColorD('gold', 'feature', '#c2ab35', 1, [new Property(0, ['water', 'lake', 'woods'], 0)])
   addColorD('castle', 'feature', '#aaaaaa', 1, [new Property(0, ['water', 'lake', 'woods'], 0)])
   addColorD('castle2', 'feature', '#aaaaaa', 1, [new Property(0, ['water', 'lake', 'woods'], 0)], 2)
+  addColorD('castle3', 'feature', '#aaaaaa', 1, [new Property(0, ['water', 'lake', 'woods'], 0)], 3)
   addColorD('material', 'feature', '#d494d0', 6, [new Property(0, ['water', 'lake'], 0)])
 
   return d
