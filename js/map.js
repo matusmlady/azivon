@@ -270,11 +270,11 @@ function createDefaultDeck(){
   addColorD('grassland', 'flooring', '#8bc766', 50, [new Property(50, ['grassland'], 3)])
   addColorD('desert', 'flooring', '#ffffa5', 50, [new Property(0, ['snow'], 3), new Property(50, ['desert'], 3), new Property(0, ['woods'], 0)])
   addColorD('snow', 'flooring', '#ffffff', 50, [new Property(0, ['desert'], 3), new Property(50, ['snow'], 3)])
-  addColorD('water', 'flooring', '#66bbdd', 5, [new Property(80, ['water'], 3), new Property(0, ['material', 'mountains', 'lake', 'woods', 'village', 'metal', 'gold', 'castle', 'castle2'], 0)])
+  addColorD('water', 'flooring', '#66bbdd', 5, [new Property(80, ['water'], 3), new Property(0, ['material', 'mountains', 'lake', 'woods', 'village', 'metal', 'gold', 'castle', 'castle2', 'castle3'], 0)])
 
-  addColorD('mountains', 'element', '#a75f49', 5, [new Property(0, ['water'], 0), new Property(1, ['gold', 'castle', 'castle2', 'metal'], 0)], 3)
-  addColorD('woods', 'element', '#bca26f', 7, [new Property(0, ['water', 'desert', 'village', 'metal', 'gold', 'castle', 'castle2'], 0), new Property(1, ['metal', 'gold', 'castle'], 0)], 2)
-  addColorD('lake', 'element', '#64e1e2', 5, [new Property(0, ['water', 'village', 'metal', 'gold', 'castle', 'castle2', 'material'], 0)], 2)
+  addColorD('mountains', 'element', '#a75f49', 5, [new Property(0, ['water'], 0), new Property(1, ['gold', 'castle', 'castle2', 'castle3', 'metal'], 0)], 3)
+  addColorD('woods', 'element', '#bca26f', 7, [new Property(0, ['water', 'desert', 'village', 'metal', 'gold', 'castle', 'castle2', 'castle3'], 0), new Property(1, ['metal', 'gold', 'castle', 'castle2', 'castle3'], 0)], 2) //TODO inconsistency castles are both enabled and disabled
+  addColorD('lake', 'element', '#64e1e2', 5, [new Property(0, ['water', 'village', 'metal', 'gold', 'castle', 'castle2', 'castle3', 'material'], 0)], 2)
 
   addColorD('village', 'feature', '#fd7c7c', 5, [new Property(0, ['water', 'lake', 'woods'], 0)], 1, true)
   addColorD('metal', 'feature', '#8e9ea5', 1, [new Property(0, ['water', 'lake'], 0)])
