@@ -209,18 +209,26 @@ function generateMap(d, columns, rows){
   c.height = rows * dim
   c.style.height = c.height + 'px'
   ctx.strokeStyle = 'black'
-
-  const tilesRaw = []
+//TODO separate generation and animation for more flexibility, functions returning inconsistent results when asking about loot, weird behaviour if tons of stuff has loot
   const tiles = []
   for (let i = 0; i < rows * columns; i++){
-    tilesRaw.push([i, 'flooring'], [i, 'element'], [i, 'feature'])
     tiles.push(new Tile(i))
   }
 
-  for (let i = 0; i < rows * columns * 3; i++){//TODO separate generation and animation for more flexibility, functions returning inconsistent results when asking about loot, weird behaviour if tons of stuff has loot
-    const tileAndLayer = tilesRaw.splice(Math.floor(Math.random() * tilesRaw.length), 1)[0];
-    tiles[tileAndLayer[0]].generate(tileAndLayer[1]);
+  function generateLayer(tiles, layer){
+    let ungeneratedTiles = []
+    for (let i = 0; i < rows * columns; i++){
+      ungeneratedTiles.push(i)
+    }
+    for (let i = 0; i < rows * columns; i++){
+      const idx = ungeneratedTiles.splice(Math.floor(Math.random() * ungeneratedTiles.length), 1)[0];
+      tiles[idx].generate(layer);
+    }
   }
+
+  generateLayer(tiles, 'flooring')
+  generateLayer(tiles, 'element')
+  generateLayer(tiles, 'feature')
 
   return tiles
 }
