@@ -67,12 +67,13 @@
   <script src='js/animacie.js'></script>
   <script>
     const d = createDefaultDeck()
-    m = generateMap(d, d.columns, d.rows)
+    generateMapIndexHtml()
 
     function generateMapIndexHtml(){
       for (const l in d.loot) d.loot[l] = []
       for (const c in d.count) d.count[c] = 0
       m = generateMap(d, 15, 15)
+      instantRepaint(d, m)
     }
   </script>
 

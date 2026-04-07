@@ -65,6 +65,7 @@
   function generateMapCreatorHtml(){
     htmlToData(d)
     m = generateMap(d, d.columns, d.rows)
+    instantRepaint(d, m);
     document.documentElement.scrollTop = 0
     return//return undefined necessary in html form action js otherwise nasty stuff happens
   }
