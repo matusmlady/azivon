@@ -53,7 +53,7 @@ function generateMap(d, columns, rows){
       }
 
       for (const p of d.colors[this[layer].chosen].properties){
-        const toEdit = new Set()
+        const toEdit = []
         for (const z of this[layer].dimensions) tiles[z].findAffected(toEdit, p.radius)
         this.editSurroundings(toEdit, p.action, p.colors)
       }
@@ -67,7 +67,7 @@ function generateMap(d, columns, rows){
       let counter = 0
       for (const c of d.layers[layer]) counter += this.positive[c]
       if (!counter){
-        if (layer == 'flooring') return d.fillerFlooring
+        if (layer == 'flooring') return randomNeighbourFlooring(this)
         if (layer == 'element') return d.fillerElement
         return d.fillerFeature
       }
@@ -148,7 +148,7 @@ function generateMap(d, columns, rows){
       let movingTile = this.index, endTile = this.index
       this.left >= radius ? movingTile -= radius : movingTile -= this.left
       this.up >= radius ? movingTile -= radius * columns : movingTile -= this.up * columns
-      toEdit.add(movingTile)
+      toEdit.push(movingTile)
       this.right >= radius ? endTile += radius : endTile += this.right
       this.down >= radius ? endTile += radius * columns : endTile += this.down * columns
       while (movingTile != endTile){
@@ -158,7 +158,7 @@ function generateMap(d, columns, rows){
           else movingTile -= tiles[movingTile].left
         }
         else movingTile++
-        toEdit.add(movingTile)
+        toEdit.push(movingTile)
       }
     }
 
@@ -226,6 +226,22 @@ function generateMap(d, columns, rows){
     }
   }
 
+  function randomNeighbourFlooring(tile){
+    let neighbours = []
+    tile.findAffected(neighbours, 1)
+    neighbours = neighbours.filter( (tile) => tiles[tile].flooring.chosen != 'noFlooring' )
+    let result;
+    do {
+      let idx = Math.floor(Math.random() * neighbours.length);
+      result = tiles[neighbours[idx]].flooring.chosen
+      if (!result) {
+        neighbours.splice(idx, 1)
+      }
+    }
+    while (!result)
+    return result
+  }
+
   generateLayer(tiles, 'flooring')
   generateLayer(tiles, 'element')
   generateLayer(tiles, 'feature')
@@ -275,10 +291,10 @@ function createDefaultDeck(){
   addColorD('noElement', 'element', '#efefef', 100, [], 0)
   addColorD('noFeature', 'feature', '#efefef', 200, [], 0)
 
-  addColorD('grassland', 'flooring', '#8bc766', 50, [new Property(50, ['grassland'], 3)])
-  addColorD('desert', 'flooring', '#ffffa5', 50, [new Property(0, ['snow'], 3), new Property(50, ['desert'], 3), new Property(0, ['woods'], 0)])
-  addColorD('snow', 'flooring', '#ffffff', 50, [new Property(0, ['desert'], 3), new Property(50, ['snow'], 3)])
-  addColorD('water', 'flooring', '#66bbdd', 5, [new Property(80, ['water'], 3), new Property(0, ['material', 'mountains', 'lake', 'woods', 'village', 'metal', 'gold', 'castle', 'castle2', 'castle3'], 0)])
+  addColorD('grassland', 'flooring', '#8bc766', 50, [new Property(0, ['snow', 'desert', 'water'], 1), new Property(50, ['grassland'], 2)])
+  addColorD('desert', 'flooring', '#ffffa5', 50, [new Property(0, ['snow', 'grassland', 'water'], 1), new Property(50, ['desert'], 2), new Property(0, ['woods'], 0)])
+  addColorD('snow', 'flooring', '#ffffff', 50, [new Property(0, ['desert', 'grassland', 'water'], 1), new Property(50, ['snow'], 2)])
+  addColorD('water', 'flooring', '#66bbdd', 50, [new Property(0, ['desert', 'grassland', 'snow'], 1), new Property(50, ['water'], 2), new Property(0, ['material', 'mountains', 'lake', 'woods', 'village', 'metal', 'gold', 'castle', 'castle2', 'castle3'], 0)])
 
   addColorD('mountains', 'element', '#a75f49', 5, [new Property(0, ['water'], 0), new Property(1, ['gold', 'castle', 'castle2', 'castle3', 'metal'], 0)], 3)
   addColorD('woods', 'element', '#bca26f', 7, [new Property(0, ['water', 'desert', 'village', 'metal', 'gold', 'castle', 'castle2', 'castle3'], 0), new Property(1, ['metal', 'gold', 'castle', 'castle2', 'castle3'], 0)], 2) //TODO inconsistency castles are both enabled and disabled
