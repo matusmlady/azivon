@@ -37,7 +37,7 @@ function generateMap(d, columns, rows){
       this.ban(layer)
 
       do (this[layer].chosen = this.choose(layer))
-      while (!this.isPossible(this[layer].chosen))
+      while (!this.isPossible(this[layer].chosen, true))
       d.count[this[layer].chosen]++
       if (d.loot[this[layer].chosen]){
         d.loot[this[layer].chosen].push(Math.floor(Math.random() * 2 + 1))
@@ -58,7 +58,7 @@ function generateMap(d, columns, rows){
       let counter = 0
       for (const c of d.layers[layer]) counter += this.positive[c]
       if (!counter){
-        if (layer == 'flooring') return randomNeighbourFlooring(this)
+        if (layer == 'flooring') return this.randomNeighbourFlooring()
         if (layer == 'element') return d.fillerElement
         return d.fillerFeature
       }
@@ -72,18 +72,18 @@ function generateMap(d, columns, rows){
       }
     }
 
-    isPossible(color){
+    isPossible(color, ban){
       const dirs = [['left'], ['right'], ['up'], ['down'], ['left', 'up'], ['right', 'down'], ['left', 'down'], ['right', 'up']]
       for (let x = 0; x < 8; x++){
         const dir = dirs[Math.floor(Math.random() * dirs.length)]
-        if (!this.fits(dir, color)) dirs.splice(dirs.indexOf(dir), 1)
+        if (!this.fits(dir, color, ban)) dirs.splice(dirs.indexOf(dir), 1)
         else return 1
       }
       this.positive[color] = 0
       return 0
     }
 
-    fits(dir, color){
+    fits(dir, color, ban){
       const dimensions = [this.index]
       const l = d.colors[color].layer;
       for (const direction of dir) if (this[direction] < d.colors[color].width - 1) return 0
@@ -101,7 +101,7 @@ function generateMap(d, columns, rows){
         }
         for (const direction of dir) dimension += d.go[direction]
         if (tiles[dimension][l].chosen) return 0
-        if (tiles[dimension].banned[color]) return 0
+        if (ban && tiles[dimension].banned[color]) return 0
         dimensions.push(dimension)
       }
       this.setDimensions(dimensions, color, dir)
@@ -168,6 +168,22 @@ function generateMap(d, columns, rows){
       }
     }
 
+    randomNeighbourFlooring() {
+      const neighbours = [];
+      this.findAffected(neighbours, 1);
+
+      const validChoices = neighbours
+        .map(t => tiles[t]?.flooring?.chosen)
+        .filter(choice => choice && this.isPossible(choice, false));
+
+      if (validChoices.length === 0) {
+        return d.fillerFlooring;
+      }
+
+      const idx = Math.floor(Math.random() * validChoices.length);
+      return validChoices[idx];
+    }
+
     drawChosen(){
       for (const l in d.layers) if (this[l].chosen) this.drawLayer(l)
     }
@@ -221,22 +237,6 @@ function generateMap(d, columns, rows){
       const idx = ungeneratedTiles.splice(Math.floor(Math.random() * ungeneratedTiles.length), 1)[0];
       tiles[idx].generate(layer);
     }
-  }
-
-  function randomNeighbourFlooring(tile){
-    let neighbours = []
-    tile.findAffected(neighbours, 1)
-    neighbours = neighbours.filter( (tile) => tiles[tile].flooring.chosen != 'noFlooring' )
-    let result;
-    do {
-      let idx = Math.floor(Math.random() * neighbours.length);
-      result = tiles[neighbours[idx]].flooring.chosen
-      if (!result) {
-        neighbours.splice(idx, 1)
-      }
-    }
-    while (!result)
-    return result
   }
 
   generateLayer(tiles, 'flooring')
