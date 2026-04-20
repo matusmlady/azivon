@@ -86,7 +86,7 @@ function generateMap(d, columns, rows){
     fits(dir, color){
       const dimensions = [this.index]
       const l = d.colors[color].layer;
-      for (const direction of dir) if (this[direction] <= d.colors[color].width) return 0
+      for (const direction of dir) if (this[direction] < d.colors[color].width - 1) return 0
       for (let x = 1, dimension = this.index; x < d.colors[color].width; x++){
         if (dir.length == 2){
           //abort if color would cross a same layered color diagonally
