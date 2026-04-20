@@ -98,7 +98,15 @@ function generateMap(d, columns, rows){
       for (const direction of dir) if (this[direction] <= d.colors[color].width) return 0
       for (let x = 1, dimension = this.index; x < d.colors[color].width; x++){
         if (dir.length == 2){
-          for (const t of tiles[dimension + d.go[dir[0]]][l].dimensions) if (tiles[dimension + d.go[dir[1]]][l].dimensions.includes(t)) return 0//if color would cross a same layered color diagonally abort
+          //abort if color would cross a same layered color diagonally
+          for (const t of tiles[dimension + d.go[dir[0]]][l].dimensions) if (tiles[dimension + d.go[dir[1]]][l].dimensions.includes(t)) return 0
+          //abort if feature would cross an element diagonally
+          if (l == 'feature'){
+            for (const t of tiles[dimension + d.go[dir[0]]]['element'].dimensions) if (tiles[dimension + d.go[dir[1]]]['element'].dimensions.includes(t)) return 0
+          }
+          if (l == 'element'){
+            for (const t of tiles[dimension + d.go[dir[0]]]['feature'].dimensions) if (tiles[dimension + d.go[dir[1]]]['feature'].dimensions.includes(t)) return 0
+          }
         }
         for (const direction of dir) dimension += d.go[direction]
         if (tiles[dimension][l].chosen) return 0
