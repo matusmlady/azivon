@@ -24,16 +24,7 @@ function generateMap(d, columns, rows){
           this['right,down'] = [1 - size/200, 1 - size/200]
           this['left,down'] = [size/200, 1 - size/200]
           this['right,up'] = [1 - size/200, size/200]
-
-          const parent = this
-          this.columns = 20
-          this.go = {
-            get a() {return parent.columns},
-            get b() {return 'here2'}
-          }
-
         }
-
       }
 
       this.flooring = new Layer(0, index)
@@ -184,8 +175,6 @@ function generateMap(d, columns, rows){
     drawLayer(l){
       const dim = getDimension(d)
       if (d.colors[this[l].chosen].width != 0 ? true : (d.colors[this[l].chosen].layer == 'flooring' ? true : false)){
-      //if (d.colors[this[l].chosen].width == 0 ? (d.colors[this[l].chosen].layer == 'flooring' ? true : false) : true){
-      //if (d.colors[this[l].chosen].layer == 'flooring' ? true : (d.colors[this[l].chosen].width == 0 ? false : true)){
         ctx.fillStyle = d.colors[this[l].chosen].color
         ctx.beginPath()
         this.drawLine('right', l, dim)
@@ -346,6 +335,5 @@ class Property {
     this.action = action
     this.colors = colors
     this.radius = radius
-    //this.tst = () => console.log('hello')
   }
 }
