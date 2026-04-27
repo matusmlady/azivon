@@ -1,51 +1,95 @@
-function loot(d, dim){
-  const lootColumn = dim / 1.3
+function loot(d, dim) {
+  const mapW = d.columns * dim
+  const h = d.rows * dim
+  const colW = dim / 1.3
+  const rowH = dim / 2
   const shift = dim / 8
-  const textWidthError = dim / 1.8
-  const lootRow = dim / 2
+  const err = dim / 1.8
+  const font = 0.35 * dim
+
   ctx.fillStyle = 'gray'
   ctx.strokeStyle = 'gray'
-  ctx.font = 0.35 * dim + 'px Arial'
+  ctx.font = font + 'px Arial'
+
   let col = 0
-  for (const l in d.loot){
-    if (!d.loot[l].length) continue
-    const textWidth = Math.ceil(ctx.measureText(l).width)
+
+  for (const color in d.loot) {
+    const items = d.loot[color]
+    if (!items.length) continue
+
+    const textH = Math.ceil(ctx.measureText(color).width)
+    let i = 0
+    let lastX = 0
+    let lastY = 0
+
+    // first column with vertical color name
+    let x = mapW + col * colW + shift
+
     ctx.rotate(0.5 * Math.PI)
-    ctx.fillText(l, 0, - (d.columns * dim + col * lootColumn + shift))
+    ctx.fillText(color, 0, -x)
     ctx.rotate(1.5 * Math.PI)
-    let row = 0
-    for (const ll of d.loot[l]){
-      ctx.fillText(ll, d.columns * dim + col * lootColumn + shift, textWidth + row * lootRow + textWidthError)
-      row++
+
+    let y = textH + err
+    while (i < items.length && y <= h) {
+      ctx.fillText(items[i], x, y)
+      lastX = x
+      lastY = y
+      i++
+      y += rowH
     }
-    row--
-    ctx.beginPath()
-    ctx.lineTo(d.columns * dim + col * lootColumn + shift + dim / 4, textWidth + row * lootRow + textWidthError)
-    ctx.lineTo(d.columns * dim + col * lootColumn + shift + dim / 2, textWidth + row * lootRow + textWidthError)
-    ctx.lineTo(d.columns * dim + col * lootColumn + shift + dim / 2, textWidth + (row - 2) * lootRow + textWidthError)
-    ctx.stroke()
+
     col++
-  }
-}
 
-function withLoot(d){
-  let withLoot = 0
-  for (const l in d.loot){
-    if (d.loot[l].length) withLoot++
-  }
-  return withLoot
-}
+    // next columns for same color
+    while (i < items.length) {
+      x = mapW + col * colW + shift
+      y = font
 
-function maxLootAmmount(d, dim) {
-  ctx.font = 0.35 * dim + 'px Arial'
-  let max = 0
-  for (const l in d.loot){
-    if (max < d.loot[l].length * dim / 2 + Math.ceil(ctx.measureText(l).width)){
-      max = d.loot[l].length * dim / 2 + Math.ceil(ctx.measureText(l).width)
+      while (i < items.length && y <= h) {
+        ctx.fillText(items[i], x, y)
+        lastX = x
+        lastY = y
+        i++
+        y += rowH
+      }
+
+      col++
     }
+
+    // end line only on last column of this color
+    ctx.beginPath()
+    ctx.moveTo(lastX + dim / 4, lastY)
+    ctx.lineTo(lastX + dim / 2, lastY)
+    ctx.lineTo(lastX + dim / 2, lastY - 2 * rowH)
+    ctx.stroke()
   }
-  return max + dim / 1.8 //needed because of some error when writing vertical text; previous const was 23pixels
 }
+
+
+function lootColumnCount(d, dim) {
+  const h = d.rows * dim
+  const row = dim / 2
+  const err = dim / 1.8
+  const font = 0.35 * dim
+
+  ctx.font = font + 'px Arial'
+
+  let cols = 0
+
+  for (const color in d.loot) {
+    const items = d.loot[color]
+    if (!items.length) continue
+
+    const textH = Math.ceil(ctx.measureText(color).width)
+    const first = Math.max(1, Math.floor((h - textH - err) / row) + 1)
+    const next = Math.max(1, Math.floor((h - font) / row) + 1)
+
+    cols += 1 + Math.max(0, Math.ceil((items.length - first) / next))
+  }
+
+  return cols
+}
+
 
 function printMap(){//TODO remake, use document.documentElement. to get dimensions of the opened window, print pregenerated animated map, customize printed
   const dataUrl = document.getElementById('mapCanvas').toDataURL()
@@ -76,18 +120,25 @@ function getDimension(d){
   return maxDim
 }
 
-function instantRepaint(d, tiles){//TODO use canvas rescale
+
+function instantRepaint(d, tiles) {
   const dim = getDimension(d)
-  c.width = d.columns * dim
-  c.height = d.rows * dim
-  if (c.height < maxLootAmmount(d, dim)) {
-    c.height = maxLootAmmount(d, dim);
-  }
-  c.width += withLoot(d) * (dim / 1.3);
-  loot(d, dim);
+
+  const mapWidth = d.columns * dim
+  const mapHeight = d.rows * dim
+  const lootColumn = dim / 1.3
+  const extraLootColumns = lootColumnCount(d, dim)
+
+  c.width = mapWidth + extraLootColumns * lootColumn + dim
+  c.height = mapHeight
+
   c.style.width = c.width + 'px'
   c.style.height = c.height + 'px'
+
+  loot(d, dim)
+
   ctx.strokeStyle = 'black'
   for (let t of tiles) t.drawChosen()
+
   window.onresize = () => instantRepaint(d, tiles)
 }
