@@ -1,7 +1,7 @@
 function loot(d, dim) {
   const mapW = d.columns * dim
   const h = d.rows * dim
-  const colW = dim / 1.3
+  const colW = dim / 1.5
   const rowH = dim / 2
   const shift = dim / 8
   const err = dim / 1.8
@@ -22,7 +22,6 @@ function loot(d, dim) {
     let lastX = 0
     let lastY = 0
 
-    // first column with vertical color name
     let x = mapW + col * colW + shift
 
     ctx.rotate(0.5 * Math.PI)
@@ -40,7 +39,6 @@ function loot(d, dim) {
 
     col++
 
-    // next columns for same color
     while (i < items.length) {
       x = mapW + col * colW + shift
       y = font
@@ -56,11 +54,10 @@ function loot(d, dim) {
       col++
     }
 
-    // end line only on last column of this color
     ctx.beginPath()
     ctx.moveTo(lastX + dim / 4, lastY)
-    ctx.lineTo(lastX + dim / 2, lastY)
-    ctx.lineTo(lastX + dim / 2, lastY - 2 * rowH)
+    ctx.lineTo(lastX + dim / 2.4, lastY)
+    ctx.lineTo(lastX + dim / 2.4, lastY - 2 * rowH)
     ctx.stroke()
   }
 }
@@ -126,7 +123,7 @@ function instantRepaint(d, tiles) {
 
   const mapWidth = d.columns * dim
   const mapHeight = d.rows * dim
-  const lootColumn = dim / 1.3
+  const lootColumn = dim / 1.5
   const extraLootColumns = lootColumnCount(d, dim)
 
   c.width = mapWidth + extraLootColumns * lootColumn + dim
