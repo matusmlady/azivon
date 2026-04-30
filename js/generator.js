@@ -1,4 +1,3 @@
-//TODO unify names creator and generator
 function addColorHtml(label = 'color' + (colorList.length ? Number(colorList[colorList.length - 1].replace('colorMain', '')) + 1 : 0), layer = 'flooring', color = '#8BC766', ratio = 1, properties = [], width = 1, loot = false){
   const e = document.createElement('div')
   const a = document.createAttribute('id')

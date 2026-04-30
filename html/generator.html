@@ -14,7 +14,7 @@
   </div>
 </header>
 
-<div><form id='mainForm' action="javascript: generateMapCreatorHtml()">
+<div><form id='mainForm' action="javascript: generateMapGeneratorHtml()">
 
 <div id="canvasMain"><canvas id="mapCanvas"></canvas></div>
 <!--<input type="button" value="Print" onclick="printMap()"><input type='submit' value='Generate'>-->
@@ -49,7 +49,7 @@
 
 <script src='../js/draw.js'></script>
 <script src='../js/map.js'></script>
-<script src='../js/creator.js'></script>
+<script src='../js/generator.js'></script>
 <script>
   d = createDefaultDeck()
   colorList = []
@@ -62,7 +62,7 @@
   document.getElementById('rows').addEventListener('focus', checkValidity, false)
   document.getElementById('columns').addEventListener('focus', checkValidity, false)
 
-  function generateMapCreatorHtml(){
+  function generateMapGeneratorHtml(){
     htmlToData(d)
     m = generateMap(d, d.columns, d.rows)
     instantRepaint(d, m);
