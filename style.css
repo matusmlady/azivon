@@ -21,31 +21,6 @@ body {
     margin: 0;
 }
 
-#main-button {
-      background-color: #431717 ;
-      color: #F5E8E8 ;
-      padding: 12px;
-      font-size: 17px;
-}
-#generator-button {
-      background-color: #431717 ;
-      color: #F5E8E8 ;
-      padding: 12px;
-      font-size: 17px;
-}
-#rules-button{
-      background-color: #431717 ;
-      color: #F5E8E8 ;
-      padding: 12px;
-      font-size: 17px;
-
-}
-#about-button{
-      background-color: #431717 ;
-      color: #F5E8E8 ;
-      padding: 12px;
-      font-size: 17px;
-}
 .generator {
       padding-left: 45px;
       padding-top: 30px;
@@ -71,17 +46,23 @@ body {
       margin: auto;
 }
 
-input[type='button'],input[type='submit']{
+input[type='button'], input[type='submit'] {
       background: hsl(0, 0%, 100%);
       border-radius: 8px;
-    border:none;
-    cursor: pointer;
+      border:none;
+      cursor: pointer;
+      background-color: #431717 ;
+      color: #F5E8E8 ;
+      padding: 12px;
+      font-size: 17px;
 }
-input[type='button']:hover ,input[type='submit']:hover {
+
+input[type='button']:hover, input[type='submit']:hover {
       animation-name: background-color-2;
       animation-duration: 200ms;
       animation-fill-mode: forwards;
 }
+
 @keyframes background-color-2 {
                    100% {
                              background-color: hsl(0, 0%, 65%);
