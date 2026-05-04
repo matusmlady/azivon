@@ -14,21 +14,19 @@
     </div>
   </header>
 
-  
   <h1 id='rules'>Rules</h1> 
-  <p><div class = "main-menu menu_pravidla"> <!-- TODO fix not working links, probably rules.c needs fixing to generate respective ids for sections -->
-   <a href="#setup"><input type='button' value='Setup'/></a>
-   <a href="#warehouse"><input type='button' value='Warehouse'/></a>
-   <a href="#expansion"><input type='button' value='Expansion'/></a>
-   <a href="#conquering"><input type='button' value='Conquering'/></a>
-   <a href="#elements"><input type='button' value='Elements'/></a>
-   <a href="#features"><input type='button' value='Features'/></a>
+  <p><div class = "main-menu menu_pravidla">
+   <a href="#Setup"><input type='button' value='Setup'/></a>
+   <a href="#Warehouse"><input type='button' value='Warehouse'/></a>
+   <a href="#Expansion"><input type='button' value='Expansion'/></a>
+   <a href="#Conquering"><input type='button' value='Conquering'/></a>
+   <a href="#Elements"><input type='button' value='Elements'/></a>
+   <a href="#Features"><input type='button' value='Features'/></a>
  </div></p>
-  
- <div class="kecy">
-   <p> &emsp; In this section of our website, we will try to explain rules of this beautiful game. (Disclaimer: adjust the rules as you wish! This is mainly for inspiration. Of course feel free to use them.) </p>
-  
-<h4>Setup</h4>
+
+<div class="kecy">
+
+<h4 id='Setup'>Setup</h4>
 <ul>
  <li>Print the map and get a pencil.</li>
  <li>Place your spawns evenly and randomly (turn the page upside down).</li>
@@ -38,7 +36,7 @@
 <canvas id='Setup1' style='height: 0px; width: 0px;'></canvas>
 <canvas id='Setup2' style='height: 0px; width: 0px;'></canvas>
 
-<h4>Expansion</h4>
+<h4 id='Expansion'>Expansion</h4>
 <ul>
  <li>Each turn a player receives 2 actions.</li>
  <li>They then expand by taking tiles.</li>
@@ -50,7 +48,7 @@
 <canvas id='Expansion1' style='height: 0px; width: 0px;'></canvas>
 <canvas id='Expansion2' style='height: 0px; width: 0px;'></canvas>
 
-<h4>Conquering</h4>
+<h4 id='Conquering'>Conquering</h4>
 <ul>
  <li>The default power of each tile is 1.</li>
  <li>To conquer an opponent's tile your attack has to be higher than the opponent's defence.</li>
@@ -62,7 +60,7 @@
 <canvas id='Conquering1' style='height: 0px; width: 0px;'></canvas>
 <canvas id='Conquering2' style='height: 0px; width: 0px;'></canvas>
 
-<h4>Elements</h4>
+<h4 id='Elements'>Elements</h4>
 <ul>
  <li>The second layer.</li>
  <li>They all have power - it affects their size and the required actions to conquer them.</li>
@@ -77,7 +75,7 @@
 <canvas id='Elements1' style='height: 0px; width: 0px;'></canvas>
 <canvas id='Elements2' style='height: 0px; width: 0px;'></canvas>
 
-<h4>Features</h4>
+<h4 id='Features'>Features</h4>
 <ul>
  <li>Features are the top and third layer (the smallest).</li>
  <li>They don't cost anything.</li>
@@ -90,7 +88,7 @@
 <canvas id='Features1' style='height: 0px; width: 0px;'></canvas>
 <canvas id='Features2' style='height: 0px; width: 0px;'></canvas>
 
-<h4>Resources</h4>
+<h4 id='Resources'>Resources</h4>
 <ul>
  <li>Log. Comes from sweet woods. Used to build buildings.</li>
  <li>Material. Used to train soldiers.</li>
@@ -101,7 +99,7 @@
 <canvas id='Resources1' style='height: 0px; width: 0px;'></canvas>
 <canvas id='Resources2' style='height: 0px; width: 0px;'></canvas>
 
-<h4>Warehouse</h4>
+<h4 id='Warehouse'>Warehouse</h4>
 <ul>
  <li>Each player has one the size of (actions per turn * 10).</li>
  <li>It is used to store actions by taking notes.</li>
@@ -112,7 +110,7 @@
 <canvas id='Warehouse1' style='height: 0px; width: 0px;'></canvas>
 <canvas id='Warehouse2' style='height: 0px; width: 0px;'></canvas>
 
-<h4>Floorings</h4>
+<h4 id='Floorings'>Floorings</h4>
 <ul>
  <li>The first layer below everything.</li>
  <li>Grass. Just a filler flooring.</li>
@@ -124,7 +122,7 @@
 <canvas id='Floorings1' style='height: 0px; width: 0px;'></canvas>
 <canvas id='Floorings2' style='height: 0px; width: 0px;'></canvas>
 
-<h4>Soldiers</h4>
+<h4 id='Soldiers'>Soldiers</h4>
 <ul>
  <li>Change the tile's behaviour.</li>
  <li>Built by drawing the corresponding shape, using one material.</li>
@@ -137,7 +135,7 @@
 <canvas id='Soldiers1' style='height: 0px; width: 0px;'></canvas>
 <canvas id='Soldiers2' style='height: 0px; width: 0px;'></canvas>
 
-<h4>Buildings</h4>
+<h4 id='Buildings'>Buildings</h4>
 <ul>
  <li>Built using resources.</li>
  <li>Provide extra power and abilities.</li>
@@ -149,14 +147,12 @@
 <canvas id='Buildings1' style='height: 0px; width: 0px;'></canvas>
 <canvas id='Buildings2' style='height: 0px; width: 0px;'></canvas>
 
-<h4>Other</h4>
+<h4 id='Other'>Other</h4>
 <ul>
  <li>Loosing your spawn means losing the game as well.</li>
  <li>The game ends, when someone can't do anything anymore.</li>
+</ul> <!--TODO fix not generating last /ul -->
 
-
-
-  
   <script src='../js/animacie.js'></script>
 </body>
 </html>

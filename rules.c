@@ -16,9 +16,8 @@ void main() {
   scanf("%s", str);
   while((buffer = getchar()) != EOF){
 
-
     if (phase == 0 && header == 1){
-      printf("<h4>");
+      printf("<h4 id='%s'>", str);
       header = 2;
       printf("%s", str);
     }
