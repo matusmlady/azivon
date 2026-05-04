@@ -54,4 +54,13 @@ void main() {
     
     printf("%c", buffer);
   }
+
+  if (phase == 1){
+    if (charger == 0){
+      printf("</li>");
+    }
+
+    printf("</ul>\n");
+    printf("\n<canvas id='%s1' style='height: 0px; width: 0px;'></canvas>\n<canvas id='%s2' style='height: 0px; width: 0px;'></canvas>\n", str, str);
+  }
 }
