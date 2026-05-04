@@ -25,8 +25,8 @@ Elements
 The second layer.
 They all have power - it affects their size and the required actions to conquer them.
 Mountains (brown, power 3).
+Castle (blackish, power 4). It's size varies (1 to 3). Spawns in the feature layer.
 Lakes (blue, power 2).
-Castle (blackish, power 4). It's size varies (1 or 2). Spawns in the feature layer.
 Sweet woods (beige, power 2). Chopping down (=crossing out) one tile provides one log and removes the element's power.
 Fortification (beige, power 3). It's size varies (1 to 3). Spawns in the feature layer.
 You can't jump over elements when expanding.
