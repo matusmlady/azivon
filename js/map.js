@@ -303,9 +303,9 @@ function createDefaultDeck(){
   addColorD('castle', 'feature', 'Gray', 1, [new Property(0, ['water', 'lake', 'woods'], 0)])
   addColorD('castle2', 'feature', 'Gray', 1, [new Property(0, ['water', 'lake', 'woods'], 0)], 2)
   addColorD('castle3', 'feature', 'Gray', 1, [new Property(0, ['water', 'lake', 'woods'], 0)], 3)
-  addColorD('fortification', 'feature', '#bca26f', 1, [new Property(0, ['water', 'lake', 'woods'], 0)])
-  addColorD('fortification2', 'feature', '#bca26f', 1, [new Property(0, ['water', 'lake', 'woods'], 0)], 2)
-  addColorD('fortification3', 'feature', '#bca26f', 1, [new Property(0, ['water', 'lake', 'woods'], 0)], 3)
+  addColorD('fortification', 'feature', '#b2815c', 1, [new Property(0, ['water', 'lake', 'woods'], 0)])
+  addColorD('fortification2', 'feature', '#b2815c', 1, [new Property(0, ['water', 'lake', 'woods'], 0)], 2)
+  addColorD('fortification3', 'feature', '#b2815c', 1, [new Property(0, ['water', 'lake', 'woods'], 0)], 3)
   addColorD('material', 'feature', '#d494d0', 6, [new Property(0, ['water', 'lake'], 0)])
 
   return d
