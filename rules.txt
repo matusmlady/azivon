@@ -44,6 +44,7 @@ Material (pink). Resource.
 Resources
 
 Log. Comes from sweet woods. Used to build buildings.
+Stone. Mined from mountains. Used to build buildings.
 Material. Used to train soldiers.
 Iron. Reinforces buildings providing them +1 power. Max one per building. To use highlight the tile's edges.
 They can be saved in the warehouse taking up 5 spaces.
@@ -78,6 +79,7 @@ Built using resources.
 Provide extra power and abilities.
 You can't stack them.
 Fortification (3). Requires 2 logs. Must be placed on your territory.
+Castle (4). Requires 3 stones. Must be placed on your territory.
 Port (2). One per sea per player. Allows you to enter water.
 
 Other
