@@ -42,23 +42,28 @@
 
  <div class="kecy">
 
-  <h4 id="setup">Setup</h4>
-   <ul>
-    <li>The number of players is unlimited.</li>
-    <li>Players spawn in corners, and/or they should be evenly placed. They start with this first tile as their only teritory.</li>
-    <li>Every turn you receive <b>2</b> actions.</li>
-  </ul>
-
-  <h4 id = "expansion">Expansion</h4>
+  <h4 id='Setup'>Setup</h4>
   <ul>
-   <li>You expand by counquering tiles.</li>
-   <li>For 1 action you can conquer exactly 1 <b>empty</b> tile.</li>
-   <li>You can conquer any tile, that is at maximum 2 tiles (vertically, horizontally, diagonally or these ways combined...) away from your current territory.</li>
-   <li>You don't move your teritory, you only expand - conquer other tiles.</li>
-   <li>Later in the game you will be able to fight for the territory with other players.</li>
+   <li>Print the map and get a pencil.</li>
+   <li>Place your spawns evenly and randomly (turn the page upside down).</li>
+   <li>If there are more players than corners, choose spawns equidistantly.</li>
   </ul>
 
-  <div><canvas id="Expansion1" style="margin-bottom: 20px; margin-top: 20px;"></canvas></div>
+  <canvas id='Setup1' style='height: 0px; width: 0px;'></canvas>
+  <canvas id='Setup2' style='height: 0px; width: 0px;'></canvas>
+
+  <h4 id='Expansion'>Expansion</h4>
+  <ul>
+   <li>Each turn a player receives 2 actions.</li>
+   <li>They then expand by taking tiles.</li>
+   <li>Expanding to 1 empty tile costs you 1 action.</li>
+   <li>You can expand at maximum 2 tiles away from your territory.</li>
+   <li>You don't move, you expand.</li>
+  </ul>
+
+  <canvas id='Expansion1' style='height: 0px; width: 0px;'></canvas>
+  <canvas id='Expansion2' style='height: 0px; width: 0px;'></canvas>
+
   <div class="main-menu">
    <a href='html/rules.html'><input type='button' value='Rules'></a>
   </div>
