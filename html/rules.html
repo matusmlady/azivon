@@ -8,29 +8,22 @@
 </head>
  
 <body>
-  <header>
-    <div class="main-menu">
-      <a href='generator.html'><input id='generator-button' type="button" value='Generator'/></a><a href='../index.html'><input id='main-button' type="button" value='Home' /></a>
-    </div>
-  </header>
+<header>
+  <div class="main-menu">
+    <a href='generator.html'><input id='generator-button' type="button" value='Generator'/></a><a href='../index.html'><input id='main-button' type="button" value='Home' /></a>
+  </div>
+</header>
 
-  <h1 id='rules'>Rules</h1> 
-  <p><div class = "main-menu menu_pravidla">
-   <a href="#Setup"><input type='button' value='Setup'/></a>
-   <a href="#Warehouse"><input type='button' value='Warehouse'/></a>
-   <a href="#Expansion"><input type='button' value='Expansion'/></a>
-   <a href="#Conquering"><input type='button' value='Conquering'/></a>
-   <a href="#Elements"><input type='button' value='Elements'/></a>
-   <a href="#Features"><input type='button' value='Features'/></a>
- </div></p>
+<h1 id='rules'>Rules</h1> 
+<p><div id="rulesButtons" class="main-menu menu_pravidla"></div></p>
 
 <div id="rulesHtml" class="kecy"></div>
 
 <script src='../js/processor.js'></script>
 <script type="module">
   const rules = await fetch("../rules.txt").then(r => r.text());
-  const html = rulesToHtml(rules);
-  document.getElementById("rulesHtml").innerHTML = html;
+  document.getElementById("rulesButtons").innerHTML = rulesButtonsToHtml(rules);
+  document.getElementById("rulesHtml").innerHTML = rulesToHtml(rules);
 
   const script = document.createElement("script");
   script.src = "../js/animacie.js";
