@@ -24,141 +24,14 @@
    <a href="#Features"><input type='button' value='Features'/></a>
  </div></p>
 
-<div class="kecy">
-
-<h4 id='Setup'>Setup</h4>
-<ul>
- <li>Print the map and get a pencil.</li>
- <li>Place your spawns evenly and randomly (turn the page upside down).</li>
- <li>If there are more players than corners, choose spawns equidistantly.</li>
-</ul>
-
-<canvas id='Setup1' style='height: 0px; width: 0px;'></canvas>
-<canvas id='Setup2' style='height: 0px; width: 0px;'></canvas>
-
-<h4 id='Expansion'>Expansion</h4>
-<ul>
- <li>Each turn a player receives 2 actions.</li>
- <li>They then expand by taking tiles.</li>
- <li>Expanding to 1 empty tile costs you 1 action.</li>
- <li>You can expand at maximum 2 tiles away from your territory.</li>
- <li>You don't move, you expand.</li>
-</ul>
-
-<canvas id='Expansion1' style='height: 0px; width: 0px;'></canvas>
-<canvas id='Expansion2' style='height: 0px; width: 0px;'></canvas>
-
-<h4 id='Conquering'>Conquering</h4>
-<ul>
- <li>The default power of each tile is 1.</li>
- <li>To conquer an opponent's tile your attack has to be higher than the opponent's defence.</li>
- <li>Neutral tiles require the same attack as is the tile's defence.</li>
- <li>You attack and defend with all adjacent tiles.</li>
- <li>The cost of conquering equals the cost of expansion.</li>
-</ul>
-
-<canvas id='Conquering1' style='height: 0px; width: 0px;'></canvas>
-<canvas id='Conquering2' style='height: 0px; width: 0px;'></canvas>
-
-<h4 id='Elements'>Elements</h4>
-<ul>
- <li>The second layer.</li>
- <li>They all have power - it affects their size and the required actions to conquer them.</li>
- <li>Mountains (brown, power 3).</li>
- <li>Castle (blackish, power 4). It's size varies (1 to 3). Spawns in the feature layer.</li>
- <li>Lakes (blue, power 2).</li>
- <li>Sweet woods (beige, power 2). Chopping down (=crossing out) one tile provides one log and removes the element's power.</li>
- <li>Fortification (beige, power 3). It's size varies (1 to 3). Spawns in the feature layer.</li>
- <li>You can't jump over elements when expanding.</li>
- <li>You however can go around them.</li>
-</ul>
-
-<canvas id='Elements1' style='height: 0px; width: 0px;'></canvas>
-<canvas id='Elements2' style='height: 0px; width: 0px;'></canvas>
-
-<h4 id='Features'>Features</h4>
-<ul>
- <li>Features are the top and third layer (the smallest).</li>
- <li>They don't cost anything.</li>
- <li>Gold (gold). People gather around. Grants you an adjacent neutral feature/elemenent-less tile.</li>
- <li>Village (red). Gives you loot in the form of actions. Loot by crossing out loot next to the map.</li>
- <li>Iron (gray). Resource.</li>
- <li>Material (pink). Resource.</li>
-</ul>
-
-<canvas id='Features1' style='height: 0px; width: 0px;'></canvas>
-<canvas id='Features2' style='height: 0px; width: 0px;'></canvas>
-
-<h4 id='Resources'>Resources</h4>
-<ul>
- <li>Log. Comes from sweet woods. Used to build buildings.</li>
- <li>Stone. Mined from mountains. Used to build buildings.</li>
- <li>Material. Used to train soldiers.</li>
- <li>Iron. Reinforces buildings providing them +1 power. Max one per building. To use highlight the tile's edges.</li>
- <li>They can be saved in the warehouse taking up 5 spaces.</li>
-</ul>
-
-<canvas id='Resources1' style='height: 0px; width: 0px;'></canvas>
-<canvas id='Resources2' style='height: 0px; width: 0px;'></canvas>
-
-<h4 id='Warehouse'>Warehouse</h4>
-<ul>
- <li>Each player has one the size of (actions per turn * 10).</li>
- <li>It is used to store actions by taking notes.</li>
- <li>At most 10 actions can be spent per turn.</li>
- <li>Used actions are to be crossed off.</li>
-</ul>
-
-<canvas id='Warehouse1' style='height: 0px; width: 0px;'></canvas>
-<canvas id='Warehouse2' style='height: 0px; width: 0px;'></canvas>
-
-<h4 id='Floorings'>Floorings</h4>
-<ul>
- <li>The first layer below everything.</li>
- <li>Grass. Just a filler flooring.</li>
- <li>Desert. Water is scarce. Tile doesn't defend itself.</li>
- <li>Snow. The temperatures are freezing and you can't exist here normally. When used during movement, expansion range is 1. Even when only starting there and moving on other terrain.</li>
- <li>Water. Ports can be built here. Ships have +1 expansion range. Only ranged weapons can attack them from mainland. Attacking the coastline deals -1 attack.</li>
-</ul>
-
-<canvas id='Floorings1' style='height: 0px; width: 0px;'></canvas>
-<canvas id='Floorings2' style='height: 0px; width: 0px;'></canvas>
-
-<h4 id='Soldiers'>Soldiers</h4>
-<ul>
- <li>Change the tile's behaviour.</li>
- <li>Built by drawing the corresponding shape, using one material.</li>
- <li>Attacker (triangle) - +1 attack.</li>
- <li>Defender (circle) - +1 defence.</li>
- <li>Bowman (D = bow) - 1 power is moved, not expaned, to the radius 2 around the tile. They can't shoot through anything that would block them (mountain, sweet woods).</li>
- <li>Catapult (square) - Only 3 attack against structures explicitly in the range of 2. Requires open terrain.</li>
-</ul>
-
-<canvas id='Soldiers1' style='height: 0px; width: 0px;'></canvas>
-<canvas id='Soldiers2' style='height: 0px; width: 0px;'></canvas>
-
-<h4 id='Buildings'>Buildings</h4>
-<ul>
- <li>Built using resources.</li>
- <li>Provide extra power and abilities.</li>
- <li>You can't stack them.</li>
- <li>Fortification (3). Requires 2 logs. Must be placed on your territory.</li>
- <li>Castle (4). Requires 3 stones. Must be placed on your territory.</li>
- <li>Port (2). One per sea per player. Allows you to enter water.</li>
-</ul>
-
-<canvas id='Buildings1' style='height: 0px; width: 0px;'></canvas>
-<canvas id='Buildings2' style='height: 0px; width: 0px;'></canvas>
-
-<h4 id='Other'>Other</h4>
-<ul>
- <li>Loosing your spawn means losing the game as well.</li>
- <li>The game ends, when someone can't do anything anymore.</li>
-</ul>
-
-<canvas id='Other1' style='height: 0px; width: 0px;'></canvas>
-<canvas id='Other2' style='height: 0px; width: 0px;'></canvas>
+<div id="rulesHtml" class="kecy"></div>
 
 <script src='../js/animacie.js'></script>
+<script src='../js/processor.js'></script>
+<script type="module">
+  const rules = await fetch("rules.txt").then(r => r.text());
+  const html = rulesToHtml(rules);
+  document.getElementById("rulesHtml").innerHTML = html;
+</script>
 </body>
 </html>
