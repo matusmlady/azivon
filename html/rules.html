@@ -26,12 +26,15 @@
 
 <div id="rulesHtml" class="kecy"></div>
 
-<script src='../js/animacie.js'></script>
 <script src='../js/processor.js'></script>
 <script type="module">
   const rules = await fetch("../rules.txt").then(r => r.text());
   const html = rulesToHtml(rules);
   document.getElementById("rulesHtml").innerHTML = html;
+
+  const script = document.createElement("script");
+  script.src = "../js/animacie.js";
+  document.body.appendChild(script);
 </script>
 </body>
 </html>
