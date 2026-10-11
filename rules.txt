@@ -51,10 +51,11 @@ They can be saved in the warehouse taking up 5 spaces.
 
 Warehouse
 
-Each player has one the size of (actions per turn * 10).
+Each player has the default warehouse of size 5.
 It is used to store actions by taking notes.
-At most 10 actions can be spent per turn.
 Used actions are to be crossed off.
+At most 10 actions can be spent per turn.
+The warehouse building expands your warehouse limit.
 
 Floorings
 
@@ -81,6 +82,7 @@ You can't stack them.
 Fortification (3). Requires 2 wood. Must be placed on your territory.
 Castle (4). Requires 3 stones. Must be placed on your territory.
 Port (2). Requires 1 wood. Allows you to enter water.
+Warehouse (2). Requires 1 wood. Provides extra storage.
 
 Other
 
