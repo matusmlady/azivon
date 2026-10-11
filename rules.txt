@@ -38,7 +38,7 @@ Features are the top and third layer (the smallest).
 They don't cost anything.
 Gold (gold). People gather around. Grants you an adjacent neutral feature/elemenent-less tile.
 Village (red). Gives you loot in the form of actions. Loot by crossing out loot next to the map.
-Iron (gray). Resource.
+Iron (light gray). Resource.
 Material (pink). Resource.
 
 Resources
@@ -46,7 +46,7 @@ Resources
 Wood. Comes from sweet woods. Used to build buildings.
 Stone. Mined from mountains. Used to build buildings.
 Material. Used to train soldiers.
-Iron. Reinforces buildings providing them +1 power. Max one per building. To use highlight the tile's edges.
+Iron. Upgrades buildings and soldiers providing them +1 power. Maximum is 1 upgrade per entity. To use highlight the tile's edges.
 They can be saved in the warehouse taking up 5 spaces.
 
 Warehouse
