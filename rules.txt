@@ -1,6 +1,7 @@
 Setup
 
-Print the map and get a pencil.
+To generate a random map click generate and then hold enter.
+You can play on a touchscreen or print the map and use a pencil.
 Place your spawns evenly and randomly (turn the page upside down).
 If there are more players than corners, choose spawns equidistantly.
 
