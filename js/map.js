@@ -16,6 +16,8 @@ function generateMap(d, columns, rows){
         constructor(size, index){
           this.chosen = ''
           this.dimensions = [index]
+          //distance from the edge where outlines of two diagonal connections on one side cross
+          this.cross = size/200 / (2 - size/100)
           this['left'] = [size/200, 0.5]
           this['right'] = [1 - size/200, 0.5]
           this['up'] = [0.5, size/200]
@@ -73,7 +75,7 @@ function generateMap(d, columns, rows){
     }
 
     isPossible(color, ban){
-      const dirs = [['left'], ['right'], ['up'], ['down'], ['left', 'up'], ['right', 'down'], ['left', 'down'], ['right', 'up']]
+      const dirs = [...allDirs]
       for (let x = 0; x < 8; x++){
         const dir = dirs[Math.floor(Math.random() * dirs.length)]
         if (!this.fits(dir, color, ban)) dirs.splice(dirs.indexOf(dir), 1)
@@ -110,36 +112,50 @@ function generateMap(d, columns, rows){
 
     setDimensions(dimensions, color, dir){
       const l = d.colors[color].layer;
-      for (const t of dimensions){
-        tiles[t][l].chosen = color
-        tiles[t][l].dimensions = dimensions
-      }
-      for (const t of this[l].dimensions){
-        //if not the last tile draw the original direction part of the tile
-        if (this[l].dimensions.indexOf(t) + 1 != this[l].dimensions.length) this.concentrateEdgePoints(tiles[t][l], dir)
-        dir = this.reverseDir(dir)
-        //if not the first tile draw the reversed original direction part
-        if (t != this.index) this.concentrateEdgePoints(tiles[t][l], dir)
-        dir = this.reverseDir(dir)
-        tiles[t].drawChosen()
+      const join = Math.random() < d.connectChance//whether this shape joins other shapes of the same color
+      for (const t of dimensions) Object.assign(tiles[t][l], {chosen: color, dimensions, join})
+    }
+
+    //moves edge points towards every adjacent tile of the same color so they are drawn as one shape
+    connectEdgePoints(l){
+      for (const dir of allDirs){
+        //diagonal corner is also filled when both of its sides connect
+        const bothSides = dir.length == 2 && this.sameNeighbour([dir[0]], l) && this.sameNeighbour([dir[1]], l)
+        if (bothSides || this.sameNeighbour(dir, l)) this.concentrateEdgePoints(l, dir)
       }
     }
 
-    concentrateEdgePoints(tl, dir){
+    sameNeighbour(dir, l){
+      if (dir.some(x => !this[x])) return false//no tile in this direction
+      const t = dir.reduce((t, x) => t + d.go[x], this.index)
+      if (!this.connects(t, l)) return false
+      if (dir.length == 1 || this[l].dimensions.includes(t)) return true
+      //diagonal connection of different shapes can not cross another one or a feature, same as when generating
+      const a = tiles[this.index + d.go[dir[0]]], b = tiles[this.index + d.go[dir[1]]]
+      if (l == 'element' && a.feature.dimensions.includes(b.index)) return false
+      //generated shape always wins, from two chance connections the one going left up to right down wins
+      if (!a.connects(b.index, l)) return true
+      return !a[l].dimensions.includes(b.index) && dir.includes('left') == dir.includes('up')
+    }
+
+    connects(t, l){
+      const dims = this[l].dimensions
+      if (tiles[t][l].chosen != this[l].chosen) return false
+      //if (l == 'feature' && !dims.includes(t)) return false//features connect only within their own shape
+      if (!d.colors[this[l].chosen].width && l != 'flooring') return false//not drawn
+      return dims.includes(t) || this[l].join && tiles[t][l].join//different shapes connect only if both join
+    }
+
+    concentrateEdgePoints(l, dir){
+      const tl = this[l]
       for (let y = 0; y < 2; y++){//for both coordinates of the chosen edge point
         if (tl[dir][y] != 0.5) tl[dir][y] = Math.round(tl[dir][y])//round them unless in middle -> move to the edge ready to be drawn
-        if (dir.length == 2) tl[dir[y]] = tl[dir]//if diagonal color also concentrate middle edge points to the corner edge point
+        if (dir.length != 2 || this.sameNeighbour([dir[y]], l)) continue
+        //if diagonal also concentrate middle edge point to the corner edge point
+        if (!this.sameNeighbour([dir[y], opposite[dir[1 - y]]], l)) tl[dir[y]] = tl[dir]
+        //if the other corner of this side connects too, move it to where both diagonal outlines cross
+        else tl[dir[y]] = tl[dir[y]].map(v => v == 0.5 ? v : (v < 0.5 ? tl.cross : 1 - tl.cross))
       }
-    }
-
-    reverseDir(dirs){
-      for (let dir of dirs){
-        if (dir == 'left') dirs[dirs.indexOf(dir)] = 'right'
-        else if (dir == 'right') dirs[dirs.indexOf(dir)] = 'left'
-        else if (dir == 'up') dirs[dirs.indexOf(dir)] = 'down'
-        else dirs[dirs.indexOf(dir)] = 'up'
-      }
-      return dirs
     }
 
     //adds to given Set of tiles with tiles in the given radius from current tile
@@ -223,6 +239,8 @@ function generateMap(d, columns, rows){
   c.style.height = c.height + 'px'
   ctx.strokeStyle = 'black'
 //TODO separate generation and animation for more flexibility, functions returning inconsistent results when asking about loot, weird behaviour if tons of stuff has loot
+  const opposite = {left: 'right', right: 'left', up: 'down', down: 'up'}
+  const allDirs = [['left'], ['right'], ['up'], ['down'], ['left', 'up'], ['right', 'down'], ['left', 'down'], ['right', 'up']]
   const tiles = []
   for (let i = 0; i < rows * columns; i++){
     tiles.push(new Tile(i))
@@ -243,6 +261,8 @@ function generateMap(d, columns, rows){
   generateLayer(tiles, 'element')
   generateLayer(tiles, 'feature')
 
+  for (const t of tiles) for (const l in d.layers) if (t[l].chosen) t.connectEdgePoints(l)
+
   return tiles
 }
 
@@ -252,6 +272,7 @@ function createDefaultDeck(){
     count: {},
     columns: 15,
     rows: 15,
+    connectChance: 0.8,//chance that a shape joins adjacent shapes of the same color that join too
     go: {
       left: - 1,
       right: 1,
