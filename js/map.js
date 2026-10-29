@@ -16,6 +16,7 @@ function generateMap(d, columns, rows){
         constructor(size, index){
           this.chosen = ''
           this.dimensions = [index]
+          this.group = null//all tiles of the shapes connected into one blob, set once the layer is generated
           //distance from the edge where outlines of two diagonal connections on one side cross
           this.cross = size/200 / (2 - size/100)
           this['left'] = [size/200, 0.5]
@@ -93,13 +94,8 @@ function generateMap(d, columns, rows){
         if (dir.length == 2){
           //abort if color would cross a same layered color diagonally
           for (const t of tiles[dimension + d.go[dir[0]]][l].dimensions) if (tiles[dimension + d.go[dir[1]]][l].dimensions.includes(t)) return 0
-          //abort if feature would cross an element diagonally
-          if (l == 'feature'){
-            for (const t of tiles[dimension + d.go[dir[0]]]['element'].dimensions) if (tiles[dimension + d.go[dir[1]]]['element'].dimensions.includes(t)) return 0
-          }
-          if (l == 'element'){
-            for (const t of tiles[dimension + d.go[dir[0]]]['feature'].dimensions) if (tiles[dimension + d.go[dir[1]]]['feature'].dimensions.includes(t)) return 0
-          }
+          //abort if color would cross a lower layer connection diagonally
+          if (tiles[dimension].crossesLower(dir, l)) return 0
         }
         for (const direction of dir) dimension += d.go[direction]
         if (tiles[dimension][l].chosen) return 0
@@ -112,11 +108,11 @@ function generateMap(d, columns, rows){
 
     setDimensions(dimensions, color, dir){
       const l = d.colors[color].layer;
-      const join = Math.random() < d.connectChance//whether this shape joins other shapes of the same color
+      const join = Math.random() < d.connectChance//whether this shape joins other joining shapes of the same layer
       for (const t of dimensions) Object.assign(tiles[t][l], {chosen: color, dimensions, join})
     }
 
-    //moves edge points towards every adjacent tile of the same color so they are drawn as one shape
+    //moves edge points towards every connected adjacent tile of the same layer so they are drawn as one shape
     connectEdgePoints(l){
       for (const dir of allDirs){
         //diagonal corner is also filled when both of its sides connect
@@ -130,20 +126,45 @@ function generateMap(d, columns, rows){
       const t = dir.reduce((t, x) => t + d.go[x], this.index)
       if (!this.connects(t, l)) return false
       if (dir.length == 1 || this[l].dimensions.includes(t)) return true
-      //diagonal connection of different shapes can not cross another one or a feature, same as when generating
+      //diagonal connection of different shapes can not cross another one or a lower layer connection, same as when generating
       const a = tiles[this.index + d.go[dir[0]]], b = tiles[this.index + d.go[dir[1]]]
-      if (l == 'element' && a.feature.dimensions.includes(b.index)) return false
+      if (this.crossesLower(dir, l)) return false
       //generated shape always wins, from two chance connections the one going left up to right down wins
       if (!a.connects(b.index, l)) return true
       return !a[l].dimensions.includes(b.index) && dir.includes('left') == dir.includes('up')
     }
 
     connects(t, l){
-      const dims = this[l].dimensions
-      if (tiles[t][l].chosen != this[l].chosen) return false
+      const dims = this[l].dimensions, other = tiles[t][l]
       //if (l == 'feature' && !dims.includes(t)) return false//features connect only within their own shape
-      if (!d.colors[this[l].chosen].width && l != 'flooring') return false//not drawn
-      return dims.includes(t) || this[l].join && tiles[t][l].join//different shapes connect only if both join
+      const drawn = c => c && (d.colors[c].width || l == 'flooring')
+      if (!drawn(this[l].chosen) || !drawn(other.chosen)) return false//not drawn
+      return dims.includes(t) || this[l].join && other.join//different shapes of any color in the layer connect only if both join
+    }
+
+    //whether a diagonal from this tile in dir would cross a diagonal connection of a lower layer
+    //crossing is fine if either end of the diagonal is part of the crossed blob, only raw crossings are not
+    crossesLower(dir, l){
+      const a = tiles[this.index + d.go[dir[0]]]
+      const end = a.index + d.go[dir[1]]
+      const layers = Object.keys(d.layers)//ordered from the lowest
+      for (const low of layers.slice(0, layers.indexOf(l))){
+        if (!a.sameNeighbour([opposite[dir[0]], dir[1]], low)) continue
+        if (!a[low].group.includes(this.index) && !a[low].group.includes(end)) return true
+      }
+      return false
+    }
+
+    //fills group of every tile in the layer with all tiles connected to it
+    groupConnected(l){
+      if (this[l].group) return
+      const group = [this.index]
+      for (const t of group) for (const dir of allDirs){
+        if (!tiles[t].sameNeighbour(dir, l)) continue
+        const n = dir.reduce((n, x) => n + d.go[x], t)
+        if (!group.includes(n)) group.push(n)
+      }
+      for (const t of group) tiles[t][l].group = group
     }
 
     concentrateEdgePoints(l, dir){
@@ -257,11 +278,12 @@ function generateMap(d, columns, rows){
     }
   }
 
-  generateLayer(tiles, 'flooring')
-  generateLayer(tiles, 'element')
-  generateLayer(tiles, 'feature')
-
-  for (const t of tiles) for (const l in d.layers) if (t[l].chosen) t.connectEdgePoints(l)
+  //layers generate from the lowest, each one connected and grouped before the next one so it can avoid crossing it
+  for (const l in d.layers){
+    generateLayer(tiles, l)
+    for (const t of tiles) if (t[l].chosen) t.connectEdgePoints(l)
+    for (const t of tiles) t.groupConnected(l)
+  }
 
   return tiles
 }
@@ -272,7 +294,7 @@ function createDefaultDeck(){
     count: {},
     columns: 15,
     rows: 15,
-    connectChance: 0.8,//chance that a shape joins adjacent shapes of the same color that join too
+    connectChance: 0.8,//chance that a shape joins adjacent shapes of the same layer that join too
     go: {
       left: - 1,
       right: 1,
