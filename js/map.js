@@ -302,7 +302,7 @@ function createDefaultDeck(){
     count: {},
     columns: 15,
     rows: 15,
-    connectChance: 0.7,//chance that a shape joins adjacent shapes of the same layer that join too
+    connectChance: 0.8,//chance that a shape joins adjacent shapes of the same layer that join too
     go: {
       left: - 1,
       right: 1,
