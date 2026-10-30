@@ -17,16 +17,7 @@ function generateMap(d, columns, rows){
           this.chosen = ''
           this.dimensions = [index]
           this.group = null//all tiles of the shapes connected into one blob, set once the layer is generated
-          //distance from the edge where outlines of two diagonal connections on one side cross
-          this.cross = size/200 / (2 - size/100)
-          this['left'] = [size/200, 0.5]
-          this['right'] = [1 - size/200, 0.5]
-          this['up'] = [0.5, size/200]
-          this['down'] = [0.5, 1 - size/200]
-          this['left,up'] = [size/200, size/200]
-          this['right,down'] = [1 - size/200, 1 - size/200]
-          this['left,down'] = [size/200, 1 - size/200]
-          this['right,up'] = [1 - size/200, size/200]
+          this.inset = size/200//distance of the drawn shape from the tile edge where it does not link
         }
       }
 
@@ -112,13 +103,28 @@ function generateMap(d, columns, rows){
       for (const t of dimensions) Object.assign(tiles[t][l], {chosen: color, dimensions, join})
     }
 
-    //moves edge points towards every connected adjacent tile of the same layer so they are drawn as one shape
-    connectEdgePoints(l){
+    //polygons in tile coordinates the layer is drawn from: middle square, wedge from it to the edge middle of every side link
+    //and to the corner of every diagonal link, whole quarter of the tile when all four tiles around its corner link
+    pieces(l){
+      const s = this[l].inset
+      //middle square corner closest to the given tile corner or side
+      const near = v => v == 0 ? s : (v == 1 ? 1 - s : v)
+      const pieces = [[[s, s], [1 - s, s], [1 - s, 1 - s], [s, 1 - s]]]
       for (const dir of allDirs){
-        //diagonal corner is also filled when both of its sides connect
-        const bothSides = dir.length == 2 && this.sameNeighbour([dir[0]], l) && this.sameNeighbour([dir[1]], l)
-        if (bothSides || this.sameNeighbour(dir, l)) this.concentrateEdgePoints(l, dir)
+        const x = dir.includes('left') ? 0 : (dir.includes('right') ? 1 : 0.5), y = dir.includes('up') ? 0 : (dir.includes('down') ? 1 : 0.5)
+        //wedge from the two middle square corners facing the linked tile to the point it links through
+        const facing = x == 0.5 ? [[s, near(y)], [1 - s, near(y)]] : (y == 0.5 ? [[near(x), s], [near(x), 1 - s]] : (x == y ? [[1 - s, s], [s, 1 - s]] : [[s, s], [1 - s, 1 - s]]))
+        if (this.sameNeighbour(dir, l)) pieces.push([facing[0], [x, y], facing[1]])
+        else if (dir.length == 2 && this.closedCorner(dir, l)) pieces.push([[near(x), near(y)], [x, 0.5], [x, y], [0.5, y]])
       }
+      return pieces
+    }
+
+    //whether all four tiles around the corner in dir link to each other by sides so the corner is inside the blob
+    closedCorner(dir, l){
+      if (!this.sameNeighbour([dir[0]], l) || !this.sameNeighbour([dir[1]], l)) return false
+      const a = tiles[this.index + d.go[dir[0]]], b = tiles[this.index + d.go[dir[1]]]
+      return a.sameNeighbour([dir[1]], l) && b.sameNeighbour([dir[0]], l)
     }
 
     sameNeighbour(dir, l){
@@ -139,7 +145,11 @@ function generateMap(d, columns, rows){
       //if (l == 'feature' && !dims.includes(t)) return false//features connect only within their own shape
       const drawn = c => c && (d.colors[c].width || l == 'flooring')
       if (!drawn(this[l].chosen) || !drawn(other.chosen)) return false//not drawn
-      return dims.includes(t) || this[l].join && other.join//different shapes of any color in the layer connect only if both join
+      if (dims.includes(t)) return true
+      if (!this[l].join || !other.join) return false//different shapes of any color in the layer connect only if both join
+      //and only the way their shapes are built so side and diagonal links never mix, single tiles join by sides
+      const diagonal = ![1, columns].includes(Math.abs(t - this.index))
+      return [this[l], other].every(x => x.dimensions.length == 1 ? !diagonal : diagonalShape(x.dimensions) == diagonal)
     }
 
     //whether a diagonal from this tile in dir would cross a diagonal connection of a lower layer
@@ -165,18 +175,6 @@ function generateMap(d, columns, rows){
         if (!group.includes(n)) group.push(n)
       }
       for (const t of group) tiles[t][l].group = group
-    }
-
-    concentrateEdgePoints(l, dir){
-      const tl = this[l]
-      for (let y = 0; y < 2; y++){//for both coordinates of the chosen edge point
-        if (tl[dir][y] != 0.5) tl[dir][y] = Math.round(tl[dir][y])//round them unless in middle -> move to the edge ready to be drawn
-        if (dir.length != 2 || this.sameNeighbour([dir[y]], l)) continue
-        //if diagonal also concentrate middle edge point to the corner edge point
-        if (!this.sameNeighbour([dir[y], opposite[dir[1 - y]]], l)) tl[dir[y]] = tl[dir]
-        //if the other corner of this side connects too, move it to where both diagonal outlines cross
-        else tl[dir[y]] = tl[dir[y]].map(v => v == 0.5 ? v : (v < 0.5 ? tl.cross : 1 - tl.cross))
-      }
     }
 
     //adds to given Set of tiles with tiles in the given radius from current tile
@@ -220,34 +218,6 @@ function generateMap(d, columns, rows){
       const idx = Math.floor(Math.random() * validChoices.length);
       return validChoices[idx];
     }
-
-    drawChosen(){
-      for (const l in d.layers) if (this[l].chosen) this.drawLayer(l)
-    }
-
-    drawLayer(l){
-      const dim = getDimension(d)
-      if (d.colors[this[l].chosen].width != 0 ? true : (d.colors[this[l].chosen].layer == 'flooring' ? true : false)){
-        ctx.fillStyle = d.colors[this[l].chosen].color
-        ctx.beginPath()
-        this.drawLine('right', l, dim)
-        this.drawLine('right,down', l, dim)
-        this.drawLine('down', l, dim)
-        this.drawLine('left,down', l, dim)
-        this.drawLine('left', l, dim)
-        this.drawLine('left,up', l, dim)
-        this.drawLine('up', l, dim)
-        this.drawLine('right,up', l, dim)
-        ctx.closePath()
-        ctx.fill()
-        ctx.stroke()
-      }
-    }
-
-    drawLine(dir, l, dim){
-      const edgePointCoordinates = tiles[this.up * columns + this.left][l][dir]
-      ctx.lineTo(dim * (this.left + edgePointCoordinates[0]), dim * (this.up + edgePointCoordinates[1]))
-    }
   }
 
   c = document.getElementById('mapCanvas')
@@ -262,6 +232,7 @@ function generateMap(d, columns, rows){
 //TODO separate generation and animation for more flexibility, functions returning inconsistent results when asking about loot, weird behaviour if tons of stuff has loot
   const opposite = {left: 'right', right: 'left', up: 'down', down: 'up'}
   const allDirs = [['left'], ['right'], ['up'], ['down'], ['left', 'up'], ['right', 'down'], ['left', 'down'], ['right', 'up']]
+  const diagonalShape = dims => ![1, columns].includes(Math.abs(dims[1] - dims[0]))
   const tiles = []
   for (let i = 0; i < rows * columns; i++){
     tiles.push(new Tile(i))
@@ -278,14 +249,51 @@ function generateMap(d, columns, rows){
     }
   }
 
-  //layers generate from the lowest, each one connected and grouped before the next one so it can avoid crossing it
+  //layers generate from the lowest, each one grouped into blobs before the next one so it can avoid crossing them
   for (const l in d.layers){
     generateLayer(tiles, l)
-    for (const t of tiles) if (t[l].chosen) t.connectEdgePoints(l)
     for (const t of tiles) t.groupConnected(l)
   }
 
   return tiles
+}
+
+//draws layers from the lowest, every blob at once so only its outside gets outlined
+function drawMap(d, tiles){
+  const dim = getDimension(d)
+  //adds polygon in tile coordinates to the path, always clockwise so overlapping pieces of one blob fill as one
+  const addPolygon = (path, t, points) => {
+    const area = points.reduce((a, p, i) => a + p[0] * points[(i + 1) % points.length][1] - points[(i + 1) % points.length][0] * p[1], 0)
+    if (area < 0) points = [...points].reverse()
+    points.forEach((p, i) => path[i ? 'lineTo' : 'moveTo'](dim * (t.left + p[0]), dim * (t.up + p[1])))
+    path.closePath()
+  }
+  for (const l in d.layers) for (const t of tiles){
+    const tl = t[l]
+    if (!tl.chosen || !d.colors[tl.chosen].width && l != 'flooring') continue//not drawn
+    if (!tl.inset){//whole tiles, each outlined so the grid stays visible
+      ctx.fillStyle = d.colors[tl.chosen].color
+      ctx.fillRect(dim * t.left, dim * t.up, dim, dim)
+      ctx.strokeRect(dim * t.left, dim * t.up, dim, dim)
+      continue
+    }
+    if (tl.group[0] != t.index) continue//blob is drawn once from its first tile
+    //outline twice as thick drawn first, the fill then covers its inner half and every line inside the blob
+    const outline = new Path2D(), fills = {}
+    for (const i of tl.group){
+      const color = d.colors[tiles[i][l].chosen].color
+      if (!fills[color]) fills[color] = new Path2D()
+      for (const p of tiles[i].pieces(l)) for (const path of [outline, fills[color]]) addPolygon(path, tiles[i], p)
+    }
+    //round joins so the narrow wedge tips do not stick out as spikes
+    Object.assign(ctx, {lineWidth: 2, lineJoin: 'round'})
+    ctx.stroke(outline)
+    Object.assign(ctx, {lineWidth: 1, lineJoin: 'miter'})
+    for (const color in fills){
+      ctx.fillStyle = color
+      ctx.fill(fills[color])
+    }
+  }
 }
 
 

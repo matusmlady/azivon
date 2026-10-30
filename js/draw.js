@@ -135,7 +135,7 @@ function instantRepaint(d, tiles) {
   loot(d, dim)
 
   ctx.strokeStyle = 'black'
-  for (let t of tiles) t.drawChosen()
+  drawMap(d, tiles)
 
   window.onresize = () => instantRepaint(d, tiles)
 }
